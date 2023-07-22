@@ -43,18 +43,6 @@ public class C206_CaseStudy {
 				// Respond to Quote, Manage Appointments (SP)
 				
 
-			} else if (option == 8) {
-				// Schedule an Appointment
-				
-
-			} else if (option == 9) {
-				// View Appointments
-				
-
-			} else if (option == 10) {
-				// Manage Appointments
-				
-
 			} else if (option == 99) {
 				System.out.println("Bye!");
 			} else {
