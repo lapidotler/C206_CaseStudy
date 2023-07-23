@@ -86,6 +86,17 @@ public class C206_CaseStudy {
 		System.out.println(header);
 		Helper.line(80, "-");
 	}
+	
+	public String showStatus(boolean status) {
+        String avail;
+
+        if (status == true) {
+            avail = "Resolved";
+        } else {
+            avail = "Pending";
+        }
+        return avail;
+    }
 
 
 	//================================= Option 1 System (CRUD - Create) =================================
