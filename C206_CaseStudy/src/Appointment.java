@@ -1,36 +1,36 @@
 
 public class Appointment extends Action {
 	// Variables
-	private String username;
-	private String contactNumber;
-	private String description;
+	private String date;
+	private String time;
+	private String location;
 
 	// Constructor
-	public Appointment(String serviceName, String username, String contactNumber, String description) {
+	public Appointment(String serviceName, String date, String time, String location) {
 		super(serviceName);
-		this.username = username;
-		this.contactNumber = contactNumber;
-		this.description = description;
+		this.date = date;
+		this.time = time;
+		this.location = location;
 	}
 
 	// Getters - ONLY FOR SET VARIABLES HERE
 	public String getUsername() {
-		return username;
+		return date;
 	}
 	
 	public String getContactNumber() {
-		return contactNumber;
+		return time;
 	}
 	
 	public String getDescription() {
-		return description;
+		return location;
 	}
 	
 	// toString Method - Display
 	public String toString(){
 		// Write your codes here
 		String output = super.toString();
-		output = String.format("%-31s %-10s %-10s %-30s", output, username, contactNumber, description);
+		output = String.format("%-31s %-10s %-10s %-20s", output, date, time, location);
 		return output;
 	}
 }

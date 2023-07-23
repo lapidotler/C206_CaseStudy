@@ -1,36 +1,36 @@
 
 public class Quote extends Action {
 	// Variables
-	private String date;
-	private String time;
-	private String location;
+	private String username;
+	private String contactNumber;
+	private String description;
 
 	// Constructor
-	public Quote(String serviceName, String date, String time, String location) {
+	public Quote(String serviceName, String username, String contactNumber, String description) {
 		super(serviceName);
-		this.date = date;
-		this.time = time;
-		this.location = location;
+		this.username = username;
+		this.contactNumber = contactNumber;
+		this.description = description;
 	}
 
 	// Getters - ONLY FOR SET VARIABLES HERE
 	public String getUsername() {
-		return date;
+		return username;
 	}
 	
 	public String getContactNumber() {
-		return time;
+		return contactNumber;
 	}
 	
 	public String getDescription() {
-		return location;
+		return description;
 	}
 	
 	// toString Method - Display
 	public String toString(){
 		// Write your codes here
 		String output = super.toString();
-		output = String.format("%-31s %-10s %-10s %-20s", output, date, time, location);
+		output = String.format("%-31s %-10s %-10s %-30s", output, username, contactNumber, description);
 		return output;
 	}
 }
