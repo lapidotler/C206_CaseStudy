@@ -2,11 +2,11 @@
 public class Quote extends Action {
 	// Variables
 	private String username;
-	private String contactNumber;
+	private int contactNumber;
 	private String description;
 
 	// Constructor
-	public Quote(String serviceName, String username, String contactNumber, String description) {
+	public Quote(String serviceName, String username, int contactNumber, String description) {
 		super(serviceName);
 		this.username = username;
 		this.contactNumber = contactNumber;
@@ -18,7 +18,7 @@ public class Quote extends Action {
 		return username;
 	}
 	
-	public String getContactNumber() {
+	public int getContactNumber() {
 		return contactNumber;
 	}
 	
