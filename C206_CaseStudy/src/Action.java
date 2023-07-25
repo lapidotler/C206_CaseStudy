@@ -1,17 +1,23 @@
 
 public class Action {
+	private String assertTag;
     private String serviceName;
+    private String recipientName;
     private boolean status;
 
-    public Action(String serviceName) {
+    public Action(String assertTag, String serviceName, String recipientName) {
+    	this.assertTag = assertTag;
         this.serviceName = serviceName;
+        this.recipientName = recipientName;
         this.status = true;
     }
 
     public String toString() {
         // Write your codes here
-        String itemInfo = String.format("%-20s %-10s",
+        String itemInfo = String.format("%-10s %-20s %-20s %-10s",
+        		assertTag,
                 serviceName,
+                recipientName,
                 showStatus(status));
         return itemInfo;
     }
@@ -26,8 +32,16 @@ public class Action {
         }
         return avail;
     }
+    
+    public String getAssertTag() {
+		return assertTag;
+	}
 
     public String getServiceName() {
+        return serviceName;
+    }
+    
+    public String getRecipientName() {
         return serviceName;
     }
 

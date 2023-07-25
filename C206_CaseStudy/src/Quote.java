@@ -1,23 +1,17 @@
 
 public class Quote extends Action {
 	// Variables
-	private String username;
 	private int contactNumber;
 	private String description;
 
 	// Constructor
-	public Quote(String serviceName, String username, int contactNumber, String description) {
-		super(serviceName);
-		this.username = username;
+	public Quote(String assetTag, String serviceName, String recipientName, int contactNumber, String description) {
+		super(assetTag, serviceName, recipientName);
 		this.contactNumber = contactNumber;
 		this.description = description;
 	}
 
-	// Getters - ONLY FOR SET VARIABLES HERE
-	public String getUsername() {
-		return username;
-	}
-	
+	// Getters - ONLY FOR SET VARIABLES HERE	
 	public int getContactNumber() {
 		return contactNumber;
 	}
@@ -30,7 +24,7 @@ public class Quote extends Action {
 	public String toString(){
 		// Write your codes here
 		String output = super.toString();
-		output = String.format("%-31s %-10s %-10s %-30s", output, username, contactNumber, description);
+		output = String.format("%-63s %-10s %-50s", output, contactNumber, description);
 		return output;
 	}
 }
