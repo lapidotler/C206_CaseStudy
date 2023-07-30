@@ -4,13 +4,15 @@ public class RenovationServices {
     private String serviceName;
     private String serviceDescription;
     private String contactHours;
+    private boolean isAvailable;
 
     // For Display
-    public RenovationServices(String assertTag, String serviceName, String serviceDescription, String contactHours) {
+    public RenovationServices(String assertTag, String serviceName, String serviceDescription, String contactHours, boolean isAvailable) {
     	this.assertTag = assertTag;
         this.serviceName = serviceName;
         this.serviceDescription = serviceDescription;
         this.contactHours = contactHours;
+        this.isAvailable = isAvailable;
     }
 
     // For Action -> Quotes & Appointments
@@ -19,6 +21,7 @@ public class RenovationServices {
         this.serviceName = serviceName;
         this.serviceDescription = "";
         this.contactHours = "";
+        this.isAvailable = true;
     }
     
     /* Not to be included until DURING REFRACTORING
@@ -47,5 +50,13 @@ public class RenovationServices {
     
     public String getContactHours() {
         return contactHours;
+    }
+    
+    public boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }

@@ -165,6 +165,17 @@ public class C206_CaseStudy {
 		Helper.line(80, "-");
 	}
 	
+	public static String showAvailability(boolean availability) {
+        String avail;
+
+        if (availability == true) {
+            avail = "Available";
+        } else {
+            avail = "No Longer Available";
+        }
+        return avail;
+    }
+	
 	public static String showStatus(boolean status) {
         String avail;
 
