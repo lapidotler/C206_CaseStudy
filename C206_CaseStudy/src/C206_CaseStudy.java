@@ -28,10 +28,13 @@ public class C206_CaseStudy {
 				// Create Login Form for ALL
 				
 
+				
 			} else if (option == 2) {
 				// Display Renovation Services (USERS)
 				
+				// C206_CaseStudy.viewAllRenovationServices(serviceList);
 
+				
 			} else if (option == 3) {
 				// Request Quote, Schedule an Appointment (USERS)
 				C206_CaseStudy.setHeader("ADD");			
@@ -58,6 +61,7 @@ public class C206_CaseStudy {
 				} else {
 					System.out.println("Invalid type");
 				}
+			
 				
 
 			} else if (option == 4) {
@@ -65,20 +69,64 @@ public class C206_CaseStudy {
 				C206_CaseStudy.setHeader("VIEW");			
 				actionTypeMenu();
 				
+				int itemType = Helper.readInt("Enter option to select item type > ");
 
+				if (itemType == 1) {
+					// View all Quotes in a List
+
+					
+				} else if (itemType == 2) {
+					// View all Appointments in a List
+
+					
+				} else {
+					System.out.println("Invalid type");
+				}
+
+				
+				
 			} else if (option == 5) {
 				// Track Status of Quote Requests, Appointments
 				// All USERS, only SP track appointment status
 				C206_CaseStudy.setHeader("TRACK");			
 				actionTypeMenu();
 				
+				int itemType = Helper.readInt("Enter option to select item type > ");
 
+				if (itemType == 1) {
+					// Track quotes of specific user
+					trackQuoteStatus(quoteList);
+					
+
+				} else if (itemType == 2) {
+					// Track appointments of specific user
+					
+
+				} else {
+					System.out.println("Invalid type");
+				}
+
+				
+				
 			} else if (option == 6) {
 				// Respond to Quote, Manage Appointments (SP)
 				C206_CaseStudy.setHeader("MANAGE");			
 				actionTypeMenu();
 				
+				int itemType = Helper.readInt("Enter option to select item type > ");
 
+				if (itemType == 1) {
+					// Respond to specific Quote (w/ display)
+
+				} else if (itemType == 2) {
+					// Manage specific Appointment (w/ display)
+
+				} else {
+					System.out.println("Invalid type");
+				}
+
+				
+				
 			} else if (option == 99) {
 				System.out.println("Bye!");
 			} else {
@@ -117,13 +165,13 @@ public class C206_CaseStudy {
 		Helper.line(80, "-");
 	}
 	
-	public String showStatus(boolean status) {
+	public static String showStatus(boolean status) {
         String avail;
 
         if (status == true) {
-            avail = "Resolved";
-        } else {
             avail = "Pending";
+        } else {
+            avail = "Resolved";
         }
         return avail;
     }
@@ -141,7 +189,7 @@ public class C206_CaseStudy {
 	public static Quote inputQuote() {
 		String tag = Helper.readString("Enter asset tag > ");
 		String serviceName = Helper.readString("Enter service name > ");
-		String recipientName = Helper.readString("Enter recipient name > ");
+		String recipientName = Helper.readString("Enter your name > ");
 		int contactNumber = Helper.readInt("Enter contact number > ");
 		String description = Helper.readString("Enter description > ");
 		
@@ -170,7 +218,44 @@ public class C206_CaseStudy {
 	
 	
 	//================================= Option 5 Track (CRUD - Read) =================================
-	
+	public static void trackQuoteStatus(ArrayList<Quote> quoteList) {
+	    String recipientName = Helper.readString("Enter your name > ");
+
+	    ArrayList<Quote> userQuotes = getUserQuote(quoteList, recipientName);
+	    if (userQuotes != null && !userQuotes.isEmpty()) {
+	    	setHeader("Quotes for " + recipientName + ":");
+	        
+	        String output = String.format("%-15s %-30s %-20s %-10s %-20s %-50s\n",
+	            "Assert Tag", "Service Name", "Recipient Name", "Status", "Contact Number", "Description");
+	        
+	        for (Quote quote : userQuotes) {
+	        	
+	            output += String.format("%-15s %-30s %-20s %-10s %-20d %-50s\n",
+	                quote.getAssertTag(), quote.getServiceName(), quote.getRecipientName(),
+	                showStatus(quote.getStatus()), quote.getContactNumber(), quote.getDescription());
+	            
+	        }
+	        
+	        System.out.println(output);
+	    } else {
+	        System.out.println("No quotes found for " + recipientName);
+	    }
+	}
+
+    public static ArrayList<Quote> getUserQuote(ArrayList<Quote> quoteList, String recipientName) {
+    	ArrayList<Quote> userQuotes = new ArrayList<>();
+        for (Quote quote : quoteList) {
+            if (quote.getRecipientName().equalsIgnoreCase(recipientName)) {
+                userQuotes.add(quote);
+            }
+        }
+        
+        if (userQuotes.isEmpty()) {
+            return null; // Return null if no quotes are found
+        }
+        
+        return userQuotes;
+    }
 	
 	
 	//================================= Option 6 Manage (CRUD - Update) =================================

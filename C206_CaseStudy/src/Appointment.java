@@ -28,8 +28,17 @@ public class Appointment extends Action {
 
     // toString Method - Display
     public String toString() {
+    	
+    	String output = "";
+		// Write your codes here
+		return output;
+    	
+    	/* Not to be included until DURING REFRACTORING
+    	
         String output = super.toString();
-        output = String.format("%-63s %-10s %-10s %-20s", output, date, time, location);
+        output = String.format("%-78s %-10s %-10s %-20s", output, date, time, location);
         return output;
+        
+        */
     }
 }

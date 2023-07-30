@@ -13,9 +13,9 @@ public class Action extends RenovationServices {
         String avail;
 
         if (status == true) {
-            avail = "Resolved";
-        } else {
             avail = "Pending";
+        } else {
+            avail = "Resolved";
         }
         return avail;
     }
@@ -34,10 +34,19 @@ public class Action extends RenovationServices {
     
     // toString Method - Display
  	public String toString(){
+ 		
+ 		String output = "";
+		// Write your codes here
+		return output;
+ 		
+ 		/* Not to be included until DURING REFRACTORING
+ 		
  		// Write your codes here
  		String output = super.toString();
- 		output = String.format("%-31s %-20s %-10s", output, recipientName, status);
+ 		output = String.format("%-46s %-20s %-10s", output, recipientName, status);
  		return output;
+ 		
+ 		*/
  	}
 }
 

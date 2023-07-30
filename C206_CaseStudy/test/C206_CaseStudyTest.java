@@ -52,15 +52,18 @@ public class C206_CaseStudyTest {
 		// Given an empty list, after adding 1 item, the size of the list is 1
 		
 		
+		
 		// Test case 2: Add another quote. Test the size of the list is 2
 		C206_CaseStudy.createQuote(quoteList, qr2);
 		assertEquals("Check that Quote arraylist size is 2", 2, quoteList.size());
 		assertSame("Check that Quote is added", qr2, quoteList.get(1));
 
 	    
+		
 	    // Test case 3: Add an item that already exists in the list
 	    C206_CaseStudy.createQuote(quoteList, qr2);
 	    assertEquals("Test that the Quote ArrayList size is unchanged.", 2, quoteList.size());
+	    
 	    
 	    
 	    // Test case 4: Add an item that has missing detail
@@ -69,13 +72,36 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that the Quote ArrayList size is unchanged.", 2, quoteList.size());
 	}
 	
+	@Test
+	public void testTrackQuoteStatus() {
+	    // Test case 1: Retrieve existing quotes for an existing user (recipientName: "John Doe")
+	    quoteList.add(qr1);
+	    quoteList.add(qr2);
+	    ArrayList<Quote> johnDoeQuotes = C206_CaseStudy.getUserQuote(quoteList, "John Doe");
+	    assertNotNull("Test that the list of quotes for user 'John Doe' is not null", johnDoeQuotes);
+	    assertEquals("Test that the list of quotes for user 'John Doe' has the expected number of quotes", 1, johnDoeQuotes.size());
+
+	    
+	    
+	    // Test case 2: Retrieve existing quotes for an existing user with multiple quotes (recipientName: "Jane Smith")
+	    ArrayList<Quote> janeSmithQuotes = C206_CaseStudy.getUserQuote(quoteList, "Jane Smith");
+	    assertNotNull("Test that the list of quotes for user 'Jane Smith' is not null", janeSmithQuotes);
+	    assertEquals("Test that the list of quotes for user 'Jane Smith' has the expected number of quotes", 1, janeSmithQuotes.size());
+
+	    
+	    
+	    // Test case 3: Retrieve existing quotes for an existing user with no quotes (recipientName: "Emily Brown")
+	    ArrayList<Quote> emilyBrownQuotes = C206_CaseStudy.getUserQuote(quoteList, "Emily Brown");
+	    assertNull("Test that the list of quotes for user 'Emily Brown' is null", emilyBrownQuotes);
+	}
+	
 	//=========================== Syaza's Test Code ===========================
 	
 	//=========================== Yongyi's Test Code ===========================
 	
-	//=========================== Ernest's Test Code ===========================
-	
 	//=========================== Jovan's Test Code ===========================
+	
+	//=========================== Ernest's Test Code ===========================
 	
 	
 	
