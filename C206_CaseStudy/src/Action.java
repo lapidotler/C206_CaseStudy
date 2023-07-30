@@ -1,25 +1,12 @@
 
-public class Action {
-	private String assertTag;
-    private String serviceName;
+public class Action extends RenovationServices {
     private String recipientName;
     private boolean status;
 
     public Action(String assertTag, String serviceName, String recipientName) {
-    	this.assertTag = assertTag;
-        this.serviceName = serviceName;
+    	super(assertTag, serviceName);
         this.recipientName = recipientName;
         this.status = true;
-    }
-
-    public String toString() {
-        // Write your codes here
-        String itemInfo = String.format("%-10s %-20s %-20s %-10s",
-        		assertTag,
-                serviceName,
-                recipientName,
-                showStatus(status));
-        return itemInfo;
     }
 
     public String showStatus(boolean status) {
@@ -33,16 +20,8 @@ public class Action {
         return avail;
     }
     
-    public String getAssertTag() {
-		return assertTag;
-	}
-
-    public String getServiceName() {
-        return serviceName;
-    }
-    
     public String getRecipientName() {
-        return serviceName;
+        return recipientName;
     }
 
     public boolean getStatus() {
@@ -52,5 +31,13 @@ public class Action {
     public void setStatus(boolean status) {
         this.status = status;
     }
+    
+    // toString Method - Display
+ 	public String toString(){
+ 		// Write your codes here
+ 		String output = super.toString();
+ 		output = String.format("%-31s %-20s %-10s", output, recipientName, status);
+ 		return output;
+ 	}
 }
 
