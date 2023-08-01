@@ -6,11 +6,15 @@ public class C206_CaseStudy {
 		
 		ArrayList<Quote> quoteList = new ArrayList<Quote>();
 		ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
+		// ArrayList<User> userList = new ArrayList<User>();
+		// ArrayList<User> userRegistration = new ArrayList<User>();
+		/* User class not implemented */
 
 		quoteList.add(new Quote("QR001", "Kitchen Remodeling", "John Doe", 91827364, "Kitchen Renovation Price Query"));
 		quoteList.add(new Quote("QR002", "Bathroom Renovation", "Jane Smith", 98765432, "Bathroom Remodeling Availability"));
 		appointmentList.add(new Appointment("AP001", "Kitchen Remodeling", "Michael Johnson", "2023-07-25", "10:00 AM", "123 Main Street"));
 		appointmentList.add(new Appointment("AP002", "Bathroom Renovation", "Emily Brown", "2023-07-26", "2:30 PM", "456 Oak Avenue"));
+		// usersList.add
 
 		int option = 0;
 
@@ -23,6 +27,23 @@ public class C206_CaseStudy {
 			
 			if (option == 1) {
 				// Register/Login into System (USERS)
+				loginMenu();
+				
+				int loginOption = Helper.readInt("Enter option to login or register > ");
+				
+				if (loginOption == 1) {
+					// Login for registered users
+				// User user = loginForm(ArrayList<User> usersList);
+				// Ernest code
+					
+				} else if (loginOption == 2) {
+					// Register new user
+				// User user = registerForm();
+				// C206_CaseStudy.registerUser(userList, user);
+				// System.out.println("Successfully registered");
+					
+				}
+				
 				// Add sample SP (3), create register form for USERS
 				
 				// Create Login Form for ALL
@@ -73,6 +94,8 @@ public class C206_CaseStudy {
 
 				if (itemType == 1) {
 					// View all Quotes in a List
+					C206_CaseStudy.viewQuoteRequests(quoteList);
+					//doesnt work yet
 
 					
 				} else if (itemType == 2) {
@@ -140,6 +163,13 @@ public class C206_CaseStudy {
 	/**
 	 * 
 	 */
+	
+	private static void loginMenu() {
+		C206_CaseStudy.setHeader("LOGIN/REGISTER");
+		System.out.println("1. Login");
+		System.out.println("2. Register");
+	}
+	
 	private static void actionTypeMenu() {
 		C206_CaseStudy.setHeader("ACTION TYPES");
 		System.out.println("1. Quote Request");
@@ -190,6 +220,31 @@ public class C206_CaseStudy {
 
 	//================================= Option 1 System (CRUD - Create) =================================
 	
+	/* <---- User class not implemented ---> TO REVIEW bc im not sure
+	
+	public static registerForm() {
+	  	String name = Helper.readString("Enter name > ");
+		String email = Helper.readString("Enter email > ");
+		String username = Helper.readString("Enter username > ");
+		String password = Helper.readString("Enter password > ");
+		
+		if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+			if (email.contains("@") && password.length() >= 12) {
+			User newUser = new User(name, email, username, password);
+			}
+		}
+		return newUser;
+	}
+	
+	public static void registerUser(ArrayList<User> userList, newUser) {
+		for (int i=0; i < userList.size(); i++) {
+			if (newUser.getUsername() != userList.get(i).getUsername) {
+			check if username exists
+			}
+		}
+		userList.add(newUser)
+	} */
+	
 	
 	
 	//================================= Option 2 Display (CRUD - Read) =================================
@@ -225,6 +280,17 @@ public class C206_CaseStudy {
 	}
 	
 	//================================= Option 4 View (CRUD - Read) =================================
+	
+	public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
+		Quote item;
+		for (int i=0; i < quoteList.size(); i++) {
+			item = quoteList.get(i);
+			String desc = item.getDescription();
+			int contact = item.getContactNumber();
+			System.out.println(i + ". " + desc + contact);
+		}
+		
+	}
 	
 	
 	
@@ -270,6 +336,10 @@ public class C206_CaseStudy {
 	
 	
 	//================================= Option 6 Manage (CRUD - Update) =================================
+    
+    public static void replyQuoteRequests(ArrayList<Quote> quoteList) {
+    	
+    }
 	
 	
 }
