@@ -31,7 +31,7 @@ public class Quote extends Action {
 		
 		// Write your codes here
 		String output = super.toString();
-		output = String.format("%-78s %-10s %-50s", output, contactNumber, description);
+		output = String.format("%-93s %-10s %-50s", output, contactNumber, description);
 		return output;
 		
 		*/

@@ -43,7 +43,7 @@ public class Action extends RenovationServices {
  		
  		// Write your codes here
  		String output = super.toString();
- 		output = String.format("%-46s %-20s %-10s", output, recipientName, status);
+ 		output = String.format("%-46s %-35s %-10s", output, recipientName, status);
  		return output;
  		
  		*/
