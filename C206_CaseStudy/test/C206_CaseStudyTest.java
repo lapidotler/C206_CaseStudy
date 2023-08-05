@@ -7,6 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class C206_CaseStudyTest {
+	private User u1;
+	private User u2;
+	private User u3;
+	private User u4;
+	
 	private RenovationServices rs1;
 	private RenovationServices rs2;
 	
@@ -16,6 +21,7 @@ public class C206_CaseStudyTest {
 	private Appointment ap1;
 	private Appointment ap2;
 	
+	private ArrayList<User> userList;
 	private ArrayList<RenovationServices> serviceList;
 	private ArrayList<Quote> quoteList;
 	private ArrayList<Appointment> appointmentList;
@@ -27,6 +33,11 @@ public class C206_CaseStudyTest {
 	@Before
 	public void setUp() throws Exception {
 		// prepare test data
+		u1 = new User("John Doe", "1990-01-01", "john.doe@example.com", "password123", "Customer");
+		u2 = new User("Jane Smith", "1985-05-15", "jane.smith@example.com", "securepass", "Customer");
+		u3 = new User("Michael Johnson", "1988-09-20", "michael.johnson@example.com", "pass123", "Customer");
+		u4 = new User("Emily Brown", "1992-04-30", "emily.brown@example.com", "brownie456", "Customer");
+		
 		rs1 = new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true);
 	    rs2 = new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true);
 		

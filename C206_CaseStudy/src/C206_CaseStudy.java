@@ -11,7 +11,10 @@ public class C206_CaseStudy {
 		// ArrayList<User> userList = new ArrayList<User>();
 		// ArrayList<User> userRegistration = new ArrayList<User>();
 		/* User class not implemented */
-
+		
+		
+		// Refer to the C206_CaseStudyTest for the new sample users
+		
 		serviceList.add(new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true));
 		serviceList.add(new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true));
 		
