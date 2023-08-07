@@ -130,9 +130,9 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that renovation services arraylist size is 2.", 2, serviceList.size());
 	    
 	    allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);
-	    testOutput = String.format("%-15s %-30s %-50s %-20s %-20s\n", "RS001", "Kitchen Remodeling Service",
+	    testOutput = String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS001", "Kitchen Remodeling Service",
 	            "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", "Pending");
-	    testOutput += String.format("%-15s %-30s %-50s %-20s %-20s\n", "RS002", "Bathroom Renovation Service",
+	    testOutput += String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS002", "Bathroom Renovation Service",
 	            "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", "Pending");
 	    assertEquals("Test that the display is correct.", testOutput, allRenovationServices);
 
@@ -144,7 +144,7 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that renovation services arraylist size is 3.", 3, serviceList.size());
 	    
 	    allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);
-	    testOutput += String.format("%-15s %-30s %-50s %-20s %-20s\n", "RS003", "Hotel Accommodation Service",
+	    testOutput += String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS003", "Hotel Accommodation Service",
 	            "Hotel room renovation and upgrade", "24/7", "Resolved");
 	    assertEquals("Test that the display is correct.", testOutput, allRenovationServices);
 	}

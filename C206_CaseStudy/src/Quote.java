@@ -31,19 +31,16 @@ public class Quote extends Action {
 	}
 	
 	// toString Method - Display
-	public String toString(){
-		
-		String output = "";
-		// Write your codes here
-		return output;
-		
-		/* Not to be included until DURING REFRACTORING
-		
-		// Write your codes here
+	public String toStringDisplay() {
+	    String output = super.toString();
+	    output = String.format("%-88s %-20s %-50s", output, contactNumber, description);
+	    return output;
+	}
+	
+	// toString Method - Reply
+	public String toStringReply() {
 		String output = super.toString();
-		output = String.format("%-93s %-10s %-50s", output, contactNumber, description);
+		output = String.format("%-88s %-20s %-50s %-50s", output, contactNumber, description, reply);
 		return output;
-		
-		*/
 	}
 }

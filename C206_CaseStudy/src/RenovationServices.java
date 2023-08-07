@@ -24,17 +24,35 @@ public class RenovationServices {
         this.isAvailable = true;
     }
     
-    /* Not to be included until DURING REFRACTORING
-    
-    public String toString() {
-        // Write your codes here
-        String itemInfo = String.format("%-15s %-30s",
-        		assertTag,
-                serviceName);
+    // toString Method - Display
+    public String toStringDisplay() {
+        String itemInfo = String.format("%-15s %-30s %-50s %-25s %-10s\n",
+                assertTag, 
+                serviceName, 
+                serviceDescription, 
+                contactHours, 
+                showAvailability(isAvailable));
         return itemInfo;
     }
     
-    */
+    
+    // toString Method - Quote/Appointment
+    public String toString() {
+    	String itemInfo = String.format("%-15s %-35s",
+                assertTag, serviceName);
+    	return itemInfo;
+    }
+    
+    public static String showAvailability(boolean availability) {
+        String avail;
+
+        if (availability == true) {
+            avail = "Available";
+        } else {
+            avail = "No Longer Available";
+        }
+        return avail;
+    }
     
     public String getAssertTag() {
 		return assertTag;

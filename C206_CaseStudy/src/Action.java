@@ -34,19 +34,9 @@ public class Action extends RenovationServices {
     
     // toString Method - Display
  	public String toString(){
- 		
- 		String output = "";
-		// Write your codes here
-		return output;
- 		
- 		/* Not to be included until DURING REFRACTORING
- 		
- 		// Write your codes here
  		String output = super.toString();
- 		output = String.format("%-46s %-35s %-10s", output, recipientName, status);
+ 		output = String.format("%-51s %-20s %-15s", output, recipientName, status);
  		return output;
- 		
- 		*/
  	}
 }
 

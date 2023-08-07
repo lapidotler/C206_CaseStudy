@@ -2,6 +2,19 @@ import java.util.ArrayList;
 
 public class C206_CaseStudy {
 
+	private static final int OPTION_QUOTE = 1;
+	private static final int OPTION_APPOINTMENT = 2;
+	
+	private static final int OPTION_ACCOUNT = 1;
+	private static final int OPTION_SERVICEVIEW = 2;
+	private static final int OPTION_ADD = 3;
+	private static final int OPTION_VIEW = 4;
+	private static final int OPTION_TRACK = 5;
+	private static final int OPTION_MANAGE = 6;
+	
+	private static final int OPTION_QUIT = 99;
+
+
 	public static void main(String[] args) {
 		
 		ArrayList<RenovationServices> serviceList = new ArrayList<RenovationServices>();
@@ -27,26 +40,28 @@ public class C206_CaseStudy {
 
 		int option = 0;
 
-		while (option != 99) {
+		while (option != OPTION_QUIT) {
 
 			C206_CaseStudy.menu();
 			option = Helper.readInt("Enter an option > ");
 
 			// USERS OR SP (Service Provider), OR Both (ALL)
 			
-			if (option == 1) {
-				// Register/Login into System (USERS)
+			if (option == OPTION_ACCOUNT) {
+				// Register/Login into System (USERS)			
 				loginMenu();
 				
 				int loginOption = Helper.readInt("Enter option to login or register > ");
 				
 				if (loginOption == 1) {
-					// Login for registered users
+				// Login for registered users
+					
 				// User user = loginForm(ArrayList<User> usersList);
 				// Ernest code
 					
 				} else if (loginOption == 2) {
-					// Register new user
+				// Register new user
+					
 				// User user = registerForm();
 				// C206_CaseStudy.registerUser(userList, user);
 				// System.out.println("Successfully registered");
@@ -59,26 +74,26 @@ public class C206_CaseStudy {
 				
 
 				
-			} else if (option == 2) {
+			} else if (option == OPTION_SERVICEVIEW) {
 				// Display Renovation Services (USERS)
 				
 				C206_CaseStudy.viewAllRenovationServices(serviceList);
 
 				
-			} else if (option == 3) {
+			} else if (option == OPTION_ADD) {
 				// Request Quote, Schedule an Appointment (USERS)
 				C206_CaseStudy.setHeader("ADD");			
 				actionTypeMenu();
 				
 				int itemType = Helper.readInt("Enter option to select item type > ");
 
-				if (itemType == 1) {
+				if (itemType == OPTION_QUOTE) {
 					// Add a quote
 					Quote qr = inputQuote();
 					C206_CaseStudy.createQuote(quoteList, qr);
 					System.out.println("Quote added");
 
-				} else if (itemType == 2) {
+				} else if (itemType == OPTION_APPOINTMENT) {
 					// Add an appointment
 					/*
 					 
@@ -94,20 +109,20 @@ public class C206_CaseStudy {
 			
 				
 
-			} else if (option == 4) {
+			} else if (option == OPTION_VIEW) {
 				// View Quotes, Appointments (SP)
 				C206_CaseStudy.setHeader("VIEW");			
 				actionTypeMenu();
 				
 				int itemType = Helper.readInt("Enter option to select item type > ");
 
-				if (itemType == 1) {
+				if (itemType == OPTION_QUOTE) {
 					// View all Quotes in a List
 					C206_CaseStudy.viewQuoteRequests(quoteList);
 					//doesnt work yet
 
 					
-				} else if (itemType == 2) {
+				} else if (itemType == OPTION_APPOINTMENT) {
 					// View all Appointments in a List
 
 					
@@ -117,7 +132,7 @@ public class C206_CaseStudy {
 
 				
 				
-			} else if (option == 5) {
+			} else if (option == OPTION_TRACK) {
 				// Track Status of Quote Requests, Appointments
 				// All USERS, only SP track appointment status
 				C206_CaseStudy.setHeader("TRACK");			
@@ -125,12 +140,12 @@ public class C206_CaseStudy {
 				
 				int itemType = Helper.readInt("Enter option to select item type > ");
 
-				if (itemType == 1) {
+				if (itemType == OPTION_QUOTE) {
 					// Track quotes of specific user
 					trackQuoteStatus(quoteList);
 					
 
-				} else if (itemType == 2) {
+				} else if (itemType == OPTION_APPOINTMENT) {
 					// Track appointments of specific user
 					
 
@@ -140,17 +155,17 @@ public class C206_CaseStudy {
 
 				
 				
-			} else if (option == 6) {
+			} else if (option == OPTION_MANAGE) {
 				// Respond to Quote, Manage Appointments (SP)
 				C206_CaseStudy.setHeader("MANAGE");			
 				actionTypeMenu();
 				
 				int itemType = Helper.readInt("Enter option to select item type > ");
 
-				if (itemType == 1) {
+				if (itemType == OPTION_QUOTE) {
 					// Respond to specific Quote (w/ display)
 
-				} else if (itemType == 2) {
+				} else if (itemType == OPTION_APPOINTMENT) {
 					// Manage specific Appointment (w/ display)
 
 				} else {
@@ -204,6 +219,7 @@ public class C206_CaseStudy {
 		Helper.line(80, "-");
 	}
 	
+	// To be removed after code refactoring (EVERYONE) -> Services
 	public static String showAvailability(boolean availability) {
         String avail;
 
@@ -215,6 +231,7 @@ public class C206_CaseStudy {
         return avail;
     }
 	
+	// To be removed after code refactoring (EVERYONE) -> Quotes & Appointments
 	public static String showStatus(boolean status) {
         String avail;
 
@@ -262,16 +279,14 @@ public class C206_CaseStudy {
 
 	    for (int i = 0; i < serviceList.size(); i++) {
 	        RenovationServices service = serviceList.get(i);
-	        output += String.format("%-15s %-30s %-45s %-20s %-20s\n", service.getAssertTag(),
-	                service.getServiceName(), service.getServiceDescription(),
-	                service.getContactHours(), C206_CaseStudy.showStatus(service.getIsAvailable()));
+	        output += String.format("%-129s", service.toStringDisplay());
 	    }
 	    return output;
 	}
 
 	public static void viewAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 		C206_CaseStudy.setHeader("RENOVATION SERVICES LIST");
-	    String output = String.format("%-15s %-30s %-45s %-20s %-20s\n", "Assert Tag", "Service Name",
+	    String output = String.format("%-15s %-30s %-50s %-25s %-10s\n", "Assert Tag", "Service Name",
 	            "Service Description", "Contact Hours", "Status");
 	    output += retrieveAllRenovationServices(serviceList);
 	    System.out.println(output);
@@ -334,9 +349,7 @@ public class C206_CaseStudy {
 	        
 	        for (Quote quote : userQuotes) {
 	        	
-	            output += String.format("%-15s %-35s %-20s %-15s %-20d %-50s\n",
-	                quote.getAssertTag(), quote.getServiceName(), quote.getRecipientName(),
-	                showStatus(quote.getStatus()), quote.getContactNumber(), quote.getDescription());
+	            output += String.format("%-170s\n", quote.toStringDisplay());
 	            
 	        }
 	        
