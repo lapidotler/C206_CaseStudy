@@ -262,7 +262,7 @@ public class C206_CaseStudy {
 
 	    for (int i = 0; i < serviceList.size(); i++) {
 	        RenovationServices service = serviceList.get(i);
-	        output += String.format("%-15s %-30s %-50s %-20s %-20s\n", service.getAssertTag(),
+	        output += String.format("%-15s %-30s %-45s %-20s %-20s\n", service.getAssertTag(),
 	                service.getServiceName(), service.getServiceDescription(),
 	                service.getContactHours(), C206_CaseStudy.showStatus(service.getIsAvailable()));
 	    }
@@ -271,7 +271,7 @@ public class C206_CaseStudy {
 
 	public static void viewAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 		C206_CaseStudy.setHeader("RENOVATION SERVICES LIST");
-	    String output = String.format("%-15s %-30s %-50s %-20s %-20s\n", "Assert Tag", "Service Name",
+	    String output = String.format("%-15s %-30s %-45s %-20s %-20s\n", "Assert Tag", "Service Name",
 	            "Service Description", "Contact Hours", "Status");
 	    output += retrieveAllRenovationServices(serviceList);
 	    System.out.println(output);
@@ -329,12 +329,12 @@ public class C206_CaseStudy {
 	    if (userQuotes != null && !userQuotes.isEmpty()) {
 	    	setHeader("Quotes for " + recipientName + ":");
 	        
-	        String output = String.format("%-15s %-35s %-20s %-10s %-20s %-50s\n",
+	        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n",
 	            "Assert Tag", "Service Name", "Recipient Name", "Status", "Contact Number", "Description");
 	        
 	        for (Quote quote : userQuotes) {
 	        	
-	            output += String.format("%-15s %-35s %-20s %-10s %-20d %-50s\n",
+	            output += String.format("%-15s %-35s %-20s %-15s %-20d %-50s\n",
 	                quote.getAssertTag(), quote.getServiceName(), quote.getRecipientName(),
 	                showStatus(quote.getStatus()), quote.getContactNumber(), quote.getDescription());
 	            
