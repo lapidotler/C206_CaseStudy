@@ -281,6 +281,23 @@ public class C206_CaseStudy {
 	        RenovationServices service = serviceList.get(i);
 	        output += String.format("%-129s", service.toStringDisplay());
 	    }
+	    
+	    /* later
+	    
+	    // Display sub-menu for admin options
+	    String adminSubMenu = "\nAdmin Options:\n" +
+	                          "1. Delete a Service\n" +
+	                          "2. Return to Main Menu\n" +
+	                          "Enter your choice > ";
+	    
+	    int adminChoice = Helper.readInt(adminSubMenu);
+	    
+	    if (adminChoice == 1) {
+	        deleteService(serviceList);
+	    }
+	    
+	    */
+	    
 	    return output;
 	}
 
@@ -292,6 +309,23 @@ public class C206_CaseStudy {
 	    System.out.println(output);
 	}
 	
+	/*
+	public static void deleteService(ArrayList<RenovationServices> serviceList) {
+    String assertTagToDelete = Helper.readString("Enter the Assert Tag of the service to delete > ");
+    
+    for (int i = 0; i < serviceList.size(); i++) {
+        RenovationServices service = serviceList.get(i);
+        if (service.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
+            serviceList.remove(i);
+            System.out.println("Service with Assert Tag " + assertTagToDelete + " has been deleted.");
+            return;
+        }
+	}
+    
+	System.out.println("Service with Assert Tag " + assertTagToDelete + " not found.");
+	
+	}
+	 */
 	
 	//================================= Option 3 Add (CRUD - Create) =================================
 	public static Quote inputQuote() {
