@@ -6,9 +6,19 @@ public class User {
 	private String password;
     private String role;
 
+    // Regular Users
     public User(String recipientName, String dateOfBirth, String email, String password, String role) {
         this.recipientName = recipientName;
         this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+    
+ // Regular Service Providers
+    public User(String recipientName, String email, String password, String role) {
+        this.recipientName = recipientName;
+        this.dateOfBirth = "";
         this.email = email;
         this.password = password;
         this.role = role;

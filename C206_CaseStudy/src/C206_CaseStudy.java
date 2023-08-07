@@ -235,14 +235,14 @@ public class C206_CaseStudy {
 	  	String name = Helper.readString("Enter name > ");
 		String email = Helper.readString("Enter email > ");
 		String username = Helper.readString("Enter username > ");     // To be replaced with DOB instead, will still use the name as the main name
-		String password = Helper.readString("Enter password > ");
+		String password = Helper.readString("Enter password > ");     // For SERVICES: no need to add "DOB"
 		
 		if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
 			if (email.contains("@") && password.length() >= 12) {
 			User newUser = new User(name, email, username, password);         // name, dob, email, password
-			}
-		}
-		return newUser;
+			}                                                             
+		}                                                   // try to check if name includes "service"
+		return newUser;                                     // if it does, set role "SP". else, set role "User".
 	}
 	
 	public static void registerUser(ArrayList<User> userList, newUser) {      // to check if name (or recipientName) exists
@@ -251,8 +251,8 @@ public class C206_CaseStudy {
 			check if username exists
 			}
 		}
-		userList.add(newUser)
-	} */
+		userList.add(newUser)                 // *IF YOU CAN: Add option for users to delete/deactivate account
+	} */                                      // Need to add new US, PBI, SBI, and test cases
 	
 	
 	
