@@ -13,7 +13,7 @@ public class C206_CaseStudy {
 		/* User class not implemented */
 		
 		
-		// Refer to the C206_CaseStudyTest for the new sample users
+		// Refer to the C206_CaseStudyTest for the new sample users	
 		
 		serviceList.add(new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true));
 		serviceList.add(new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true));
@@ -62,7 +62,7 @@ public class C206_CaseStudy {
 			} else if (option == 2) {
 				// Display Renovation Services (USERS)
 				
-				// C206_CaseStudy.viewAllRenovationServices(serviceList);
+				C206_CaseStudy.viewAllRenovationServices(serviceList);
 
 				
 			} else if (option == 3) {
