@@ -114,9 +114,7 @@ public class C206_CaseStudy {
 				} else {
 					System.out.println("Invalid type");
 				}
-			
-				
-
+		
 			} else if (option == OPTION_VIEW) {
 				// View Quotes, Appointments (SP)
 				C206_CaseStudy.setHeader("VIEW");			
