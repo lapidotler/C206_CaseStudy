@@ -55,6 +55,10 @@ public class User {
         return role;
     }
     
+    public void setRole(String role) {
+    	this.role = role;
+    }
+    
     // toString Method - Display
  	public String toString(){
  		

@@ -16,7 +16,6 @@ public class C206_CaseStudyTest {
 	private User sp2;
 	private User admin;
 	
-	
 	private RenovationServices rs1;
 	private RenovationServices rs2;
 	
@@ -65,6 +64,7 @@ public class C206_CaseStudyTest {
 		serviceList= new ArrayList<RenovationServices>();
 		quoteList= new ArrayList<Quote>();
 		appointmentList= new ArrayList<Appointment>();
+		userList = new ArrayList<User>();
 	}
 	
 	@Test
@@ -216,8 +216,68 @@ public class C206_CaseStudyTest {
 	
 	//=========================== Syaza's Test Code ===========================
 	
-	//=========================== Yongyi's Test Code ===========================
+	/*
+	@Test
+	public void testRegisterUser() {
+		assertNotNull("Test that there is valid user list to add to", userList);
+		// sorry i might need help, shd i check if the arraysize changes instead? i was following L09 code
+		//idk what im doing ongg
+		// note to self to consult irfan
+		
+		
+		// Test case 1: Normal test - valid user
+	    boolean validUser = userList.registerUser("John Doe", "1990-01-01", "john.doe@gmail.com", "password123", "User");
+	    assertTrue("User will be registered", validUser);
+	    
+	    
+	    // Test case 2: Error test - invalid email
+        boolean invalidEmail = userList.registerUser("John Doe", "1990-01-01", "invalidemail", "password123", "User");
+        assertFalse(invalidEmail);
+        
+        
+        // Test case 3: Error test - weak password
+        boolean weakpw = userList.registerUser("John Doe", "1990-01-01", "johndoe@example.com", "weakpw", "User");
+        assertFalse(weakpw);
+        
+        
+        // Test case 4: Error test - missing details
+        boolean missingName = userList.registerUser("", "1990-01-01", "johndoe@example.com", "password123", "User");
+        assertFalse(missingName);
+        
+        boolean missingEmail = userList.registerUser("John Doe", "1990-01-01", "", "password123", "User");
+        assertFalse(missingEmail);
+        
+        boolean missingPassword = userList.registerUser("John Doe", "1990-01-01", "johndoe@example.com", "", "User");
+        assertFalse(missingPassword);
+        
+        
+        // Test case 5: Error test - user already exists - check by email
+        userList.add(u2);
+        
+        User u5 = new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User");
+        boolean checkUser = userList.registerUser(u5);
+		assertEquals(u2, u5);
+        
+	}
 	
+    @Test
+    public void testRetrieveQuoteRequests() { // and view
+    	quoteList.add(qr1);
+    	quoteList.add(qr2);
+    	
+    	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
+    	
+    	//test if the list of Chromebook retrieved from the SourceCentre is empty - boundary
+		String allChrombook= C206_CaseStudy.retrieveAllQuoteRequest(quoteList);
+		String testOutput = "";
+		assertEquals("Test that the retrieved Chromebooklist is empty?", testOutput, allChrombook);
+	   
+	}
+	
+	*/
+	
+	//=========================== Yongyi's Test Code ===========================
+
 	//=========================== Jovan's Test Code ===========================
 	
 	//=========================== Ernest's Test Code ===========================

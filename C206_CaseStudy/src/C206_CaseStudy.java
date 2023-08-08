@@ -138,7 +138,6 @@ public class C206_CaseStudy {
 				if (itemType == OPTION_QUOTE) {
 					// View all Quotes in a List
 					C206_CaseStudy.viewQuoteRequests(quoteList);
-					//doesnt work yet
 
 					
 				} else if (itemType == OPTION_APPOINTMENT) {
@@ -279,32 +278,41 @@ public class C206_CaseStudy {
 
 	//================================= Option 1 System (CRUD - Create) =================================
 	
-	/* <---- User class not implemented ---> TO REVIEW bc im not sure
-	
-	public static registerForm() {
-	  	String name = Helper.readString("Enter name > ");
+	/*
+	// need to double check :cold:
+	public static User registerForm() {
+	  	String recipientName = Helper.readString("Enter name > ");
+	  	String dateOfBirth = Helper.readString("Enter date of birth > ");
 		String email = Helper.readString("Enter email > ");
 		String username = Helper.readString("Enter username > ");     // To be replaced with DOB instead, will still use the name as the main name
 		String password = Helper.readString("Enter password > ");     // For SERVICES: no need to add "DOB"
 		
-		if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+		User newUser = new User(recipientName, dateOfBirth, email, password, "");
+		
+		// soryr if forgot how to do this uhhhh
+		if (recipientName.isEmpty() || email.isEmpty() || password.isEmpty()) {
 			if (email.contains("@") && password.length() >= 12) {
-			User newUser = new User(name, email, username, password);         // name, dob, email, password
-			}                                                             
-		}                                                   // try to check if name includes "service"
-		return newUser;                                     // if it does, set role "SP". else, set role "User".
+			} if (recipientName.contains("Service")) {
+				newUser.setRole("SP");
+			} else {
+				newUser.setRole("User");
+			}
+		}         
+		return newUser; 
 	}
 	
-	public static void registerUser(ArrayList<User> userList, newUser) {      // to check if name (or recipientName) exists
+	public static void registerUser(ArrayList<User> userList, User newUser) {
 		for (int i=0; i < userList.size(); i++) {
-			if (newUser.getUsername() != userList.get(i).getUsername) {
-			check if username exists
+			if (newUser.getEmail() != userList.get(i).getEmail()) {
+				System.out.println("Registration failed as email is already in use.");
+			} else {
+				userList.add(newUser);
 			}
-		}
-		userList.add(newUser)                 // *IF YOU CAN: Add option for users to delete/deactivate account
-	} */                                      // Need to add new US, PBI, SBI, and test cases
+		}               // *IF YOU CAN: Add option for users to delete/deactivate account
+	}				                         // Need to add new US, PBI, SBI, and test cases
 	
-	
+}
+*/
 	
 	//================================= Option 2 Display (CRUD - Read) =================================
 	public static String retrieveAllRenovationServices(ArrayList<RenovationServices> serviceList) {
@@ -370,18 +378,23 @@ public class C206_CaseStudy {
 	
 	//================================= Option 4 View (CRUD - Read) =================================
 	
-	public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
-		Quote item;
-		for (int i=0; i < quoteList.size(); i++) {
-			item = quoteList.get(i);
-			String desc = item.getDescription();
-			int contact = item.getContactNumber();
-			System.out.println(i + ". " + desc + contact);
+	// added status as toStringDisplay ..
+	public static String retrieveAllQuoteRequests(ArrayList<Quote> quoteList) {
+		String output = "";
+
+		for (int i = 0; i < quoteList.size(); i++) {
+			output += String.format("%-10s \n", quoteList.get(i).toStringDisplay());
 		}
-		
+		return output;
 	}
 	
-	
+	public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
+		C206_CaseStudy.setHeader("QUOTE REQUESTS");
+		String output = String.format("%-10s %17s %37s %12s %23s %17s\n", "ASSERT TAG", "SERVICE NAME",
+				"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
+		 output += retrieveAllQuoteRequests(quoteList);	
+		System.out.println(output);
+	}
 	
 	//================================= Option 5 Track (CRUD - Read) =================================
 	public static void trackQuoteStatus(ArrayList<Quote> quoteList) {
@@ -438,6 +451,15 @@ public class C206_CaseStudy {
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
     public static void replyQuoteRequests(ArrayList<Quote> quoteList) {
+    	// add. i need help
+    	//String reply = Helper.readString("Enter reply to this quote request > ");
+    	
+    	
+    	
+    }
+    
+    public static void rejectQuoteRequest(ArrayList<Quote> quoteList) {
+    	// delete
     	
     }
     
