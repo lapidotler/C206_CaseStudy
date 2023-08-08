@@ -91,6 +91,19 @@ public class C206_CaseStudy {
 				// Display Renovation Services (USERS)
 				
 				C206_CaseStudy.viewAllRenovationServices(serviceList);
+				
+				// Display sub-menu for admin options
+			    String adminSubMenu = "\nAdmin Options:\n" +
+			                          "1. Delete a Service\n" +
+			                          "2. Return to Main Menu\n" +
+			                          "Enter your choice > ";
+			    
+			    int adminChoice = Helper.readInt(adminSubMenu);
+			    
+			    if (adminChoice == 1) {
+			    	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+			        deleteService(serviceList, assertTag);
+			    }
 
 				
 			} else if (option == OPTION_ADD) {
@@ -149,6 +162,19 @@ public class C206_CaseStudy {
 				if (itemType == OPTION_QUOTE) {
 					// Track quotes of specific user
 					trackQuoteStatus(quoteList);
+					
+					// Display sub-menu for user options
+			        String userSubMenu = "\nUser Options:\n" +
+			                              "1. Delete a Quote\n" +
+			                              "2. Return to Main Menu\n" +
+			                              "Enter your choice > ";
+
+			        int userChoice = Helper.readInt(userSubMenu);
+
+			        if (userChoice == 1) {
+			        	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+			            deleteQuote(quoteList, assertTag);
+			        }
 					
 
 				} else if (itemType == OPTION_APPOINTMENT) {
@@ -289,19 +315,6 @@ public class C206_CaseStudy {
 	        output += String.format("%-129s", service.toStringDisplay());
 	    }
 	    
-	    // Display sub-menu for admin options
-	    String adminSubMenu = "\nAdmin Options:\n" +
-	                          "1. Delete a Service\n" +
-	                          "2. Return to Main Menu\n" +
-	                          "Enter your choice > ";
-	    
-	    int adminChoice = Helper.readInt(adminSubMenu);
-	    
-	    if (adminChoice == 1) {
-	    	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
-	        deleteService(serviceList, assertTag);
-	    }
-	    
 	    return output;
 	}
 
@@ -314,8 +327,6 @@ public class C206_CaseStudy {
 	}
 	
 	public static boolean deleteService(ArrayList<RenovationServices> serviceList, String assertTagToDelete) {
-	    assertTagToDelete = Helper.readString("Enter the Assert Tag of the service to delete > ");
-	    
 	    for (int i = 0; i < serviceList.size(); i++) {
 	        RenovationServices service = serviceList.get(i);
 	        if (service.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
@@ -389,19 +400,6 @@ public class C206_CaseStudy {
 	            
 	        }
 	        
-	        // Display sub-menu for user options
-	        String userSubMenu = "\nUser Options:\n" +
-	                              "1. Delete a Quote?\n" +
-	                              "2. Return to Main Menu\n" +
-	                              "Enter your choice > ";
-
-	        int userChoice = Helper.readInt(userSubMenu);
-
-	        if (userChoice == 1) {
-	        	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
-	            deleteQuote(quoteList, assertTag);
-	        }
-	        
 	        System.out.println(output);
 	    } else {
 	        System.out.println("No quotes found for " + recipientName);
@@ -424,8 +422,6 @@ public class C206_CaseStudy {
     }
 	
     public static boolean deleteQuote(ArrayList<Quote> quoteList, String assertTagToDelete) {
-	    assertTagToDelete = Helper.readString("Enter the Assert Tag of the service to delete > ");
-	
 	    for (int i = 0; i < quoteList.size(); i++) {
 	        Quote quote = quoteList.get(i);
 	        if (quote.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
