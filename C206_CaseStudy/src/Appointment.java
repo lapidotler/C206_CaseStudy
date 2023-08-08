@@ -1,4 +1,3 @@
-
 public class Appointment extends Action {
     // Variables
     private String date;
@@ -6,8 +5,8 @@ public class Appointment extends Action {
     private String location;
 
     // Constructor
-    public Appointment(String assetTag, String serviceName, String recipientName, String date, String time, String location) {
-        super(assetTag, serviceName, recipientName);
+    public Appointment(String assertTag, String serviceName, String recipientName, String date, String time, String location) {
+        super(assertTag, serviceName, recipientName);
         this.date = date;
         this.time = time;
         this.location = location;
@@ -24,6 +23,30 @@ public class Appointment extends Action {
 
     public String getLocation() {
         return location;
+    }
+    
+    // setters for additional variables
+    public void setDate(String date) {
+    	this.date=date;
+    }
+    
+    public void setTime(String time) {
+    	this.time=time;
+    }
+    
+    public void setLocation(String location) {
+    	this.location=location;
+    }
+    
+    // add and edit methods
+    public static Appointment createAppointment (String assertTag, String serviceName, String recipientName, String date, String time, String location) {
+    	return new Appointment(assertTag, serviceName, recipientName, date, time, location);
+    }
+    
+    public void editAppointment(String date, String time, String location) {
+        this.date = date;
+        this.time = time;
+        this.location = location;
     }
 
     // toString Method - Display

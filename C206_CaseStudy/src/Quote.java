@@ -6,16 +6,16 @@ public class Quote extends Action {
 	private String reply;
 
 	// Constructor for requesting quote
-	public Quote(String assetTag, String serviceName, String recipientName, int contactNumber, String description) {
-		super(assetTag, serviceName, recipientName);
+	public Quote(String assertTag, String serviceName, String recipientName, int contactNumber, String description) {
+		super(assertTag, serviceName, recipientName);
 		this.contactNumber = contactNumber;
 		this.description = description;
 		this.reply = "";
 	}
 	
-	// Contructor for responding to quote
-	public Quote(String assetTag, String serviceName, String recipientName, int contactNumber, String description, String reply) {
-		super(assetTag, serviceName, recipientName);
+	// Constructor for responding to quote
+	public Quote(String assertTag, String serviceName, String recipientName, int contactNumber, String description, String reply) {
+		super(assertTag, serviceName, recipientName);
 		this.contactNumber = contactNumber;
 		this.description = description;
 		this.reply = reply;

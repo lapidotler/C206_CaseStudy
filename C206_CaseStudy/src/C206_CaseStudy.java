@@ -41,7 +41,6 @@ public class C206_CaseStudy {
 		// Admin*
 		userList.add(new User("Admin User", "1985-03-25", "admin@gmail.com", "admin123", "Admin"));
 		
-		
 		serviceList.add(new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true));
 		serviceList.add(new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true));
 		
@@ -109,14 +108,9 @@ public class C206_CaseStudy {
 
 				} else if (itemType == OPTION_APPOINTMENT) {
 					// Add an appointment
-					/*
-					 
-					Appointment ap = inputAppointment();
-					C206_CaseStudy.addAppointment(appointmentList, ap);
-					System.out.println("Chromebook added");
-					
-					*/
-
+					Appointment ap=inputAppointment();
+					C206_CaseStudy.createAppointment(appointmentList, ap);
+					System.out.println("Appointment scheduled");
 				} else {
 					System.out.println("Invalid type");
 				}
@@ -181,6 +175,7 @@ public class C206_CaseStudy {
 
 				} else if (itemType == OPTION_APPOINTMENT) {
 					// Manage specific Appointment (w/ display)
+					manageAppointments(appointmentList);
 
 				} else {
 					System.out.println("Invalid type");
@@ -451,6 +446,57 @@ public class C206_CaseStudy {
     public static void replyQuoteRequests(ArrayList<Quote> quoteList) {
     	
     }
-	
-	
+    
+    // Scheduling an appointment
+    public static Appointment inputAppointment() {
+    	String assertTag = Helper.readString("Enter asset tag > ");
+        String serviceName = Helper.readString("Enter service name > ");
+        String recipientName = Helper.readString("Enter recipient name > ");
+        String date = Helper.readString("Enter appointment date > ");
+        String time = Helper.readString("Enter appointment time > ");
+        String location = Helper.readString("Enter appointment location > ");
+        
+        return new Appointment(assertTag, serviceName, recipientName, date, time, location);
+    }
+    
+    public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
+    	// Checking if appointment already exist based on asset tag
+    	for (Appointment existingAppointment : appointmentList) {
+            if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
+                System.out.println("Appointment with the same asset tag already exists.");
+                return; // Exit the method if appointment already exists
+            }
+        }
+    	
+    	appointmentList.add(appointment);
+    }
+    
+    // Managing appointments - edit
+    public static void manageAppointments(ArrayList<Appointment> appointmentList) {
+    	String assertTagToEdit=Helper.readString("Enter the Assert Tag of the appointment to edit > ");
+    	Appointment appointmentToEdit=getAppointmentByAssertTag(appointmentList, assertTagToEdit);
+    	
+    	if (appointmentToEdit != null) {
+            // Gather new appointment details from user input
+            String newDate = Helper.readString("Enter new appointment date > ");
+            String newTime = Helper.readString("Enter new appointment time > ");
+            String newLocation = Helper.readString("Enter new appointment location > ");
+
+            // Edit the appointment
+            appointmentToEdit.editAppointment(newDate, newTime, newLocation);
+
+            System.out.println("Appointment edited successfully");
+        } else {
+            System.out.println("Appointment not found");
+        }
+    }
+    
+    public static Appointment getAppointmentByAssertTag(ArrayList<Appointment> appointmentList, String assertTag) {
+        for (Appointment appointment : appointmentList) {
+            if (appointment.getAssertTag().equalsIgnoreCase(assertTag)) {
+                return appointment;
+            }
+        }
+        return null; // Return null if appointment is not found
+    }
 }
