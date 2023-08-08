@@ -12,6 +12,11 @@ public class C206_CaseStudyTest {
 	private User u3;
 	private User u4;
 	
+	private User sp1;
+	private User sp2;
+	private User admin;
+	
+	
 	private RenovationServices rs1;
 	private RenovationServices rs2;
 	
@@ -33,10 +38,20 @@ public class C206_CaseStudyTest {
 	@Before
 	public void setUp() throws Exception {
 		// prepare test data
-		u1 = new User("John Doe", "1990-01-01", "john.doe@example.com", "password123", "Customer");
-		u2 = new User("Jane Smith", "1985-05-15", "jane.smith@example.com", "securepass", "Customer");
-		u3 = new User("Michael Johnson", "1988-09-20", "michael.johnson@example.com", "pass123", "Customer");
-		u4 = new User("Emily Brown", "1992-04-30", "emily.brown@example.com", "brownie456", "Customer");
+		
+		// Users
+		u1 = new User("John Doe", "1990-01-01", "john.doe@gmail.com", "password123", "User");
+		u2 = new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User");
+		u3 = new User("Michael Johnson", "1988-09-20", "michael.johnson@hotmail.com", "pass123", "User");
+		u4 = new User("Emily Brown", "1992-04-30", "emily.brown@gmail.com", "brownie456", "User");
+		
+		// Service Providers
+		sp1 = new User("Kitchen Remodeling Service", "1980-10-10", "krs@hotmail.com", "krs123", "Service Provider");
+		sp2 = new User("Bathroom Renovation Service", "1975-06-20", "brs@gmail.com", "brs456", "Service Provider");
+		
+		// Admin*
+		admin = new User("Admin User", "1985-03-25", "admin@gmail.com", "admin123", "Admin");
+		
 		
 		rs1 = new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true);
 	    rs2 = new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true);
@@ -117,6 +132,31 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+	public void testDeleteQuote() {
+	    // Test case 1: Normal Test - Delete existing quote
+	    quoteList.add(qr1);
+	    quoteList.add(qr2);
+	    
+	    boolean deleted = C206_CaseStudy.deleteQuote(quoteList, "QR001");
+	    assertTrue("Test normal deletion - quote should be deleted", deleted);
+	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 1);
+	
+	
+	
+	    // Test case 2: Boundary Test - Delete with empty assertTag
+	    boolean emptyDeleted = C206_CaseStudy.deleteQuote(quoteList, "");
+	    assertFalse("Test empty assertTag deletion - quote should not be deleted", emptyDeleted);
+	    assertEquals("Test empty assertTag deletion - quote list size should remain unchanged", quoteList.size(), quoteList.size());
+	
+	
+	
+	    // Test case 3: Error Test - Delete with invalid assertTag
+	    boolean invalidDeleted = C206_CaseStudy.deleteQuote(quoteList, "InvalidTag");
+	    assertFalse("Test invalid assertTag deletion - quote should not be deleted", invalidDeleted);
+	    assertEquals("Test invalid assertTag deletion - quote list size should remain unchanged", quoteList.size(), quoteList.size());
+	}
+	
+	@Test
 	public void testRetrieveAllRenovationServices() {
 	    // Test Case 1: Empty list
 	    String allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);
@@ -147,6 +187,31 @@ public class C206_CaseStudyTest {
 	    testOutput += String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS003", "Hotel Accommodation Service",
 	            "Hotel room renovation and upgrade", "24/7", "Resolved");
 	    assertEquals("Test that the display is correct.", testOutput, allRenovationServices);
+	}
+	
+	@Test
+	public void testDeleteRenovationService() {
+	    // Test case 1: Normal Test - Delete existing service
+	    serviceList.add(rs1);
+	    serviceList.add(rs2);
+	    
+	    boolean deleted = C206_CaseStudy.deleteService(serviceList, "RS001");
+	    assertTrue("Test normal deletion - service should be deleted", deleted);
+	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 1);
+	
+	
+	
+	    // Test case 2: Boundary Test - Delete with empty assertTag
+	    boolean emptyDeleted = C206_CaseStudy.deleteService(serviceList, "");
+	    assertFalse("Test empty assertTag deletion - quote should not be deleted", emptyDeleted);
+	    assertEquals("Test empty assertTag deletion - quote list size should remain unchanged", serviceList.size(), serviceList.size());
+	
+	
+	
+	    // Test case 3: Error Test - Delete with invalid assertTag
+	    boolean invalidDeleted = C206_CaseStudy.deleteService(serviceList, "InvalidTag");
+	    assertFalse("Test invalid assertTag deletion - quote should not be deleted", invalidDeleted);
+	    assertEquals("Test invalid assertTag deletion - quote list size should remain unchanged", serviceList.size(), serviceList.size());
 	}
 	
 	//=========================== Syaza's Test Code ===========================

@@ -17,16 +17,30 @@ public class C206_CaseStudy {
 
 	public static void main(String[] args) {
 		
-		ArrayList<RenovationServices> serviceList = new ArrayList<RenovationServices>();
-		ArrayList<Quote> quoteList = new ArrayList<Quote>();
-		ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
+		ArrayList<User> userList = new ArrayList<User>();
 		
-		// ArrayList<User> userList = new ArrayList<User>();
+		ArrayList<RenovationServices> serviceList = new ArrayList<RenovationServices>();
+		
+		ArrayList<Quote> quoteList = new ArrayList<Quote>();
+		
+		ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
+
 		// ArrayList<User> userRegistration = new ArrayList<User>();
 		/* User class not implemented */
 		
+		// Users
+		userList.add(new User("John Doe", "1990-01-01", "john.doe@gmail.com", "password123", "User"));
+		userList.add(new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User"));
+		userList.add(new User("Michael Johnson", "1988-09-20", "michael.johnson@hotmail.com", "pass123", "User"));
+		userList.add(new User("Emily Brown", "1992-04-30", "emily.brown@gmail.com", "brownie456", "User"));
 		
-		// Refer to the C206_CaseStudyTest for the new sample users	
+		// Service Providers
+		userList.add(new User("Kitchen Remodeling Service", "1980-10-10", "krs@hotmail.com", "krs123", "Service Provider"));
+		userList.add(new User("Bathroom Renovation Service", "1975-06-20", "brs@gmail.com", "brs456", "Service Provider"));
+		
+		// Admin*
+		userList.add(new User("Admin User", "1985-03-25", "admin@gmail.com", "admin123", "Admin"));
+		
 		
 		serviceList.add(new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true));
 		serviceList.add(new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true));
@@ -282,8 +296,6 @@ public class C206_CaseStudy {
 	        output += String.format("%-129s", service.toStringDisplay());
 	    }
 	    
-	    /* later
-	    
 	    // Display sub-menu for admin options
 	    String adminSubMenu = "\nAdmin Options:\n" +
 	                          "1. Delete a Service\n" +
@@ -293,10 +305,9 @@ public class C206_CaseStudy {
 	    int adminChoice = Helper.readInt(adminSubMenu);
 	    
 	    if (adminChoice == 1) {
-	        deleteService(serviceList);
+	    	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+	        deleteService(serviceList, assertTag);
 	    }
-	    
-	    */
 	    
 	    return output;
 	}
@@ -309,23 +320,21 @@ public class C206_CaseStudy {
 	    System.out.println(output);
 	}
 	
-	/*
-	public static void deleteService(ArrayList<RenovationServices> serviceList) {
-    String assertTagToDelete = Helper.readString("Enter the Assert Tag of the service to delete > ");
-    
-    for (int i = 0; i < serviceList.size(); i++) {
-        RenovationServices service = serviceList.get(i);
-        if (service.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
-            serviceList.remove(i);
-            System.out.println("Service with Assert Tag " + assertTagToDelete + " has been deleted.");
-            return;
-        }
+	public static boolean deleteService(ArrayList<RenovationServices> serviceList, String assertTagToDelete) {
+	    assertTagToDelete = Helper.readString("Enter the Assert Tag of the service to delete > ");
+	    
+	    for (int i = 0; i < serviceList.size(); i++) {
+	        RenovationServices service = serviceList.get(i);
+	        if (service.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
+	            serviceList.remove(i);
+	            System.out.println("Service with Assert Tag " + assertTagToDelete + " has been deleted.");
+	            return true;
+	        }
+	    }
+	    
+	    System.out.println("Service with Assert Tag " + assertTagToDelete + " not found.");
+	    return false;
 	}
-    
-	System.out.println("Service with Assert Tag " + assertTagToDelete + " not found.");
-	
-	}
-	 */
 	
 	//================================= Option 3 Add (CRUD - Create) =================================
 	public static Quote inputQuote() {
@@ -387,6 +396,19 @@ public class C206_CaseStudy {
 	            
 	        }
 	        
+	        // Display sub-menu for user options
+	        String userSubMenu = "\nUser Options:\n" +
+	                              "1. Delete a Quote?\n" +
+	                              "2. Return to Main Menu\n" +
+	                              "Enter your choice > ";
+
+	        int userChoice = Helper.readInt(userSubMenu);
+
+	        if (userChoice == 1) {
+	        	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+	            deleteQuote(quoteList, assertTag);
+	        }
+	        
 	        System.out.println(output);
 	    } else {
 	        System.out.println("No quotes found for " + recipientName);
@@ -408,6 +430,21 @@ public class C206_CaseStudy {
         return userQuotes;
     }
 	
+    public static boolean deleteQuote(ArrayList<Quote> quoteList, String assertTagToDelete) {
+	    assertTagToDelete = Helper.readString("Enter the Assert Tag of the service to delete > ");
+	
+	    for (int i = 0; i < quoteList.size(); i++) {
+	        Quote quote = quoteList.get(i);
+	        if (quote.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
+	            quoteList.remove(i);
+	            System.out.println("Quote with Assert Tag " + assertTagToDelete + " has been deleted.");
+	            return true;
+	        }
+	    }
+	
+	    System.out.println("Quote with Assert Tag " + assertTagToDelete + " not found.");
+	    return false;
+	}
 	
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
