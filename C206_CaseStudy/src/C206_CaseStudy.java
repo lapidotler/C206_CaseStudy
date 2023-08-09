@@ -67,17 +67,20 @@ public class C206_CaseStudy {
 				int loginOption = Helper.readInt("Enter option to login or register > ");
 				
 				if (loginOption == 1) {
-				// Login for registered users
+					// Login for registered users
 					
-				// User user = loginForm(ArrayList<User> usersList);
-				// Ernest code
+					String email = Helper.readString("Enter email > ");
+			        String password = Helper.readString("Enter password > ");
+
+			        loginUser(userList, email, password);
 					
 				} else if (loginOption == 2) {
-				// Register new user
-					
-				User user = registerForm();
-				C206_CaseStudy.registerUser(userList, user);
-				System.out.println("Successfully registered");
+					// Register new user
+					User user = C206_CaseStudy.registerForm();
+			        if (user != null) {
+			            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
+			            System.out.println("Successfully registered");
+			        }
 					
 				}
 								
@@ -270,7 +273,7 @@ public class C206_CaseStudy {
 
 	//================================= Option 1 System (CRUD - Create) =================================
 	
-	// DONE BY: Syaza
+	// User Registration - Syaza
 	// CHECKED and MODIFIED BY: Irfan
 	
 	public static User registerForm() {
@@ -300,23 +303,25 @@ public class C206_CaseStudy {
 		return newUser; 
 	}
 	
-	public static void registerUser(ArrayList<User> userList, User newUser) {
-		for (int i=0; i < userList.size(); i++) {
-			if (newUser.getEmail() != userList.get(i).getEmail()) {
-				System.out.println("Registration failed as email is already in use.");
-			} else {
-				userList.add(newUser);
-			}
-		}               
-	}				                        
+	public static boolean registerUser(ArrayList<User> userList, String recipientName, String email, String password) {
+	    for (int i = 0; i < userList.size(); i++) {
+	        if (email.equals(userList.get(i).getEmail())) {          // Use equals to compare strings
+	            System.out.println("Registration failed as email is already in use.");
+	            return false;   // Exit the loop if the email is already in use
+	        }
+	    }
+	    
+	    // Create the newUser here and add it to the userList
+	    User newUser = new User(recipientName, "", email, password, "User");
+	    userList.add(newUser);
+	    return true;    // Registration Successful
+	}			                        
 	
-	//Ernest code
+	// User Login - Ernest
+	// CHECKED and MODIFIED BY: Irfan -> Removed inputs of email and password, shifted them to menu
     public static void userLoginForm(ArrayList<User> userList, String email, String password)
     {
-    	email = Helper.readString("Enter email > "); 
-		password = Helper.readString("Enter password > "); 
-		
-		boolean loggedIn = false;
+    	boolean loggedIn = false;
 		
 		String output = String.format("%-15s %-20s %-20s %-20s %-20s\n",
 	             "Name", "Date of Birth", "Email", "Password", "Status");
@@ -330,6 +335,7 @@ public class C206_CaseStudy {
 		        break;
 				}
 		}
+		
 		if (loggedIn) {
 	        System.out.println("Login successful.");
 	        System.out.println(output);
@@ -337,6 +343,7 @@ public class C206_CaseStudy {
 	        System.out.println("User login failed, Invalid user.");
 	    }
     }
+    
     public static boolean loginUser(ArrayList<User> userList, String email, String password) {
         for (User user : userList) {
             if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
@@ -351,7 +358,9 @@ public class C206_CaseStudy {
 
 	
 	//================================= Option 2 Display (CRUD - Read) =================================
-	public static String retrieveAllRenovationServices(ArrayList<RenovationServices> serviceList) {
+	
+    // View All Services (+ delete function for Admin) - Irfan
+    public static String retrieveAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 	    String output = "";
 
 	    for (int i = 0; i < serviceList.size(); i++) {
@@ -385,6 +394,8 @@ public class C206_CaseStudy {
 	}
 	
 	//================================= Option 3 Add (CRUD - Create) =================================
+	
+	// Requesting a Quote - Irfan
 	public static Quote inputQuote() {
 		String tag = Helper.readString("Enter asset tag > ");
 		String serviceName = Helper.readString("Enter service name > ");
@@ -444,7 +455,7 @@ public class C206_CaseStudy {
 
 	//================================= Option 4 View (CRUD - Read) =================================
 	
-	// added status as toStringDisplay ..
+	// View All Quotes - Syaza
 	public static String retrieveAllQuoteRequests(ArrayList<Quote> quoteList) {
 		String output = "";
 
@@ -463,6 +474,8 @@ public class C206_CaseStudy {
 	}
 	
 	//================================= Option 5 Track (CRUD - Read) =================================
+	
+	// Tracking appointments - Irfan
 	public static void trackQuoteStatus(ArrayList<Quote> quoteList) {
 	    String recipientName = Helper.readString("Enter your name > ");
 

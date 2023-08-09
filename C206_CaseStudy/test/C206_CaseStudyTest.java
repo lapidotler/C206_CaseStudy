@@ -216,56 +216,49 @@ public class C206_CaseStudyTest {
 	
 	//=========================== Syaza's Test Code ===========================
 	
-	/*
 	@Test
 	public void testRegisterUser() {
 		assertNotNull("Test that there is valid user list to add to", userList);
-		// sorry i might need help, shd i check if the arraysize changes instead? i was following L09 code
-		//idk what im doing ongg
-		// note to self to consult irfan
 		
+		/* Irfan's Note:
+		 
+		 for userList.registerUser():
+		 
+		 brackets shld be ..registerUser(userList, u1.getEmail(),u1.getPassword())
+		 
+		 CHANGE the registerUser() JAVA method to have (userList, email, password) instead of (userList, user)
 		
-		/// Irfan's Note:
-		 * 
-		 * for userList.registerUser():
-		 * 
-		 * brackets shld be ..registerUser(userList, u1.getEmail(),u1.getPassword())
-		 * 
-		 * CHANGE the registerUser() JAVA method to have (userList, email, password) instead of (userList, user)
+		*/
 		
 		
 		// Test case 1: Normal test - valid user
-	    boolean validUser = userList.registerUser("John Doe", "1990-01-01", "john.doe@gmail.com", "password123", "User");
-	    assertTrue("User will be registered", validUser);
-	    
-	    
+	    boolean validUserRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "john.doe@gmail.com", "password123");
+	    assertTrue("User should be registered successfully", validUserRegistered);
+
 	    // Test case 2: Error test - invalid email
-        boolean invalidEmail = userList.registerUser("John Doe", "1990-01-01", "invalidemail", "password123", "User");
-        assertFalse(invalidEmail);
-        
-        
-        // Test case 3: Error test - weak password
-        boolean weakpw = userList.registerUser("John Doe", "1990-01-01", "johndoe@example.com", "weakpw", "User");
-        assertFalse(weakpw);
-        
-        
-        // Test case 4: Error test - missing details
-        boolean missingName = userList.registerUser("", "1990-01-01", "johndoe@example.com", "password123", "User");
-        assertFalse(missingName);
-        
-        boolean missingEmail = userList.registerUser("John Doe", "1990-01-01", "", "password123", "User");
-        assertFalse(missingEmail);
-        
-        boolean missingPassword = userList.registerUser("John Doe", "1990-01-01", "johndoe@example.com", "", "User");
-        assertFalse(missingPassword);
-        
-        
-        // Test case 5: Error test - user already exists - check by email
-        userList.add(u2);
-        
-        User u5 = new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User");
-        boolean checkUser = userList.registerUser(u5);
-		assertEquals(u2, u5);
+	    boolean invalidEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "invalidemail", "password123");
+	    assertFalse("User with invalid email should not be registered", invalidEmailRegistered);
+
+	    // Test case 3: Error test - weak password
+	    boolean weakPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "weakpw");
+	    assertFalse("User with weak password should not be registered", weakPasswordRegistered);
+
+	    // Test case 4: Error test - missing details
+	    boolean missingNameRegistered = C206_CaseStudy.registerUser(userList, "", "johndoe@example.com", "password123");
+	    assertFalse("User with missing name should not be registered", missingNameRegistered);
+
+	    boolean missingEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "", "password123");
+	    assertFalse("User with missing email should not be registered", missingEmailRegistered);
+
+	    boolean missingPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "");
+	    assertFalse("User with missing password should not be registered", missingPasswordRegistered);
+
+	    // Test case 5: Error test - user already exists - check by email
+	    userList.add(u2);
+
+	    User newUser = new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User");
+	    boolean userAlreadyExists = C206_CaseStudy.registerUser(userList, newUser.getRecipientName(), newUser.getEmail(), newUser.getPassword());
+	    assertFalse("User with duplicate email should not be registered", userAlreadyExists);
         
 	}
 	
@@ -276,14 +269,12 @@ public class C206_CaseStudyTest {
     	
     	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
     	
-    	//test if the list of Chromebook retrieved from the SourceCentre is empty - boundary
-		String allChrombook= C206_CaseStudy.retrieveAllQuoteRequest(quoteList);
+    	//test if the list of Quotes retrieved from the SourceCentre is empty - boundary
+		String allQuotes = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
 		String testOutput = "";
-		assertEquals("Test that the retrieved Chromebooklist is empty?", testOutput, allChrombook);
+		assertEquals("Test that the retrieved Chromebooklist is empty?", testOutput, allQuotes);
 	   
 	}
-	
-	*/
 	
 	//=========================== Yongyi's Test Code ===========================
 	
