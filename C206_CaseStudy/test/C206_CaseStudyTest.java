@@ -281,7 +281,25 @@ public class C206_CaseStudyTest {
 	//=========================== Jovan's Test Code ===========================
 	
 	//=========================== Ernest's Test Code ===========================
-	
+	@Test
+	public void testUserLogin()
+	{
+		//normal test
+		boolean userExist = C206_CaseStudy.loginUser(userList,u1.getEmail(),u1.getPassword());
+		assertFalse("User should be able to log in", userExist);
+		
+		//error test - invalid email
+		boolean userInvalidEmail = C206_CaseStudy.loginUser(userList,"nonUser@gmail.com",u1.getPassword());
+		assertFalse(userInvalidEmail);
+		
+		//error test - invalid password
+		boolean userInvalidPW = C206_CaseStudy.loginUser(userList,u1.getEmail(),"pass123");
+		assertFalse(userInvalidPW);
+		
+		//error test - non-existing user
+		boolean userNotExist = C206_CaseStudy.loginUser(userList,u1.getEmail(),u1.getPassword());
+		assertFalse(userNotExist);
+	}
 	
 	
 	//============================================= END HERE ===============================================

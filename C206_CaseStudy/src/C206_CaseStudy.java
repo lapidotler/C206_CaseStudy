@@ -519,4 +519,40 @@ public class C206_CaseStudy {
         }
         return null; // Return null if appointment is not found
     }
+    
+    //Ernest code
+    public static void userLoginForm(ArrayList<User> userList, String email, String password)
+    {
+    	email = Helper.readString("Enter email > "); 
+		password = Helper.readString("Enter password > "); 
+		
+		boolean loggedIn = false;
+		
+		String output = String.format("%-15s %-20s %-20s %-20s %-20s\n",
+	             "Name", "Date of Birth", "Email", "Password", "Status");
+		
+		for (User user : userList) {
+			if (email.contains(user.getEmail()) && password.contains(user.getPassword()))
+				{
+				output += String.format("%-15s %-20s %-20s %-20s %-20s\n", 
+						user.getRecipientName(), user.getDOB(), user.getEmail(), user.getPassword(), user.getRole());
+				loggedIn = true;
+		        break;
+				}
+		}
+		if (loggedIn) {
+	        System.out.println("Login successful.");
+	        System.out.println(output);
+	    } else {
+	        System.out.println("User login failed, Invalid user.");
+	    }
+    }
+    public static boolean loginUser(ArrayList<User> userList, String email, String password) {
+        for (User user : userList) {
+            if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
