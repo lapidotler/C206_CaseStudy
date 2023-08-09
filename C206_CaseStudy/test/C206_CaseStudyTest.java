@@ -286,6 +286,53 @@ public class C206_CaseStudyTest {
 	*/
 	
 	//=========================== Yongyi's Test Code ===========================
+	
+	@Test
+	public void testCreateAppointment() {
+		assertNotNull("Check if there is a valid appointment arraylist to add to", appointmentList);
+		
+		// test 1: check that list is not null, so that you can add a new appointment
+		C206_CaseStudy.createAppointment(appointmentList, ap1);
+		assertEquals("Check that appointment arraylist size is 1", 1, appointmentList.size());
+		assertSame("Check that appointment is added", ap1, appointmentList.get(0));
+	    
+		// test 2: add another appointment. Test the size of the list is 2
+	    C206_CaseStudy.createAppointment(appointmentList, ap2);
+	    assertEquals("Check that appointment arraylist size is 2", 2, appointmentList.size());
+	    assertSame("Check that appointment is added", ap2, appointmentList.get(1));
+	    
+	    // test 3: add an appointment that already exists in the list
+	    C206_CaseStudy.createAppointment(appointmentList, ap2);
+	    assertEquals("Test that the appointment arraylist size is unchanged.", 2, appointmentList.size());
+	    
+	    // test 4: add an appointment with missing details
+	    Appointment ap_missing = new Appointment("AP003", "", "Recipient Name", "2023-08-10", "3:00 PM", "Location");
+	    C206_CaseStudy.createAppointment(appointmentList, ap_missing);
+	    assertEquals("Test that the appointment arraylist size is unchanged.", 2, appointmentList.size());
+	}
+	
+	@Test
+	public void testTrackAppointments() {
+	    appointmentList.add(ap1);
+	    appointmentList.add(ap2);
+	    
+	    assertNotNull("Test if there is a valid appointment arraylist to retrieve from", appointmentList);
+	    
+	    // test 1: retrieve appointments for an existing user (recipientName: "Michael Johnson")
+	    ArrayList<Appointment> michaelJohnsonAppointments = C206_CaseStudy.getUserAppointments(appointmentList, "Michael Johnson");
+	    assertNotNull("Test that the list of appointments for user 'Michael Johnson' is not null", michaelJohnsonAppointments);
+	    assertEquals("Test that the list of appointments for user 'Michael Johnson' has the expected number of appointments", 1, michaelJohnsonAppointments.size());
+	    
+	    // test 2: retrieve appointments for an existing user with multiple appointments (recipientName: "Emily Brown")
+	    ArrayList<Appointment> emilyBrownAppointments = C206_CaseStudy.getUserAppointments(appointmentList, "Emily Brown");
+	    assertNotNull("Test that the list of appointments for user 'Emily Brown' is not null", emilyBrownAppointments);
+	    assertEquals("Test that the list of appointments for user 'Emily Brown' has the expected number of appointments", 1, emilyBrownAppointments.size());
+	    
+	    // test 3: retrieve appointments for an existing user with no appointments (recipientName: "Jane Smith")
+	    ArrayList<Appointment> janeSmithAppointments = C206_CaseStudy.getUserAppointments(appointmentList, "Jane Smith");
+	    assertNull("Test that the list of appointments for user 'Jane Smith' is null", janeSmithAppointments);
+	}
+
 
 	//=========================== Jovan's Test Code ===========================
 	

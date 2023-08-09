@@ -114,7 +114,7 @@ public class C206_CaseStudy {
 					System.out.println("Quote added");
 
 				} else if (itemType == OPTION_APPOINTMENT) {
-					// Add an appointment
+					// Add an appointment - Yongyi
 					Appointment ap=inputAppointment();
 					C206_CaseStudy.createAppointment(appointmentList, ap);
 					System.out.println("Appointment scheduled");
@@ -137,13 +137,10 @@ public class C206_CaseStudy {
 				} else if (itemType == OPTION_APPOINTMENT) {
 					// View all Appointments in a List
 
-					
 				} else {
 					System.out.println("Invalid type");
 				}
-
-				
-				
+	
 			} else if (option == OPTION_TRACK) {
 				// Track Status of Quote Requests, Appointments
 				// All USERS, only SP track appointment status
@@ -156,6 +153,15 @@ public class C206_CaseStudy {
 					// Track quotes of specific user
 					trackQuoteStatus(quoteList);
 					
+				}else if (itemType==OPTION_APPOINTMENT) {
+					// Track appointments of specific user - Yongyi
+					String recipientName=Helper.readString("Enter your name > ");
+					trackAppointments(appointmentList, recipientName);
+					
+				}else {
+					System.out.println("Invalid type");
+				}
+					
 					// Display sub-menu for user options
 					C206_CaseStudy.setHeader("User Options");
 			        String userSubMenu = "1. Delete a Quote\n" +
@@ -167,19 +173,11 @@ public class C206_CaseStudy {
 			        if (userChoice == 1) {
 			        	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
 			            deleteQuote(quoteList, assertTag);
+
+			        } else {
+			        	System.out.println("Invalid type");
 			        }
-					
 
-				} else if (itemType == OPTION_APPOINTMENT) {
-					// Track appointments of specific user
-					
-
-				} else {
-					System.out.println("Invalid type");
-				}
-
-				
-				
 			} else if (option == OPTION_MANAGE) {
 				// Respond to Quote, Manage Appointments (SP)
 				C206_CaseStudy.setHeader("MANAGE");			
@@ -411,10 +409,9 @@ public class C206_CaseStudy {
 			return;
 		}
 		quoteList.add(qr);
-		
 	}
 	
-	// Scheduling an appointment
+	// Scheduling an appointment - Yongyi
     public static Appointment inputAppointment() {
     	String assertTag = Helper.readString("Enter assert tag > ");
         String serviceName = Helper.readString("Enter service name > ");
@@ -427,17 +424,24 @@ public class C206_CaseStudy {
     }
     
     public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
-    	// Checking if appointment already exist based on asset tag
-    	for (Appointment existingAppointment : appointmentList) {
+        // Check for missing details
+        if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
+            appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
+            System.out.println("Appointment details are missing. Appointment not added.");
+            return;
+        }
+        
+        // Checking if appointment already exists based on asset tag
+        for (Appointment existingAppointment : appointmentList) {
             if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
                 System.out.println("Appointment with the same asset tag already exists.");
                 return; // Exit the method if appointment already exists
             }
         }
-    	
-    	appointmentList.add(appointment);
+        
+        appointmentList.add(appointment);
     }
-	
+
 	//================================= Option 4 View (CRUD - Read) =================================
 	
 	// added status as toStringDisplay ..
@@ -509,6 +513,45 @@ public class C206_CaseStudy {
 	    System.out.println("Quote with Assert Tag " + assertTagToDelete + " not found.");
 	    return false;
 	}
+    
+    // Tracking appointments - Yongyi
+    public static void trackAppointments(ArrayList<Appointment> appointmentList, String recipientName) {
+        ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, recipientName);
+        
+        if (userAppointments != null && !userAppointments.isEmpty()) {
+            setHeader("Your Appointments:");
+            
+            String output = String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+                    "Assert Tag", "Service Name", "Recipient Name", "Date", "Time", "Location");
+            
+            for (Appointment appointment : userAppointments) {
+                output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+                        appointment.getAssertTag(), appointment.getServiceName(),
+                        appointment.getRecipientName(), appointment.getDate(),
+                        appointment.getTime(), appointment.getLocation());
+            }
+            
+            System.out.println(output);
+        } else {
+            System.out.println("No appointments found for " + recipientName);
+        }
+    }
+
+    public static ArrayList<Appointment> getUserAppointments(ArrayList<Appointment> appointmentList, String recipientName) {
+        ArrayList<Appointment> userAppointments = new ArrayList<>();
+        
+        for (Appointment appointment : appointmentList) {
+            if (appointment.getRecipientName().equalsIgnoreCase(recipientName)) {
+                userAppointments.add(appointment);
+            }
+        }
+        
+        if (userAppointments.isEmpty()) {
+            return null; // Return null if no appointments are found
+        }
+        
+        return userAppointments;
+    }
 	
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
