@@ -75,26 +75,20 @@ public class C206_CaseStudy {
 				} else if (loginOption == 2) {
 				// Register new user
 					
-				// User user = registerForm();
-				// C206_CaseStudy.registerUser(userList, user);
-				// System.out.println("Successfully registered");
+				User user = registerForm();
+				C206_CaseStudy.registerUser(userList, user);
+				System.out.println("Successfully registered");
 					
 				}
-				
-				// Add sample SP (3), create register form for USERS
-				
-				// Create Login Form for ALL
-				
-
-				
+								
 			} else if (option == OPTION_SERVICEVIEW) {
 				// Display Renovation Services (USERS)
 				
 				C206_CaseStudy.viewAllRenovationServices(serviceList);
 				
 				// Display sub-menu for admin options
-			    String adminSubMenu = "\nAdmin Options:\n" +
-			                          "1. Delete a Service\n" +
+				C206_CaseStudy.setHeader("Admin Options");
+			    String adminSubMenu = "1. Delete a Service\n" +
 			                          "2. Return to Main Menu\n" +
 			                          "Enter your choice > ";
 			    
@@ -163,10 +157,10 @@ public class C206_CaseStudy {
 					trackQuoteStatus(quoteList);
 					
 					// Display sub-menu for user options
-			        String userSubMenu = "\nUser Options:\n" +
-			                              "1. Delete a Quote\n" +
-			                              "2. Return to Main Menu\n" +
-			                              "Enter your choice > ";
+					C206_CaseStudy.setHeader("User Options");
+			        String userSubMenu = "1. Delete a Quote\n" +
+			        					 "2. Return to Main Menu\n" +
+			        					 "Enter your choice > ";
 
 			        int userChoice = Helper.readInt(userSubMenu);
 
@@ -278,26 +272,33 @@ public class C206_CaseStudy {
 
 	//================================= Option 1 System (CRUD - Create) =================================
 	
-	/*
-	// need to double check :cold:
+	// DONE BY: Syaza
+	// CHECKED and MODIFIED BY: Irfan
+	
 	public static User registerForm() {
 	  	String recipientName = Helper.readString("Enter name > ");
-	  	String dateOfBirth = Helper.readString("Enter date of birth > ");
-		String email = Helper.readString("Enter email > ");
-		String username = Helper.readString("Enter username > ");     // To be replaced with DOB instead, will still use the name as the main name
-		String password = Helper.readString("Enter password > ");     // For SERVICES: no need to add "DOB"
+		String email = Helper.readString("Enter email > "); 
+		String password = Helper.readString("Enter password > ");     
 		
-		User newUser = new User(recipientName, dateOfBirth, email, password, "");
+		User newUser;      // make newUser to return
 		
-		// soryr if forgot how to do this uhhhh
+		if (!recipientName.contains("Service")) {           // Option to see if name includes "Service" for DOB
+	  		String dateOfBirth = Helper.readString("Enter date of birth > ");
+	  		newUser = new User(recipientName, dateOfBirth, email, password, "User");
+	  	} else {
+	  		newUser = new User(recipientName, "", email, password, "Service Provider");
+	  	}
+		
 		if (recipientName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-			if (email.contains("@") && password.length() >= 12) {
-			} if (recipientName.contains("Service")) {
-				newUser.setRole("SP");
-			} else {
-				newUser.setRole("User");
-			}
-		}         
+			System.out.println("Registration failed. Please fill in all fields.");     // Validation 1: Empty Fields
+	        return null;
+		}
+		
+		if (email.contains("@") && password.length() >= 12) {
+			System.out.println("Registration failed. Invalid email or weak password.");   // Validation 2: Email & Password
+	        return null;
+		}  
+		
 		return newUser; 
 	}
 	
@@ -308,11 +309,12 @@ public class C206_CaseStudy {
 			} else {
 				userList.add(newUser);
 			}
-		}               // *IF YOU CAN: Add option for users to delete/deactivate account
-	}				                         // Need to add new US, PBI, SBI, and test cases
+		}               
+	}				                        
 	
-}
-*/
+	// deleteUser method() -> if possible
+	// Add Submenu
+
 	
 	//================================= Option 2 Display (CRUD - Read) =================================
 	public static String retrieveAllRenovationServices(ArrayList<RenovationServices> serviceList) {
@@ -376,6 +378,30 @@ public class C206_CaseStudy {
 		
 	}
 	
+	// Scheduling an appointment
+    public static Appointment inputAppointment() {
+    	String assertTag = Helper.readString("Enter assert tag > ");
+        String serviceName = Helper.readString("Enter service name > ");
+        String recipientName = Helper.readString("Enter recipient name > ");
+        String date = Helper.readString("Enter appointment date > ");
+        String time = Helper.readString("Enter appointment time > ");
+        String location = Helper.readString("Enter appointment location > ");
+        
+        return new Appointment(assertTag, serviceName, recipientName, date, time, location);
+    }
+    
+    public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
+    	// Checking if appointment already exist based on asset tag
+    	for (Appointment existingAppointment : appointmentList) {
+            if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
+                System.out.println("Appointment with the same asset tag already exists.");
+                return; // Exit the method if appointment already exists
+            }
+        }
+    	
+    	appointmentList.add(appointment);
+    }
+	
 	//================================= Option 4 View (CRUD - Read) =================================
 	
 	// added status as toStringDisplay ..
@@ -383,14 +409,14 @@ public class C206_CaseStudy {
 		String output = "";
 
 		for (int i = 0; i < quoteList.size(); i++) {
-			output += String.format("%-10s \n", quoteList.get(i).toStringDisplay());
+			output += String.format("%-170s\n", quoteList.get(i).toStringDisplay());
 		}
-		return output;
+		return output;     // Fixed Spacing of List: Irfan
 	}
 	
 	public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
 		C206_CaseStudy.setHeader("QUOTE REQUESTS");
-		String output = String.format("%-10s %17s %37s %12s %23s %17s\n", "ASSERT TAG", "SERVICE NAME",
+		String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "ASSERT TAG", "SERVICE NAME",
 				"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
 		 output += retrieveAllQuoteRequests(quoteList);	
 		System.out.println(output);
@@ -452,7 +478,7 @@ public class C206_CaseStudy {
     
     public static void replyQuoteRequests(ArrayList<Quote> quoteList) {
     	// add. i need help
-    	//String reply = Helper.readString("Enter reply to this quote request > ");
+    	// String reply = Helper.readString("Enter reply to this quote request > ");
     	
     	
     	
@@ -463,29 +489,7 @@ public class C206_CaseStudy {
     	
     }
     
-    // Scheduling an appointment
-    public static Appointment inputAppointment() {
-    	String assertTag = Helper.readString("Enter asset tag > ");
-        String serviceName = Helper.readString("Enter service name > ");
-        String recipientName = Helper.readString("Enter recipient name > ");
-        String date = Helper.readString("Enter appointment date > ");
-        String time = Helper.readString("Enter appointment time > ");
-        String location = Helper.readString("Enter appointment location > ");
-        
-        return new Appointment(assertTag, serviceName, recipientName, date, time, location);
-    }
     
-    public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
-    	// Checking if appointment already exist based on asset tag
-    	for (Appointment existingAppointment : appointmentList) {
-            if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
-                System.out.println("Appointment with the same asset tag already exists.");
-                return; // Exit the method if appointment already exists
-            }
-        }
-    	
-    	appointmentList.add(appointment);
-    }
     
     // Managing appointments - edit
     public static void manageAppointments(ArrayList<Appointment> appointmentList) {
