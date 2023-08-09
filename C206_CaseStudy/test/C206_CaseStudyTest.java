@@ -225,6 +225,15 @@ public class C206_CaseStudyTest {
 		// note to self to consult irfan
 		
 		
+		/// Irfan's Note:
+		 * 
+		 * for userList.registerUser():
+		 * 
+		 * brackets shld be ..registerUser(userList, u1.getEmail(),u1.getPassword())
+		 * 
+		 * CHANGE the registerUser() JAVA method to have (userList, email, password) instead of (userList, user)
+		
+		
 		// Test case 1: Normal test - valid user
 	    boolean validUser = userList.registerUser("John Doe", "1990-01-01", "john.doe@gmail.com", "password123", "User");
 	    assertTrue("User will be registered", validUser);
