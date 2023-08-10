@@ -191,6 +191,10 @@ public class C206_CaseStudy {
 
 				if (itemType == OPTION_QUOTE) {
 					// Respond to specific Quote (w/ display)
+					C206_CaseStudy.setHeader("MANAGE QUOTE REQUEST");
+					C206_CaseStudy.viewQuoteRequests(quoteList);
+					String quoteID = Helper.readString("Enter Quote ID to reply to > ");
+					replyQuote(quoteList, quoteID);
 
 				} else if (itemType == OPTION_APPOINTMENT) {
 					// Manage specific Appointment (w/ display)
@@ -589,15 +593,27 @@ public class C206_CaseStudy {
 	
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
-    public static void replyQuoteRequests(ArrayList<Quote> quoteList) {
-    	// add. i need help
-    	// String reply = Helper.readString("Enter reply to this quote request > ");
+    // Respond to Quotes (Add Reply / Delete)
+    
+    // Reply to Quote - Syaza (Add)
+    public static void replyQuote(ArrayList<Quote> quoteList, String quoteID) {
+    	String reply = Helper.readString("Enter reply to this quote request > ");
     	
-    	
-    	
+		for (int i = 0; i < quoteList.size(); i++) {
+			Quote quoteRef = quoteList.get(i);
+			if (quoteID.equals(quoteRef.getAssertTag())) {
+				quoteRef.setReply(reply);
+				String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
+						"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
+				output += String.format("%-170s\n", quoteRef.toStringReply());
+				System.out.println(output);
+			} 
+		}
     }
     
-    public static void rejectQuoteRequest(ArrayList<Quote> quoteList) {
+    // Reject Quote - Syaza (Delete)
+    
+    public static void rejectQuote(ArrayList<Quote> quoteList) {
     	// delete
     	
     }

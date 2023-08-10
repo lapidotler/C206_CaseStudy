@@ -21,13 +21,19 @@ public class Quote extends Action {
 		this.reply = reply;
 	}
 
-	// Getters - ONLY FOR SET VARIABLES HERE	
+	// Getters - ONLY FOR SET VARIABLES HERE
+    
 	public int getContactNumber() {
 		return contactNumber;
 	}
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	// Setter
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
 	
 	// toString Method - Display
