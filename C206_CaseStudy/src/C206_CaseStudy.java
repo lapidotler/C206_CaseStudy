@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class C206_CaseStudy {
 
 	private static final int OPTION_QUIT = 99;
+	
 	private static final int OPTION_REGISTER = 1;
 	private static final int OPTION_LOGIN = 2;
 
@@ -70,8 +71,11 @@ public class C206_CaseStudy {
 		            if (loggedInUser.getRole().equals("User")) {
 		                // User options
 		            	int optionUser = 0;
+		            	
+		            	C206_CaseStudy.menuUser();
+		            	optionUser = Helper.readInt("Enter an option (or type -1 to logout > ");
 
-		            	while (optionUser != 98) {
+		            	while (optionUser != -1) {
 			            	if (optionUser == 1) {
 			            		C206_CaseStudy.viewAllRenovationServices(serviceList);
 			            	
@@ -93,25 +97,18 @@ public class C206_CaseStudy {
 			            		
 			            	} else if (optionUser == 5) {
 			            		// Track appointments of specific user - Yongyi
-			            		C206_CaseStudy.trackAppointments(appointmentList, loggedInUser);
-								
-			            	} else if (optionUser == 98) {
-			            		loggedInUser = null;
-			            		int optionLogout = 0;
-			            		
-			            		C206_CaseStudy.loginMenu();
-			            		optionLogout = Helper.readInt("Enter an option > ");
+								trackAppointments(appointmentList, loggedInUser);
 								
 			            	} else if (optionUser == 99) {
 			            		// Delete User
 			            		// deleteUser(userList, loggedInUser);
 								
+			            	} else if (optionUser == -1) {
+			            		loggedInUser = null;
+			            		
 			            	} else {
 			            		System.out.println("Invalid option");
 			            	}
-			            	
-			            	C206_CaseStudy.menuUser();
-			            	optionUser = Helper.readInt("Enter an option (or type 99 to delete account) > ");
 		            	}
 		            	
 		            } else if (loggedInUser.getRole().equals("Service Provider")) {
@@ -119,9 +116,9 @@ public class C206_CaseStudy {
 		            	int optionProvider = 0;
 		            	
 		            	C206_CaseStudy.menuProvider();
-		            	optionProvider = Helper.readInt("Enter an option (or type 99 to delete account) > ");
+		            	optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
 
-		            	while (optionProvider != 98) {
+		            	while (optionProvider != -1) {
 			            	if (optionProvider == 1) {
 			            		C206_CaseStudy.viewQuoteRequests(quoteList);
 			            		
@@ -148,19 +145,15 @@ public class C206_CaseStudy {
 			            		
 			            	} else if (optionProvider == 5) {
 			            		// Track appointments of specific user - Yongyi
-								C206_CaseStudy.trackAppointments(appointmentList, loggedInUser);
+								trackAppointments(appointmentList, loggedInUser);
 								
-			            	} else if (optionProvider == 98) {
-			            		loggedInUser = null;
-			            		int optionLogout = 0;
-			            		
-			            		C206_CaseStudy.loginMenu();
-			            		optionLogout = Helper.readInt("Enter an option > ");
-			            		
-			            	} else if (option == 99) {
+			            	} else if (optionProvider == 99) {
 			            		// Delete User
 			            		// deleteUser(userList, loggedInUser);
 								
+			            	} else if (optionProvider == -1) {
+			            		loggedInUser = null;
+			            		
 			            	} else {
 			            		System.out.println("Invalid option");
 			            	}
@@ -171,36 +164,35 @@ public class C206_CaseStudy {
 		            	int optionAdmin = 0;
 		            	
 		            	C206_CaseStudy.menuAdmin();
-		            	optionAdmin = Helper.readInt("Enter an option > ");
+		            	optionAdmin = Helper.readInt("Enter an option (or type -1 to logout > ");
 		            	
-		            	while (optionAdmin != 98) {
-			            	if (optionAdmin == 1) {
+		            	while (optionAdmin != -1) {
+		            		if (optionAdmin == 1) {
+			            		// Add New Service - Irfan
+						        
+			            	} else if (optionAdmin == 2) {
 			            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
 						        
 			            		if (assertTag.isEmpty()) {
 			            			deleteService(serviceList, assertTag);
 			            		}
 						        
-			            	} else if (optionAdmin == 2) {
+			            	} else if (optionAdmin == 3) {
 			            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
 					        	
 					        	if (assertTag.isEmpty()) {
 					        		deleteQuote(quoteList, assertTag);
 					        	}
 					        	
-			            	} else if (optionAdmin == 3) {
+			            	} else if (optionAdmin == 4) {
 			            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
 						        
 			            		if (assertTag.isEmpty()) {
 			            			deleteAppointment(appointmentList, assertTag);
 			            		}
 			            		
-			            	} else if (optionAdmin == 98) {
+			            	} else if (optionAdmin == -1) {
 			            		loggedInUser = null;
-			            		int optionLogout = 0;
-			            		
-			            		C206_CaseStudy.loginMenu();
-			        		    optionLogout = Helper.readInt("Enter an option > ");
 			            		
 			            	} else {
 			            		System.out.println("Invalid option");
@@ -233,7 +225,6 @@ public class C206_CaseStudy {
 	    System.out.println("3. Schedule Appointment");
 	    System.out.println("4. Track Quote");
 	    System.out.println("5. Track Appointment");
-	    System.out.println("98. Log out");
 	    System.out.println("99. Delete Account");
 	}
 
@@ -244,16 +235,15 @@ public class C206_CaseStudy {
 	    System.out.println("3. View All Appointments");
 	    System.out.println("4. Manage Appointment");
 	    System.out.println("5. Track Appointment Status");
-	    System.out.println("98. Log out");
 	    System.out.println("99. Delete Account");
 	}
 
 	public static void menuAdmin() {
 	    C206_CaseStudy.setHeader("ADMIN OPTIONS");
-	    System.out.println("1. Delete Service");
-	    System.out.println("2. Delete Quote");
-	    System.out.println("3. Delete Appointment");
-	    System.out.println("98. Log out");
+	    System.out.println("1. Add new Service");
+	    System.out.println("2. Delete Service");
+	    System.out.println("3. Delete Quote");
+	    System.out.println("4. Delete Appointment");
 	}
 	
 	public static void setHeader(String header) {
@@ -286,7 +276,7 @@ public class C206_CaseStudy {
         return avail;
     }
 
-
+	
 	//================================= Option 1 System (CRUD - Create) =================================
 	
 	// User Registration - Syaza
@@ -430,6 +420,9 @@ public class C206_CaseStudy {
 	}
 	
 	//================================= Option 3 Add (CRUD - Create) =================================
+	
+	// Adding new Service (Admin) - Irfan
+	
 	
 	// Requesting a Quote - Irfan
 	public static Quote inputQuote() {
