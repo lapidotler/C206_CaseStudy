@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class C206_CaseStudy {
 
 	private static final int OPTION_QUIT = 99;
-	
 	private static final int OPTION_REGISTER = 1;
 	private static final int OPTION_LOGIN = 2;
 
@@ -71,9 +70,6 @@ public class C206_CaseStudy {
 		            if (loggedInUser.getRole().equals("User")) {
 		                // User options
 		            	int optionUser = 0;
-		            	
-		            	C206_CaseStudy.menuUser();
-		            	optionUser = Helper.readInt("Enter an option (or type 99 to delete account) > ");
 
 		            	while (optionUser != 98) {
 			            	if (optionUser == 1) {
@@ -97,8 +93,7 @@ public class C206_CaseStudy {
 			            		
 			            	} else if (optionUser == 5) {
 			            		// Track appointments of specific user - Yongyi
-								String recipientName=Helper.readString("Enter your name > ");
-								trackAppointments(appointmentList, recipientName);
+			            		C206_CaseStudy.trackAppointments(appointmentList, loggedInUser);
 								
 			            	} else if (optionUser == 98) {
 			            		loggedInUser = null;
@@ -114,6 +109,9 @@ public class C206_CaseStudy {
 			            	} else {
 			            		System.out.println("Invalid option");
 			            	}
+			            	
+			            	C206_CaseStudy.menuUser();
+			            	optionUser = Helper.readInt("Enter an option (or type 99 to delete account) > ");
 		            	}
 		            	
 		            } else if (loggedInUser.getRole().equals("Service Provider")) {
@@ -150,8 +148,7 @@ public class C206_CaseStudy {
 			            		
 			            	} else if (optionProvider == 5) {
 			            		// Track appointments of specific user - Yongyi
-								String recipientName=Helper.readString("Enter your name > ");
-								trackAppointments(appointmentList, recipientName);
+								C206_CaseStudy.trackAppointments(appointmentList, loggedInUser);
 								
 			            	} else if (optionProvider == 98) {
 			            		loggedInUser = null;
@@ -586,8 +583,8 @@ public class C206_CaseStudy {
 	}
     
     // Tracking appointments - Yongyi
-    public static void trackAppointments(ArrayList<Appointment> appointmentList, String recipientName) {
-        ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, recipientName);
+    public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
+        ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, loggedInUser.getRecipientName());
         
         if (userAppointments != null && !userAppointments.isEmpty()) {
             setHeader("Your Appointments:");
@@ -604,7 +601,7 @@ public class C206_CaseStudy {
             
             System.out.println(output);
         } else {
-            System.out.println("No appointments found for " + recipientName);
+            System.out.println("No appointments found for " + loggedInUser.getRecipientName());
         }
     }
 
