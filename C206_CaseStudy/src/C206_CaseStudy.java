@@ -122,40 +122,36 @@ public class C206_CaseStudy {
 
 		            	while (optionProvider != USER_LOGOUT) {
 			            	if (optionProvider == 1) {
-			            		// THIS STILL PRINTS AN INDEFINITE LOOP
-			            		for (int i=1; i < 2; i++) {
-			            			C206_CaseStudy.viewQuoteRequests(quoteList);
-			            		}
+	            				C206_CaseStudy.viewQuoteRequests(quoteList);
 			            		
 			            	} else if (optionProvider == 2) {
-			            		// STILL NEED TO EDIT
 			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
 								C206_CaseStudy.viewQuoteRequests(quoteList);
-								System.out.println("1. Reply to Quote Request");
-								System.out.println("2. Reject and Delete Quote Request");
-								int response = 0;
-								response = Helper.readInt("Enter option >");
 								
-								if (response == 1) {
-									String quoteID = Helper.readString("Enter Quote ID to reply to > ");
-									replyQuote(quoteList, quoteID);
-									C206_CaseStudy.menuProvider();
-								} else if (response == 2) {
-									String quoteID = Helper.readString("Enter Quote ID to reject and delete > ");
-									rejectQuote(quoteList, quoteID);
-									C206_CaseStudy.menuProvider();
-								}
+								String quoteID = Helper.readString("Enter Quote ID to reply to > ");
+								replyQuote(quoteList, quoteID);
+								C206_CaseStudy.menuProvider();
 			            		
 			            	} else if (optionProvider == 3) {
-			            		C206_CaseStudy.viewAppointments(appointmentList);
+			            		C206_CaseStudy.setHeader("REJECT QUOTE REQUEST");
+								C206_CaseStudy.viewQuoteRequests(quoteList);
+								
+			            		String quoteID = Helper.readString("Enter Quote ID to reject and delete > ");
+								rejectQuote(quoteList, quoteID);
+								C206_CaseStudy.menuProvider();
 			            		
 			            	} else if (optionProvider == 4) {
-			            		manageAppointments(appointmentList);
+			            		C206_CaseStudy.viewAppointments(appointmentList);
+			            		
 			            		
 			            	} else if (optionProvider == 5) {
+			            		manageAppointments(appointmentList);
+			            		
+							
+			            	} else if (optionProvider == 6) {
 			            		// Track appointments of specific user - Yongyi
 								trackAppointments(appointmentList, loggedInUser);
-								
+			            		
 			            	} else if (optionProvider == 99) {
 			            		// Delete User
 			            		// deleteUser(userList, loggedInUser);
@@ -243,10 +239,11 @@ public class C206_CaseStudy {
 	public static void menuProvider() {
 	    C206_CaseStudy.setHeader("MERCHANT/SERVICE PROVIDER OPTIONS");
 	    System.out.println("1. View All Quotes");
-	    System.out.println("2. Respond/Reject to Quote");
-	    System.out.println("3. View All Appointments");
-	    System.out.println("4. Manage Appointment");
-	    System.out.println("5. Track Appointment Status");
+	    System.out.println("2. Respond to Quote");
+	    System.out.println("3. Reject Quote");
+	    System.out.println("4. View All Appointments");
+	    System.out.println("5. Manage Appointment");
+	    System.out.println("6. Track Appointment Status");
 	    System.out.println("99. Delete Account");
 	}
 
