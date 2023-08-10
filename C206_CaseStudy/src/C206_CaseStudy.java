@@ -494,6 +494,25 @@ public class C206_CaseStudy {
 		System.out.println(output);
 	}
 	
+	
+	//View All Appointments - Jovan
+	public static void viewAppointments(ArrayList<Appointment> appointmentList) {
+		 //Title
+		 Helper.line(75, "-");
+		 System.out.println(String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+		 "ID", "Service Name", "Recipient Name", "Date", "Time", "Location"));
+		 Helper.line(75, "-");
+	
+		 
+		 //Show details
+		 for (int b = 0; b< appointmentList.size();b++) {
+		 System.out.println(String.format("\"%-15s %-30s %-20s %-15s %-10s %-20s\n",
+			 appointmentList.get(b).getAssertTag(),appointmentList.get(b).getServiceName(),
+			 appointmentList.get(b).getRecipientName(),appointmentList.get(b).getDate(),
+			 appointmentList.get(b).getTime(),appointmentList.get(b).getLocation()));
+		 }
+	 }
+	
 	//================================= Option 5 Track (CRUD - Read) =================================
 	
 	// Tracking appointments - Irfan
