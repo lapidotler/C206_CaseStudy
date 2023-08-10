@@ -268,9 +268,9 @@ public class C206_CaseStudyTest {
 	}
 	
     @Test
-    public void testViewQuoteRequests() { // and view
+    public void testViewQuoteRequests() { // and retrieve
     	
-    	// Test case 1: Boundary test - Test that the array exists (not null)
+    	// Test case 1: Boundary test - Test that the array exists (not null but empty)
     	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
     	
     	// Test case 2: Boundary test - Test that the list of Quotes retrieved from the CaseStudy is empty
@@ -281,6 +281,8 @@ public class C206_CaseStudyTest {
 		// Test case 3: Normal test - after adding 2 items to empty list, test if the size of the list is 2
 		quoteList.add(qr1);
     	quoteList.add(qr2);
+    	String allQuotes2 = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
+    	testOutput = 
 		assertEquals("Test that quoteList size is 2", 2, quoteList.size());
 	   
 	}

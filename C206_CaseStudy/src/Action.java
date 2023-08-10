@@ -35,7 +35,7 @@ public class Action extends RenovationServices {
     // toString Method - Display
  	public String toString(){
  		String output = super.toString();
- 		output = String.format("%-51s %-20s %-15s", output, recipientName, status);
+ 		output = String.format("%-51s %-20s %-15s", output, recipientName, showStatus(status));
  		return output;
  	}
 }

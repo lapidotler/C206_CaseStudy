@@ -488,7 +488,7 @@ public class C206_CaseStudy {
 	
 	public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
 		C206_CaseStudy.setHeader("QUOTE REQUESTS");
-		String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "ASSERT TAG", "SERVICE NAME",
+		String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "QUOTE ID", "SERVICE NAME",
 				"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
 		 output += retrieveAllQuoteRequests(quoteList);	
 		System.out.println(output);
