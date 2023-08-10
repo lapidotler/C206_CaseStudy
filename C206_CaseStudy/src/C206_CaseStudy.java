@@ -35,8 +35,8 @@ public class C206_CaseStudy {
 		userList.add(new User("Emily Brown", "1992-04-30", "emily.brown@gmail.com", "brownie456", "User"));
 		
 		// Service Providers
-		userList.add(new User("Kitchen Remodeling Service", "1980-10-10", "krs@hotmail.com", "krs123", "Service Provider"));
-		userList.add(new User("Bathroom Renovation Service", "1975-06-20", "brs@gmail.com", "brs456", "Service Provider"));
+		userList.add(new User("Kitchen Remodeling Service", "krs@hotmail.com", "krs123", "Service Provider"));
+		userList.add(new User("Bathroom Renovation Service", "brs@gmail.com", "brs456", "Service Provider"));
 		
 		// Admin*
 		userList.add(new User("Admin User", "1985-03-25", "admin@gmail.com", "admin123", "Admin"));
@@ -275,7 +275,7 @@ public class C206_CaseStudy {
 	//================================= Option 1 System (CRUD - Create) =================================
 	
 	// User Registration - Syaza
-	// CHECKED and MODIFIED BY: Irfan
+	// CHECKED and MODIFIED BY: Irfan, assisted with registerUser 
 	
 	public static User registerForm() {
 	  	String recipientName = Helper.readString("Enter name > ");
@@ -288,7 +288,7 @@ public class C206_CaseStudy {
 	  		String dateOfBirth = Helper.readString("Enter date of birth (yyyy-mm-dd) > ");
 	  		newUser = new User(recipientName, dateOfBirth, email, password, "User");
 	  	} else {
-	  		newUser = new User(recipientName, "", email, password, "Service Provider");
+	  		newUser = new User(recipientName, "-NA-", email, password, "Service Provider");
 	  	}
 		
 		if (recipientName.isEmpty() || email.isEmpty() || password.isEmpty()) {
@@ -305,22 +305,34 @@ public class C206_CaseStudy {
 	}
 	
 	public static boolean registerUser(ArrayList<User> userList, String recipientName, String email, String password) {
+		String dob = "";
+		
 		for (User user : userList) {
 	        if (email.equals(user.getEmail())) {          // Use equals to compare strings
 	            System.out.println("Registration failed as email is already in use.");
-	            return true;   // Exit the loop if the email is already in use
+	            return false;   // Exit the loop if the email is already in use
 	        }
 	        
-	        return false;
+	        if (recipientName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+				System.out.println("Registration failed. Please fill in all fields.");     // Validation 1: Empty Fields
+		        return false;
+			}
+			
+			if (!email.contains("@") || password.length() < 12) {
+				System.out.println("Registration failed. Invalid email or weak password.");   // Validation 2: Email & Password
+		        return false;
+			}  
+	        
+	        dob = user.getDOB();
 	    }
 	    
 	    User newUser;
 	    
 	    // Create the newUser here and add it to the userList
-	    if (recipientName.contains("service")) {
-	    	newUser = new User(recipientName, "", email, password, "Service Provider");
+	    if (recipientName.contains("Service")) {
+	    	newUser = new User(recipientName, "-NA-", email, password, "Service Provider");
 	    } else {
-	    	newUser = new User(recipientName, "", email, password, "User");
+	    	newUser = new User(recipientName, dob, email, password, "User");
 	    }
 	    userList.add(newUser);
         System.out.println("Successfully registered");

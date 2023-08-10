@@ -228,6 +228,7 @@ public class C206_CaseStudyTest {
 		 
 		 CHANGE the registerUser() JAVA method to have (userList, email, password) instead of (userList, user)
 		
+		thank you - syaza
 		*/
 		
 		
@@ -235,14 +236,17 @@ public class C206_CaseStudyTest {
 	    boolean validUserRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "john.doe@gmail.com", "password123");
 	    assertTrue("User should be registered successfully", validUserRegistered);
 
+	    
 	    // Test case 2: Error test - invalid email
 	    boolean invalidEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "invalidemail", "password123");
 	    assertFalse("User with invalid email should not be registered", invalidEmailRegistered);
-
+	    
+	    
 	    // Test case 3: Error test - weak password
 	    boolean weakPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "weakpw");
 	    assertFalse("User with weak password should not be registered", weakPasswordRegistered);
-
+	    
+	    
 	    // Test case 4: Error test - missing details
 	    boolean missingNameRegistered = C206_CaseStudy.registerUser(userList, "", "johndoe@example.com", "password123");
 	    assertFalse("User with missing name should not be registered", missingNameRegistered);
@@ -253,6 +257,7 @@ public class C206_CaseStudyTest {
 	    boolean missingPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "");
 	    assertFalse("User with missing password should not be registered", missingPasswordRegistered);
 
+	    
 	    // Test case 5: Error test - user already exists - check by email
 	    userList.add(u2);
 
