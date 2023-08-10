@@ -639,7 +639,7 @@ public class C206_CaseStudy {
 
 		    if (appt.getAssertTag().equalsIgnoreCase(delTag)) {
 			    // Confirmation
-		    	String confirm = Helper.readString("Are you sure you would like to delete the appointment with tag "+ delTag +"? Y/N > ");
+		    	String confirm = Helper.readString("Are you sure you would like to delete the appointment with ID "+ delTag +"? Y/N > ");
 			
 			    //deletion
 			
