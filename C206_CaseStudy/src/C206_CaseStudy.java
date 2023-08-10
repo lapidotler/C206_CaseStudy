@@ -16,9 +16,6 @@ public class C206_CaseStudy {
 		ArrayList<Quote> quoteList = new ArrayList<Quote>();
 		
 		ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
-
-		// ArrayList<User> userRegistration = new ArrayList<User>();
-		/* User class not implemented */
 		
 		// Users
 		userList.add(new User("John Doe", "1990-01-01", "john.doe@gmail.com", "password123", "User"));
@@ -100,6 +97,11 @@ public class C206_CaseStudy {
 							String recipientName=Helper.readString("Enter your name > ");
 							trackAppointments(appointmentList, recipientName);
 							
+		            	} else if (option == 98) {
+		            		loggedInUser = null;
+		            		C206_CaseStudy.loginMenu();
+		        		    option = Helper.readInt("Enter an option > ");
+							
 		            	} else if (option == 99) {
 		            		// Delete User
 		            		// deleteUser(userList, loggedInUser);
@@ -117,7 +119,19 @@ public class C206_CaseStudy {
 		            		C206_CaseStudy.viewQuoteRequests(quoteList);
 		            		
 		            	} else if (option == 2) {
-		            		// C206_CaseStudy.viewAppointment(replyList);
+		            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
+							C206_CaseStudy.viewQuoteRequests(quoteList);
+							System.out.println("1. Reply to Quote Request");
+							System.out.println("2. Reject and Delete Quote Request");
+							int response = Helper.readInt("Enter option >");
+							
+							if (response == 1) {
+								String quoteID = Helper.readString("Enter Quote ID to reply to > ");
+								replyQuote(quoteList, quoteID);
+							} else {
+								String quoteID = Helper.readString("Enter Quote ID to reject and delete > ");
+								rejectQuote(quoteList, quoteID);
+							}
 		            		
 		            	} else if (option == 3) {
 		            		// C206_CaseStudy.viewAppointment(quoteList);
@@ -129,6 +143,11 @@ public class C206_CaseStudy {
 		            		// Track appointments of specific user - Yongyi
 							String recipientName=Helper.readString("Enter your name > ");
 							trackAppointments(appointmentList, recipientName);
+							
+		            	} else if (option == 98) {
+		            		loggedInUser = null;
+		            		C206_CaseStudy.loginMenu();
+		        		    option = Helper.readInt("Enter an option > ");
 		            		
 		            	} else if (option == 99) {
 		            		// Delete User
@@ -164,6 +183,11 @@ public class C206_CaseStudy {
 		            			deleteAppointment(appointmentList, assertTag);
 		            		}
 		            		
+		            	} else if (option == 98) {
+		            		loggedInUser = null;
+		            		C206_CaseStudy.loginMenu();
+		        		    option = Helper.readInt("Enter an option > ");
+		            		
 		            	} else {
 		            		System.out.println("Invalid option");
 		            	}
@@ -194,16 +218,18 @@ public class C206_CaseStudy {
 	    System.out.println("3. Schedule Appointment");
 	    System.out.println("4. Track Quote");
 	    System.out.println("5. Track Appointment");
+	    System.out.println("98. Log out");
 	    System.out.println("99. Delete Account");
 	}
 
 	public static void menuProvider() {
 	    C206_CaseStudy.setHeader("MERCHANT/SERVICE PROVIDER OPTIONS");
 	    System.out.println("1. View All Quotes");
-	    System.out.println("2. Respond to Quote");
+	    System.out.println("2. Respond/Reject to Quote");
 	    System.out.println("3. View All Appointments");
 	    System.out.println("4. Manage Appointment");
 	    System.out.println("5. Track Appointment Status");
+	    System.out.println("98. Log out");
 	    System.out.println("99. Delete Account");
 	}
 
@@ -212,6 +238,7 @@ public class C206_CaseStudy {
 	    System.out.println("1. Delete Service");
 	    System.out.println("2. Delete Quote");
 	    System.out.println("3. Delete Appointment");
+	    System.out.println("98. Log out");
 	}
 	
 	public static void setHeader(String header) {
@@ -562,15 +589,13 @@ public class C206_CaseStudy {
 	
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
-    // Respond to Quotes (Add Reply / Delete)
-    
     // Reply to Quote - Syaza (Add)
     public static void replyQuote(ArrayList<Quote> quoteList, String quoteID) {
     	String reply = Helper.readString("Enter reply to this quote request > ");
     	
 		for (int i = 0; i < quoteList.size(); i++) {
 			Quote quoteRef = quoteList.get(i);
-			if (quoteID.equals(quoteRef.getAssertTag())) {
+			if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
 				quoteRef.setReply(reply);
 				String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
 						"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
@@ -582,13 +607,27 @@ public class C206_CaseStudy {
     
     // Reject Quote - Syaza (Delete)
     
-    public static void rejectQuote(ArrayList<Quote> quoteList) {
-    	// delete
-    	
+    public static void rejectQuote(ArrayList<Quote> quoteList, String quoteID) {
+	    for (int i = 0; i < quoteList.size(); i++) {
+	        Quote quoteRef = quoteList.get(i);
+	        if (quoteRef.getAssertTag().equalsIgnoreCase(quoteID)) {
+	        	String confirm = Helper.readString("Are you sure you want to reject and delete this quote? (Y/N) >");
+	        	
+	        	if (confirm == "Y") {
+	        		quoteList.remove(i);
+		            System.out.println("Quote with ID " + quoteID + " has been deleted.");
+	        	} else if (confirm == "N") {
+	        		System.out.println("Quote with ID " + quoteID + " was not deleted.");
+	        	}
+	        	
+	        } else {
+	
+	        	System.out.println("Quote with ID " + quoteID + " not found.");
+	        }
+	    }
     }
-    
-    
-    
+    	
+ 
  // Managing appointments - edit
 
     public static void manageAppointments(ArrayList<Appointment> appointmentList) {
