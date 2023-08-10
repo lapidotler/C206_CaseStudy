@@ -122,21 +122,28 @@ public class C206_CaseStudy {
 
 		            	while (optionProvider != USER_LOGOUT) {
 			            	if (optionProvider == 1) {
-			            		C206_CaseStudy.viewQuoteRequests(quoteList);
+			            		// THIS STILL PRINTS AN INDEFINITE LOOP
+			            		for (int i=1; i < 2; i++) {
+			            			C206_CaseStudy.viewQuoteRequests(quoteList);
+			            		}
 			            		
 			            	} else if (optionProvider == 2) {
+			            		// STILL NEED TO EDIT
 			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
 								C206_CaseStudy.viewQuoteRequests(quoteList);
 								System.out.println("1. Reply to Quote Request");
 								System.out.println("2. Reject and Delete Quote Request");
-								int response = Helper.readInt("Enter option >");
+								int response = 0;
+								response = Helper.readInt("Enter option >");
 								
 								if (response == 1) {
 									String quoteID = Helper.readString("Enter Quote ID to reply to > ");
 									replyQuote(quoteList, quoteID);
-								} else {
+									C206_CaseStudy.menuProvider();
+								} else if (response == 2) {
 									String quoteID = Helper.readString("Enter Quote ID to reject and delete > ");
 									rejectQuote(quoteList, quoteID);
+									C206_CaseStudy.menuProvider();
 								}
 			            		
 			            	} else if (optionProvider == 3) {
@@ -662,6 +669,8 @@ public class C206_CaseStudy {
     
     // Reject Quote - Syaza (Delete)
     
+    // STILL NEED TO ADJUST
+    
     public static void rejectQuote(ArrayList<Quote> quoteList, String quoteID) {
 	    for (int i = 0; i < quoteList.size(); i++) {
 	        Quote quoteRef = quoteList.get(i);
@@ -671,13 +680,10 @@ public class C206_CaseStudy {
 	        	if (confirm == "Y") {
 	        		quoteList.remove(i);
 		            System.out.println("Quote with ID " + quoteID + " has been deleted.");
+		            C206_CaseStudy.viewQuoteRequests(quoteList);
 	        	} else if (confirm == "N") {
 	        		System.out.println("Quote with ID " + quoteID + " was not deleted.");
 	        	}
-	        	
-	        } else {
-	
-	        	System.out.println("Quote with ID " + quoteID + " not found.");
 	        }
 	    }
     }

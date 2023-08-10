@@ -313,7 +313,14 @@ public class C206_CaseStudyTest {
 	}
     
     @Test
-    public void testReplyQuote() {
+    public void testReplyQuote() { // add and delete
+    	
+    	// Test case 1: Boundary test - Test that the array exists (not null)
+    	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
+    	
+    	// Test case 2: Normal test - adding reply
+    	
+    	// Test case 3: Normal test - when deleting a quote, the array size will decrease by 1
     	
     }
 	
