@@ -594,12 +594,12 @@ public class C206_CaseStudy {
     
  // Managing appointments - edit
 
-    public static void manageAppointments(ArrayList<Appointment> ApptList) {
+    public static void manageAppointments(ArrayList<Appointment> appointmentList) {
 		// Manage Appointment Editing
-    	String EditTag=Helper.readString("Enter the Appointment's Assert Tag to edit > ");
-    	Appointment EditAppt= apptByTag(ApptList, EditTag);
+    	String editTag=Helper.readString("Enter the Appointment's Assert Tag to edit > ");
+    	Appointment editAppt= apptByTag(appointmentList, editTag);
 	
-	    if (EditAppt != null) {
+	    if (editAppt != null) {
 		    //Appointment details that need to change
 		    String newDate = Helper.readString("Enter new appointment date > ");		
 		    String newTime = Helper.readString("Enter new appointment time > ");	
@@ -610,7 +610,7 @@ public class C206_CaseStudy {
 		    //LocalDate newDate = LocalDate.parse(DateString, formatter);    
 		
 		    //Edit appointment
-		    EditAppt.editAppointment(newDate, newTime, newLocation);
+		    editAppt.editAppointment(newDate, newTime, newLocation);
 		
 		    
 		    //message output
@@ -621,18 +621,18 @@ public class C206_CaseStudy {
     }
 	
     // Manage Appointment Delete
-    public static void deleteAppointment(ArrayList<Appointment> ApptList, String DelTag) {
-	    for (int a = 0; a < ApptList.size(); a++) {
-		    Appointment appt = ApptList.get(a);
+    public static void deleteAppointment(ArrayList<Appointment> appointmentList, String delTag) {
+	    for (int a = 0; a < appointmentList.size(); a++) {
+		    Appointment appt = appointmentList.get(a);
 
-		    if (appt.getAssertTag().equalsIgnoreCase(DelTag)) {
+		    if (appt.getAssertTag().equalsIgnoreCase(delTag)) {
 			    // Confirmation
-			    String confirm = Helper.readString("Are you sure you would like to delete this appointment? Y/N > ");
+		    	String confirm = Helper.readString("Are you sure you would like to delete the appointment with tag "+ delTag +"? Y/N > ");
 			
 			    //deletion
 			
 			    if (confirm == "Y"||confirm == "y") {
-				    ApptList.remove(a);
+			    	appointmentList.remove(a);
 				    System.out.println("Appointment has been deleted.");
 			    } else {
 			    	System.out.println("Deletion process has been stopped");
@@ -645,8 +645,8 @@ public class C206_CaseStudy {
 	    }
     }
 
-    private static Appointment apptByTag(ArrayList<Appointment> ApptList, String assertTag) {
-    	for(Appointment appointment : ApptList) {
+    private static Appointment apptByTag(ArrayList<Appointment> appointmentList, String assertTag) {
+    	for(Appointment appointment : appointmentList) {
     		if (appointment.getAssertTag().equalsIgnoreCase(assertTag)) {
     			return appointment;
     		}
