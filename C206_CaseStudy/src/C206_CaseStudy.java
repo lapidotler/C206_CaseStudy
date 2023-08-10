@@ -2,18 +2,10 @@ import java.util.ArrayList;
 
 public class C206_CaseStudy {
 
-	private static final int OPTION_QUOTE = 1;
-	private static final int OPTION_APPOINTMENT = 2;
-	
-	private static final int OPTION_ACCOUNT = 1;
-	private static final int OPTION_SERVICEVIEW = 2;
-	private static final int OPTION_ADD = 3;
-	private static final int OPTION_VIEW = 4;
-	private static final int OPTION_TRACK = 5;
-	private static final int OPTION_MANAGE = 6;
-	
 	private static final int OPTION_QUIT = 99;
-
+	
+	private static final int OPTION_REGISTER = 1;
+	private static final int OPTION_LOGIN = 2;
 
 	public static void main(String[] args) {
 		
@@ -54,166 +46,135 @@ public class C206_CaseStudy {
 		int option = 0;
 
 		while (option != OPTION_QUIT) {
+		    C206_CaseStudy.loginMenu();
+		    option = Helper.readInt("Enter an option > ");
 
-			C206_CaseStudy.menu();
-			option = Helper.readInt("Enter an option > ");
+		    if (option == OPTION_REGISTER) {
+		        // Register new user
+		        User user = C206_CaseStudy.registerForm();
+		        if (user != null) {
+		            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
+		        }
+		    } else if (option == OPTION_LOGIN) {
+		        String email = Helper.readString("Enter email > ");
+		        String password = Helper.readString("Enter password > ");
 
-			// USERS OR SP (Service Provider), OR Both (ALL)
-			
-			if (option == OPTION_ACCOUNT) {
-				// Register/Login into System (USERS)			
-				loginMenu();
-				
-				int loginOption = Helper.readInt("Enter option to login or register > ");
-				
-				if (loginOption == 1) {
-					// Login for registered users
-					
-					String email = Helper.readString("Enter email > ");
-			        String password = Helper.readString("Enter password > ");
+		        User loggedInUser = null;
+		        for (User user : userList) {
+		            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+		                loggedInUser = user;
+		                break;
+		            }
+		        }
 
-			        if (loginUser(userList, email, password)) {
-			            userLoginForm(userList, email, password);
-			        }
-					
-				} else if (loginOption == 2) {
-					// Register new user
-					User user = C206_CaseStudy.registerForm();
-			        if (user != null) {
-			            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
-			        }
-					
-				}
-								
-			} else if (option == OPTION_SERVICEVIEW) {
-				// Display Renovation Services (USERS)
-				
-				C206_CaseStudy.viewAllRenovationServices(serviceList);
-				
-				// Display sub-menu for admin options
-				C206_CaseStudy.setHeader("Admin Options");
-			    String adminSubMenu = "1. Delete a Service\n" +
-			                          "2. Return to Main Menu\n" +
-			                          "Enter your choice > ";
-			    
-			    int adminChoice = Helper.readInt(adminSubMenu);
-			    
-			    if (adminChoice == 1) {
-			    	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
-			        deleteService(serviceList, assertTag);
-			    }
+		        if (loggedInUser != null) {
+		            userLoginForm(userList, email, password);
+		            
+		            // Display different options based on the user's role
+		            if (loggedInUser.getRole().equals("User")) {
+		                // User options
+		            	C206_CaseStudy.menuUser();
+		            	option = Helper.readInt("Enter an option (or type 99 to delete account) > ");
 
-				
-			} else if (option == OPTION_ADD) {
-				// Request Quote, Schedule an Appointment (USERS)
-				C206_CaseStudy.setHeader("ADD");			
-				actionTypeMenu();
-				
-				int itemType = Helper.readInt("Enter option to select item type > ");
+		            	if (option == 1) {
+		            		C206_CaseStudy.viewAllRenovationServices(serviceList);
+		            	
+		            	} else if (option == 2) {
+		            		// Add a quote
+							Quote qr = inputQuote();
+							C206_CaseStudy.createQuote(quoteList, qr);
+							System.out.println("Quote added");
+							
+		            	} else if (option == 3) {
+		            		// Add an appointment - Yongyi
+							Appointment ap = inputAppointment();
+							C206_CaseStudy.createAppointment(appointmentList, ap);
+							System.out.println("Appointment scheduled");
+							
+		            	} else if (option == 4) {
+		            		// Track quotes of specific user
+		            		trackQuoteStatus(quoteList);
+		            		
+		            	} else if (option == 5) {
+		            		// Track appointments of specific user - Yongyi
+							String recipientName=Helper.readString("Enter your name > ");
+							trackAppointments(appointmentList, recipientName);
+							
+		            	} else if (option == 99) {
+		            		// Delete User
+		            		// deleteUser(userList, loggedInUser);
+							
+		            	} else {
+		            		System.out.println("Invalid option");
+		            	}
+		            	
+		            } else if (loggedInUser.getRole().equals("Service Provider")) {
+		                // Service Provider options
+		            	C206_CaseStudy.menuProvider();
+		            	option = Helper.readInt("Enter an option (or type 99 to delete account) > ");
 
-				if (itemType == OPTION_QUOTE) {
-					// Add a quote
-					Quote qr = inputQuote();
-					C206_CaseStudy.createQuote(quoteList, qr);
-					System.out.println("Quote added");
+		            	if (option == 1) {
+		            		C206_CaseStudy.viewQuoteRequests(quoteList);
+		            		
+		            	} else if (option == 2) {
+		            		// C206_CaseStudy.viewAppointment(replyList);
+		            		
+		            	} else if (option == 3) {
+		            		// C206_CaseStudy.viewAppointment(quoteList);
+		            		
+		            	} else if (option == 4) {
+		            		manageAppointments(appointmentList);
+		            		
+		            	} else if (option == 5) {
+		            		// Track appointments of specific user - Yongyi
+							String recipientName=Helper.readString("Enter your name > ");
+							trackAppointments(appointmentList, recipientName);
+		            		
+		            	} else if (option == 99) {
+		            		// Delete User
+		            		// deleteUser(userList, loggedInUser);
+							
+		            	} else {
+		            		System.out.println("Invalid option");
+		            	}
 
-				} else if (itemType == OPTION_APPOINTMENT) {
-					// Add an appointment - Yongyi
-					Appointment ap=inputAppointment();
-					C206_CaseStudy.createAppointment(appointmentList, ap);
-					System.out.println("Appointment scheduled");
-				} else {
-					System.out.println("Invalid type");
-				}
-		
-			} else if (option == OPTION_VIEW) {
-				// View Quotes, Appointments (SP)
-				C206_CaseStudy.setHeader("VIEW");			
-				actionTypeMenu();
-				
-				int itemType = Helper.readInt("Enter option to select item type > ");
+		            } else if (loggedInUser.getRole().equals("Admin")) {
+		                // Admin options
+		            	C206_CaseStudy.menuAdmin();
+		            	option = Helper.readInt("Enter an option > ");
+		            	
+		            	if (option == 1) {
+		            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+					        
+		            		if (assertTag.isEmpty()) {
+		            			deleteService(serviceList, assertTag);
+		            		}
+					        
+		            	} else if (option == 2) {
+		            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+				        	
+				        	if (assertTag.isEmpty()) {
+				        		deleteQuote(quoteList, assertTag);
+				        	}
+				        	
+		            	} else if (option == 3) {
+		            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+					        
+		            		if (assertTag.isEmpty()) {
+		            			deleteAppointment(appointmentList, assertTag);
+		            		}
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
+		            	}
 
-				if (itemType == OPTION_QUOTE) {
-					// View all Quotes in a List
-					C206_CaseStudy.viewQuoteRequests(quoteList);
-
-					
-				} else if (itemType == OPTION_APPOINTMENT) {
-					// View all Appointments in a List
-
-				} else {
-					System.out.println("Invalid type");
-				}
-	
-			} else if (option == OPTION_TRACK) {
-				// Track Status of Quote Requests, Appointments
-				// All USERS, only SP track appointment status
-				C206_CaseStudy.setHeader("TRACK");			
-				actionTypeMenu();
-				
-				int itemType = Helper.readInt("Enter option to select item type > ");
-
-				if (itemType == OPTION_QUOTE) {
-					// Track quotes of specific user
-					trackQuoteStatus(quoteList);
-					
-				}else if (itemType==OPTION_APPOINTMENT) {
-					// Track appointments of specific user - Yongyi
-					String recipientName=Helper.readString("Enter your name > ");
-					trackAppointments(appointmentList, recipientName);
-					
-				}else {
-					System.out.println("Invalid type");
-				}
-					
-					// Display sub-menu for user options
-					C206_CaseStudy.setHeader("User Options");
-			        String userSubMenu = "1. Delete a Quote\n" +
-			        					 "2. Return to Main Menu\n" +
-			        					 "Enter your choice > ";
-
-			        int userChoice = Helper.readInt(userSubMenu);
-
-			        if (userChoice == 1) {
-			        	String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
-			            deleteQuote(quoteList, assertTag);
-
-			        } else {
-			        	System.out.println("Invalid type");
-			        }
-
-			} else if (option == OPTION_MANAGE) {
-				// Respond to Quote, Manage Appointments (SP)
-				C206_CaseStudy.setHeader("MANAGE");			
-				actionTypeMenu();
-				
-				int itemType = Helper.readInt("Enter option to select item type > ");
-
-				if (itemType == OPTION_QUOTE) {
-					// Respond to specific Quote (w/ display)
-					C206_CaseStudy.setHeader("MANAGE QUOTE REQUEST");
-					C206_CaseStudy.viewQuoteRequests(quoteList);
-					String quoteID = Helper.readString("Enter Quote ID to reply to > ");
-					replyQuote(quoteList, quoteID);
-
-				} else if (itemType == OPTION_APPOINTMENT) {
-					// Manage specific Appointment (w/ display)
-					manageAppointments(appointmentList);
-
-				} else {
-					System.out.println("Invalid type");
-				}
-
-				
-				
-			} else if (option == 99) {
-				System.out.println("Bye!");
-			} else {
-				System.out.println("Invalid option");
-			}
-
+		            	
+		            }
+		        } else {
+		            System.out.println("Invalid login credentials.");
+		        }
+		    }
 		}
-
 	}
 
 	/**
@@ -221,28 +182,36 @@ public class C206_CaseStudy {
 	 */
 	
 	private static void loginMenu() {
-		C206_CaseStudy.setHeader("LOGIN/REGISTER");
-		System.out.println("1. Login");
-		System.out.println("2. Register");
-	}
-	
-	private static void actionTypeMenu() {
-		C206_CaseStudy.setHeader("ACTION TYPES");
-		System.out.println("1. Quote Request");
-		System.out.println("2. Appointment");
+		C206_CaseStudy.setHeader("REGISTER/LOGIN");
+		System.out.println("1. Register");
+		System.out.println("2. Login");
 	}
 
-	public static void menu() {
-		C206_CaseStudy.setHeader("RENOVATION PORTAL APP");
-		System.out.println("1. Register/Login");	
-		System.out.println("2. Display Renovation Services");
-		System.out.println("3. Arrange an Action");
-		System.out.println("4. View List");
-		System.out.println("5. Track Status");
-		System.out.println("6. Manage Action");
-		
-		System.out.println("99. Quit");
-		Helper.line(80, "-");
+	public static void menuUser() {
+	    C206_CaseStudy.setHeader("USER/CUSTOMER OPTIONS");
+	    System.out.println("1. View All Services");
+	    System.out.println("2. Request Quote");
+	    System.out.println("3. Schedule Appointment");
+	    System.out.println("4. Track Quote");
+	    System.out.println("5. Track Appointment");
+	    System.out.println("99. Delete Account");
+	}
+
+	public static void menuProvider() {
+	    C206_CaseStudy.setHeader("MERCHANT/SERVICE PROVIDER OPTIONS");
+	    System.out.println("1. View All Quotes");
+	    System.out.println("2. Respond to Quote");
+	    System.out.println("3. View All Appointments");
+	    System.out.println("4. Manage Appointment");
+	    System.out.println("5. Track Appointment Status");
+	    System.out.println("99. Delete Account");
+	}
+
+	public static void menuAdmin() {
+	    C206_CaseStudy.setHeader("ADMIN OPTIONS");
+	    System.out.println("1. Delete Service");
+	    System.out.println("2. Delete Quote");
+	    System.out.println("3. Delete Appointment");
 	}
 	
 	public static void setHeader(String header) {
