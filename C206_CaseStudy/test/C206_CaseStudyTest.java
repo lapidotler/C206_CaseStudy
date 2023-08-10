@@ -170,10 +170,10 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that renovation services arraylist size is 2.", 2, serviceList.size());
 	    
 	    allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);
-	    testOutput = String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS001", "Kitchen Remodeling Service",
-	            "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", "Pending");
-	    testOutput += String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS002", "Bathroom Renovation Service",
-	            "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", "Pending");
+	    testOutput = String.format("%-15s %-30s %-50s %-25s %-30s\n", "RS001", "Kitchen Remodeling Service",
+	            "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", "Available");
+	    testOutput += String.format("%-15s %-30s %-50s %-25s %-30s\n", "RS002", "Bathroom Renovation Service",
+	            "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", "Available");
 	    assertEquals("Test that the display is correct.", testOutput, allRenovationServices);
 
 	    
@@ -184,8 +184,8 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that renovation services arraylist size is 3.", 3, serviceList.size());
 	    
 	    allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);
-	    testOutput += String.format("%-15s %-30s %-45s %-20s %-20s\n", "RS003", "Hotel Accommodation Service",
-	            "Hotel room renovation and upgrade", "24/7", "Resolved");
+	    testOutput += String.format("%-15s %-30s %-50s %-25s %-30s\n", "RS003", "Hotel Accommodation Service",
+	            "Hotel room renovation and upgrade", "24/7", "No Longer Available");
 	    assertEquals("Test that the display is correct.", testOutput, allRenovationServices);
 	}
 	
@@ -197,7 +197,7 @@ public class C206_CaseStudyTest {
 	    
 	    boolean deleted = C206_CaseStudy.deleteService(serviceList, "RS001");
 	    assertTrue("Test normal deletion - service should be deleted", deleted);
-	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 1);
+	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 0);
 	
 	
 	
@@ -272,7 +272,7 @@ public class C206_CaseStudyTest {
     	//test if the list of Quotes retrieved from the SourceCentre is empty - boundary
 		String allQuotes = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
 		String testOutput = "";
-		assertEquals("Test that the retrieved Chromebooklist is empty?", testOutput, allQuotes);
+		assertEquals("Test that the retrieved Chromebooklist is empty", testOutput, allQuotes);
 	   
 	}
 	

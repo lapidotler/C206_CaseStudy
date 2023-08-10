@@ -26,7 +26,7 @@ public class RenovationServices {
     
     // toString Method - Display
     public String toStringDisplay() {
-        String itemInfo = String.format("%-15s %-30s %-50s %-25s %-10s\n",
+        String itemInfo = String.format("%-15s %-30s %-50s %-25s %-30s\n",
                 assertTag, 
                 serviceName, 
                 serviceDescription, 

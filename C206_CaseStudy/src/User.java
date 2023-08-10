@@ -61,17 +61,10 @@ public class User {
     
     // toString Method - Display
  	public String toString(){
- 		
  		String output = "";
+ 		
 		// Write your codes here
-		return output;
- 		
- 		/* Not to be included until DURING REFRACTORING
- 		
- 		// Write your codes here
- 		output = String.format("%-10s %-20s %-20s %-10s %-10s", recipientName, dateOfBirth, email, password, role);
+ 		output = String.format("%-15s %-20s %-30s %-20s %-20s", recipientName, dateOfBirth, email, password, role);
  		return output;
- 		
- 		*/
  	}
 }

@@ -72,14 +72,15 @@ public class C206_CaseStudy {
 					String email = Helper.readString("Enter email > ");
 			        String password = Helper.readString("Enter password > ");
 
-			        loginUser(userList, email, password);
+			        if (loginUser(userList, email, password)) {
+			            userLoginForm(userList, email, password);
+			        }
 					
 				} else if (loginOption == 2) {
 					// Register new user
 					User user = C206_CaseStudy.registerForm();
 			        if (user != null) {
 			            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
-			            System.out.println("Successfully registered");
 			        }
 					
 				}
@@ -283,8 +284,8 @@ public class C206_CaseStudy {
 		
 		User newUser;      // make newUser to return
 		
-		if (!recipientName.contains("Service")) {           // Option to see if name includes "Service" for DOB
-	  		String dateOfBirth = Helper.readString("Enter date of birth > ");
+		if (!recipientName.contains("Service")) {      // Option to see if name DOES NOT include "Service" for DOB
+	  		String dateOfBirth = Helper.readString("Enter date of birth (yyyy-mm-dd) > ");
 	  		newUser = new User(recipientName, dateOfBirth, email, password, "User");
 	  	} else {
 	  		newUser = new User(recipientName, "", email, password, "Service Provider");
@@ -295,7 +296,7 @@ public class C206_CaseStudy {
 	        return null;
 		}
 		
-		if (email.contains("@") && password.length() >= 12) {
+		if (!email.contains("@") || password.length() < 12) {
 			System.out.println("Registration failed. Invalid email or weak password.");   // Validation 2: Email & Password
 	        return null;
 		}  
@@ -304,16 +305,25 @@ public class C206_CaseStudy {
 	}
 	
 	public static boolean registerUser(ArrayList<User> userList, String recipientName, String email, String password) {
-	    for (int i = 0; i < userList.size(); i++) {
-	        if (email.equals(userList.get(i).getEmail())) {          // Use equals to compare strings
+		for (User user : userList) {
+	        if (email.equals(user.getEmail())) {          // Use equals to compare strings
 	            System.out.println("Registration failed as email is already in use.");
-	            return false;   // Exit the loop if the email is already in use
+	            return true;   // Exit the loop if the email is already in use
 	        }
+	        
+	        return false;
 	    }
 	    
+	    User newUser;
+	    
 	    // Create the newUser here and add it to the userList
-	    User newUser = new User(recipientName, "", email, password, "User");
+	    if (recipientName.contains("service")) {
+	    	newUser = new User(recipientName, "", email, password, "Service Provider");
+	    } else {
+	    	newUser = new User(recipientName, "", email, password, "User");
+	    }
 	    userList.add(newUser);
+        System.out.println("Successfully registered");
 	    return true;    // Registration Successful
 	}			                        
 	
@@ -323,14 +333,13 @@ public class C206_CaseStudy {
     {
     	boolean loggedIn = false;
 		
-		String output = String.format("%-15s %-20s %-20s %-20s %-20s\n",
+		String output = String.format("%-15s %-20s %-30s %-20s %-20s\n",
 	             "Name", "Date of Birth", "Email", "Password", "Status");
 		
 		for (User user : userList) {
 			if (email.contains(user.getEmail()) && password.contains(user.getPassword()))
 				{
-				output += String.format("%-15s %-20s %-20s %-20s %-20s\n", 
-						user.getRecipientName(), user.getDOB(), user.getEmail(), user.getPassword(), user.getRole());
+				output += String.format("%-109s\n", user.toString());
 				loggedIn = true;
 		        break;
 				}
@@ -365,7 +374,7 @@ public class C206_CaseStudy {
 
 	    for (int i = 0; i < serviceList.size(); i++) {
 	        RenovationServices service = serviceList.get(i);
-	        output += String.format("%-129s", service.toStringDisplay());
+	        output += String.format("%-154s", service.toStringDisplay());
 	    }
 	    
 	    return output;
@@ -373,7 +382,7 @@ public class C206_CaseStudy {
 
 	public static void viewAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 		C206_CaseStudy.setHeader("RENOVATION SERVICES LIST");
-	    String output = String.format("%-15s %-30s %-50s %-25s %-10s\n", "Assert Tag", "Service Name",
+	    String output = String.format("%-15s %-30s %-50s %-25s %-30s\n", "Assert Tag", "Service Name",
 	            "Service Description", "Contact Hours", "Status");
 	    output += retrieveAllRenovationServices(serviceList);
 	    System.out.println(output);
@@ -583,33 +592,67 @@ public class C206_CaseStudy {
     
     
     
-    // Managing appointments - edit
-    public static void manageAppointments(ArrayList<Appointment> appointmentList) {
-    	String assertTagToEdit=Helper.readString("Enter the Assert Tag of the appointment to edit > ");
-    	Appointment appointmentToEdit=getAppointmentByAssertTag(appointmentList, assertTagToEdit);
-    	
-    	if (appointmentToEdit != null) {
-            // Gather new appointment details from user input
-            String newDate = Helper.readString("Enter new appointment date > ");
-            String newTime = Helper.readString("Enter new appointment time > ");
-            String newLocation = Helper.readString("Enter new appointment location > ");
+ // Managing appointments - edit
 
-            // Edit the appointment
-            appointmentToEdit.editAppointment(newDate, newTime, newLocation);
-
-            System.out.println("Appointment edited successfully");
-        } else {
-            System.out.println("Appointment not found");
-        }
+    public static void manageAppointments(ArrayList<Appointment> ApptList) {
+		// Manage Appointment Editing
+    	String EditTag=Helper.readString("Enter the Appointment's Assert Tag to edit > ");
+    	Appointment EditAppt= apptByTag(ApptList, EditTag);
+	
+	    if (EditAppt != null) {
+		    //Appointment details that need to change
+		    String newDate = Helper.readString("Enter new appointment date > ");		
+		    String newTime = Helper.readString("Enter new appointment time > ");	
+		    String newLocation = Helper.readString("Enter new appointment location > ");
+	
+		    //Enhancement that I will fix later
+		    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+		    //LocalDate newDate = LocalDate.parse(DateString, formatter);    
+		
+		    //Edit appointment
+		    EditAppt.editAppointment(newDate, newTime, newLocation);
+		
+		    
+		    //message output
+		    System.out.println("Appointment edited successfully");
+	    } else {
+	    	System.out.println("Appointment not found");
+	    }
     }
+	
+    // Manage Appointment Delete
+    public static void deleteAppointment(ArrayList<Appointment> ApptList, String DelTag) {
+	    for (int a = 0; a < ApptList.size(); a++) {
+		    Appointment appt = ApptList.get(a);
+
+		    if (appt.getAssertTag().equalsIgnoreCase(DelTag)) {
+			    // Confirmation
+			    String confirm = Helper.readString("Are you sure you would like to delete this appointment? Y/N > ");
+			
+			    //deletion
+			
+			    if (confirm == "Y"||confirm == "y") {
+				    ApptList.remove(a);
+				    System.out.println("Appointment has been deleted.");
+			    } else {
+			    	System.out.println("Deletion process has been stopped");
+			    }
+		
+		    } else { 
+		
+		    	System.out.println("The Tag has not been found. Please try again.");
+		    }
+	    }
+    }
+
+    private static Appointment apptByTag(ArrayList<Appointment> ApptList, String assertTag) {
+    	for(Appointment appointment : ApptList) {
+    		if (appointment.getAssertTag().equalsIgnoreCase(assertTag)) {
+    			return appointment;
+    		}
+    	}
     
-    public static Appointment getAppointmentByAssertTag(ArrayList<Appointment> appointmentList, String assertTag) {
-        for (Appointment appointment : appointmentList) {
-            if (appointment.getAssertTag().equalsIgnoreCase(assertTag)) {
-                return appointment;
-            }
-        }
-        return null; // Return null if appointment is not found
+    	return null;
     }
     
 }
