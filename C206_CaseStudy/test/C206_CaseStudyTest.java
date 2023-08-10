@@ -157,6 +157,30 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+    public void testCreateService() {
+		assertNotNull("Check if there is a valid service arraylist to add to", serviceList);
+		
+        // Test Case 1: Check that list is not null, so that you can add a new service
+        C206_CaseStudy.createService(serviceList, rs1);
+        assertEquals("Check that service arraylist size is 1", 1, serviceList.size());
+        assertSame("Check that service is added", rs1, serviceList.get(0));
+        
+        // Test Case 2: Add another service. Test the size of the list is 2
+        C206_CaseStudy.createService(serviceList, rs2);
+        assertEquals("Check that service arraylist size is 2", 2, serviceList.size());
+        assertSame("Check that service is added", rs2, serviceList.get(1));
+        
+        // Test Case 3: Add a service that already exists in the list
+        C206_CaseStudy.createService(serviceList, rs2);
+        assertEquals("Test that the service arraylist size is unchanged.", 2, serviceList.size());
+        
+        // Test Case 4: Add a service with missing details
+        RenovationServices service_missing = new RenovationServices("RS003", "", "Service Description", "Mon-Sun: 9am-7pm", false);
+        C206_CaseStudy.createService(serviceList, service_missing);
+        assertEquals("Test that the service arraylist size is unchanged.", 2, serviceList.size());
+    }
+	
+	@Test
 	public void testRetrieveAllRenovationServices() {
 	    // Test Case 1: Empty list
 	    String allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);

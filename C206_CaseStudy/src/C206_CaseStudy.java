@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class C206_CaseStudy {
 
+	private static final int USER_LOGOUT = -1;
+
 	private static final int OPTION_QUIT = 99;
 	
 	private static final int OPTION_REGISTER = 1;
@@ -75,7 +77,7 @@ public class C206_CaseStudy {
 		            	C206_CaseStudy.menuUser();
 		            	optionUser = Helper.readInt("Enter an option (or type -1 to logout > ");
 
-		            	while (optionUser != -1) {
+		            	while (optionUser != USER_LOGOUT) {
 			            	if (optionUser == 1) {
 			            		C206_CaseStudy.viewAllRenovationServices(serviceList);
 			            	
@@ -83,13 +85,13 @@ public class C206_CaseStudy {
 			            		// Add a quote
 								Quote qr = inputQuote();
 								C206_CaseStudy.createQuote(quoteList, qr);
-								System.out.println("Quote added");
+								System.out.println("Quote Added");
 								
 			            	} else if (optionUser == 3) {
 			            		// Add an appointment - Yongyi
 								Appointment ap = inputAppointment();
 								C206_CaseStudy.createAppointment(appointmentList, ap);
-								System.out.println("Appointment scheduled");
+								System.out.println("Appointment Scheduled");
 								
 			            	} else if (optionUser == 4) {
 			            		// Track quotes of specific user
@@ -103,7 +105,7 @@ public class C206_CaseStudy {
 			            		// Delete User
 			            		// deleteUser(userList, loggedInUser);
 								
-			            	} else if (optionUser == -1) {
+			            	} else if (optionUser == USER_LOGOUT) {
 			            		loggedInUser = null;
 			            		
 			            	} else {
@@ -118,7 +120,7 @@ public class C206_CaseStudy {
 		            	C206_CaseStudy.menuProvider();
 		            	optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
 
-		            	while (optionProvider != -1) {
+		            	while (optionProvider != USER_LOGOUT) {
 			            	if (optionProvider == 1) {
 			            		C206_CaseStudy.viewQuoteRequests(quoteList);
 			            		
@@ -151,7 +153,7 @@ public class C206_CaseStudy {
 			            		// Delete User
 			            		// deleteUser(userList, loggedInUser);
 								
-			            	} else if (optionProvider == -1) {
+			            	} else if (optionProvider == USER_LOGOUT) {
 			            		loggedInUser = null;
 			            		
 			            	} else {
@@ -166,32 +168,35 @@ public class C206_CaseStudy {
 		            	C206_CaseStudy.menuAdmin();
 		            	optionAdmin = Helper.readInt("Enter an option (or type -1 to logout > ");
 		            	
-		            	while (optionAdmin != -1) {
+		            	while (optionAdmin != USER_LOGOUT) {
 		            		if (optionAdmin == 1) {
 			            		// Add New Service - Irfan
+		            			RenovationServices sp = inputService();
+								C206_CaseStudy.createService(serviceList, sp);
+								System.out.println("Service Created");
 						        
 			            	} else if (optionAdmin == 2) {
-			            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
 						        
-			            		if (assertTag.isEmpty()) {
-			            			deleteService(serviceList, assertTag);
+			            		if (taskID.isEmpty()) {
+			            			deleteService(serviceList, taskID);
 			            		}
 						        
 			            	} else if (optionAdmin == 3) {
-			            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
 					        	
-					        	if (assertTag.isEmpty()) {
-					        		deleteQuote(quoteList, assertTag);
+					        	if (taskID.isEmpty()) {
+					        		deleteQuote(quoteList, taskID);
 					        	}
 					        	
 			            	} else if (optionAdmin == 4) {
-			            		String assertTag = "Enter the Assert Tag of the item you want to delete? > ";
+			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
 						        
-			            		if (assertTag.isEmpty()) {
-			            			deleteAppointment(appointmentList, assertTag);
+			            		if (taskID.isEmpty()) {
+			            			deleteAppointment(appointmentList, taskID);
 			            		}
 			            		
-			            	} else if (optionAdmin == -1) {
+			            	} else if (optionAdmin == USER_LOGOUT) {
 			            		loggedInUser = null;
 			            		
 			            	} else {
@@ -399,34 +404,57 @@ public class C206_CaseStudy {
 
 	public static void viewAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 		C206_CaseStudy.setHeader("RENOVATION SERVICES LIST");
-	    String output = String.format("%-15s %-30s %-50s %-25s %-30s\n", "Assert Tag", "Service Name",
+	    String output = String.format("%-15s %-30s %-50s %-25s %-30s\n", "Task ID", "Service Name",
 	            "Service Description", "Contact Hours", "Status");
 	    output += retrieveAllRenovationServices(serviceList);
 	    System.out.println(output);
 	}
 	
-	public static boolean deleteService(ArrayList<RenovationServices> serviceList, String assertTagToDelete) {
+	public static boolean deleteService(ArrayList<RenovationServices> serviceList, String idToDelete) {
 	    for (int i = 0; i < serviceList.size(); i++) {
 	        RenovationServices service = serviceList.get(i);
-	        if (service.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
+	        if (service.getAssertTag().equalsIgnoreCase(idToDelete)) {
 	            serviceList.remove(i);
-	            System.out.println("Service with Assert Tag " + assertTagToDelete + " has been deleted.");
+	            System.out.println("Service with Task ID " + idToDelete + " has been deleted.");
 	            return true;
 	        }
 	    }
 	    
-	    System.out.println("Service with Assert Tag " + assertTagToDelete + " not found.");
+	    System.out.println("Service with Task ID " + idToDelete + " not found.");
 	    return false;
 	}
 	
 	//================================= Option 3 Add (CRUD - Create) =================================
 	
 	// Adding new Service (Admin) - Irfan
-	
+	public static RenovationServices inputService() {
+	    String taskID = Helper.readString("Enter task ID > ");
+	    String serviceName = Helper.readString("Enter service name > ");
+	    String serviceDescription = Helper.readString("Enter service description > ");
+	    String contactHours = Helper.readString("Enter contact hours > ");
+	    boolean isAvailable = Helper.readBoolean("Is the service available? (true/false) > ");
+
+	    RenovationServices service = new RenovationServices(taskID, serviceName, serviceDescription, contactHours, isAvailable);
+	    return service;
+	}
+
+	public static void createService(ArrayList<RenovationServices> serviceList, RenovationServices service) {
+	    RenovationServices existingService;
+	    for (int i = 0; i < serviceList.size(); i++) {
+	        existingService = serviceList.get(i);
+	        if (existingService.getAssertTag().equalsIgnoreCase(service.getAssertTag())) {
+	            return;
+	        }
+	    }
+	    if ((service.getAssertTag().isEmpty()) || (service.getServiceName().isEmpty())) {
+	        return;
+	    }
+	    serviceList.add(service);
+	}
 	
 	// Requesting a Quote - Irfan
 	public static Quote inputQuote() {
-		String tag = Helper.readString("Enter asset tag > ");
+		String tag = Helper.readString("Enter task ID > ");
 		String serviceName = Helper.readString("Enter service name > ");
 		String recipientName = Helper.readString("Enter your name > ");
 		int contactNumber = Helper.readInt("Enter contact number > ");
@@ -453,14 +481,14 @@ public class C206_CaseStudy {
 	
 	// Scheduling an appointment - Yongyi
     public static Appointment inputAppointment() {
-    	String assertTag = Helper.readString("Enter assert tag > ");
+    	String taskID = Helper.readString("Enter task ID > ");
         String serviceName = Helper.readString("Enter service name > ");
         String recipientName = Helper.readString("Enter recipient name > ");
         String date = Helper.readString("Enter appointment date > ");
         String time = Helper.readString("Enter appointment time > ");
         String location = Helper.readString("Enter appointment location > ");
         
-        return new Appointment(assertTag, serviceName, recipientName, date, time, location);
+        return new Appointment(taskID, serviceName, recipientName, date, time, location);
     }
     
     public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
@@ -471,10 +499,10 @@ public class C206_CaseStudy {
             return;
         }
         
-        // Checking if appointment already exists based on asset tag
+        // Checking if appointment already exists based on task ID
         for (Appointment existingAppointment : appointmentList) {
             if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
-                System.out.println("Appointment with the same asset tag already exists.");
+                System.out.println("Appointment with the same task ID already exists.");
                 return; // Exit the method if appointment already exists
             }
         }
@@ -532,7 +560,7 @@ public class C206_CaseStudy {
 	    	setHeader("Quotes for " + recipientName + ":");
 	        
 	        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n",
-	            "Assert Tag", "Service Name", "Recipient Name", "Status", "Contact Number", "Description");
+	            "Task ID", "Service Name", "Recipient Name", "Status", "Contact Number", "Description");
 	        
 	        for (Quote quote : userQuotes) {
 	        	
@@ -561,17 +589,17 @@ public class C206_CaseStudy {
         return userQuotes;
     }
 	
-    public static boolean deleteQuote(ArrayList<Quote> quoteList, String assertTagToDelete) {
+    public static boolean deleteQuote(ArrayList<Quote> quoteList, String idToDelete) {
 	    for (int i = 0; i < quoteList.size(); i++) {
 	        Quote quote = quoteList.get(i);
-	        if (quote.getAssertTag().equalsIgnoreCase(assertTagToDelete)) {
+	        if (quote.getAssertTag().equalsIgnoreCase(idToDelete)) {
 	            quoteList.remove(i);
-	            System.out.println("Quote with Assert Tag " + assertTagToDelete + " has been deleted.");
+	            System.out.println("Quote with Task ID " + idToDelete + " has been deleted.");
 	            return true;
 	        }
 	    }
 	
-	    System.out.println("Quote with Assert Tag " + assertTagToDelete + " not found.");
+	    System.out.println("Quote with Task ID " + idToDelete + " not found.");
 	    return false;
 	}
     
@@ -583,7 +611,7 @@ public class C206_CaseStudy {
             setHeader("Your Appointments:");
             
             String output = String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
-                    "Assert Tag", "Service Name", "Recipient Name", "Date", "Time", "Location");
+                    "Task ID", "Service Name", "Recipient Name", "Date", "Time", "Location");
             
             for (Appointment appointment : userAppointments) {
                 output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
@@ -659,7 +687,7 @@ public class C206_CaseStudy {
 
     public static void manageAppointments(ArrayList<Appointment> appointmentList) {
 		// Manage Appointment Editing
-    	String editTag=Helper.readString("Enter the Appointment's Assert Tag to edit > ");
+    	String editTag=Helper.readString("Enter the Appointment's Task ID to edit > ");
     	Appointment editAppt= apptByTag(appointmentList, editTag);
 	
 	    if (editAppt != null) {
@@ -708,9 +736,9 @@ public class C206_CaseStudy {
 	    }
     }
 
-    private static Appointment apptByTag(ArrayList<Appointment> appointmentList, String assertTag) {
+    private static Appointment apptByTag(ArrayList<Appointment> appointmentList, String taskID) {
     	for(Appointment appointment : appointmentList) {
-    		if (appointment.getAssertTag().equalsIgnoreCase(assertTag)) {
+    		if (appointment.getAssertTag().equalsIgnoreCase(taskID)) {
     			return appointment;
     		}
     	}
