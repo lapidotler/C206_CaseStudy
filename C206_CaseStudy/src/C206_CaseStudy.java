@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 
 public class C206_CaseStudy {
 
@@ -125,36 +122,29 @@ public class C206_CaseStudy {
 
 		            	while (optionProvider != USER_LOGOUT) {
 			            	if (optionProvider == 1) {
-	            				C206_CaseStudy.viewQuoteRequests(quoteList);
+			            		// THIS STILL PRINTS AN INDEFINITE LOOP
+			            		for (int i=1; i < 2; i++) {
+			            			C206_CaseStudy.viewQuoteRequests(quoteList);
+			            		}
 			            		
 			            	} else if (optionProvider == 2) {
+			            		// STILL NEED TO EDIT
 			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
 								C206_CaseStudy.viewQuoteRequests(quoteList);
-								
 								String quoteID = Helper.readString("Enter Quote ID to reply to > ");
 								replyQuote(quoteList, quoteID);
 								C206_CaseStudy.menuProvider();
 			            		
 			            	} else if (optionProvider == 3) {
-			            		C206_CaseStudy.setHeader("REJECT QUOTE REQUEST");
-								C206_CaseStudy.viewQuoteRequests(quoteList);
-								
-			            		String quoteID = Helper.readString("Enter Quote ID to reject and delete > ");
-								rejectQuote(quoteList, quoteID);
-								C206_CaseStudy.menuProvider();
-			            		
-			            	} else if (optionProvider == 4) {
 			            		C206_CaseStudy.viewAppointments(appointmentList);
 			            		
-			            		
-			            	} else if (optionProvider == 5) {
+			            	} else if (optionProvider == 4) {
 			            		manageAppointments(appointmentList);
 			            		
-							
-			            	} else if (optionProvider == 6) {
+			            	} else if (optionProvider == 5) {
 			            		// Track appointments of specific user - Yongyi
 								trackAppointments(appointmentList, loggedInUser);
-			            		
+								
 			            	} else if (optionProvider == 99) {
 			            		// Delete User
 			            		// deleteUser(userList, loggedInUser);
@@ -243,10 +233,9 @@ public class C206_CaseStudy {
 	    C206_CaseStudy.setHeader("MERCHANT/SERVICE PROVIDER OPTIONS");
 	    System.out.println("1. View All Quotes");
 	    System.out.println("2. Respond to Quote");
-	    System.out.println("3. Reject Quote");
-	    System.out.println("4. View All Appointments");
-	    System.out.println("5. Manage Appointment");
-	    System.out.println("6. Track Appointment Status");
+	    System.out.println("3. View All Appointments");
+	    System.out.println("4. Manage Appointment");
+	    System.out.println("5. Track Appointment Status");
 	    System.out.println("99. Delete Account");
 	}
 
@@ -487,59 +476,35 @@ public class C206_CaseStudy {
 	}
 	
 	// Scheduling an appointment - Yongyi
-	public static Appointment inputAppointment() {
-	    String taskID = Helper.readString("Enter task ID > ");
-	    String serviceName = Helper.readString("Enter service name > ");
-	    String recipientName = Helper.readString("Enter recipient name > ");
-
-	    LocalDate date;
-	    LocalTime time;
-	    
-	    while (true) {
-	        String dateStr = Helper.readString("Enter appointment date (yyyy-mm-dd) > ");
-	        String timeStr = Helper.readString("Enter appointment time (hh:mm) > ");
-	        
-	        try {
-	            date = LocalDate.parse(dateStr);
-	            time = LocalTime.parse(timeStr);
-	            break;
-	        } catch (DateTimeParseException e) {
-	            System.out.println("Invalid date or time format. Please use yyyy-mm-dd for date and hh:mm for time.");
-	        }
-	    }
-
-	    String location = Helper.readString("Enter appointment location > ");
-	    
-	    return new Appointment(taskID, serviceName, recipientName, date.toString(), time.toString(), location);
-	}
-
-	public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
-	    // Check for missing details
-	    if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
-	        appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
-	        System.out.println("Appointment details are missing. Appointment not added.");
-	        return;
-	    }
-	    
-	    // Additional check for valid date and time
-	    try {
-	        LocalDate.parse(appointment.getDate());
-	        LocalTime.parse(appointment.getTime());
-	    } catch (DateTimeParseException e) {
-	        System.out.println("Invalid date or time format. Please use yyyy-mm-dd for date and hh:mm for time.");
-	        return;
-	    }
-	    
-	    // Checking if appointment already exists based on task ID
-	    for (Appointment existingAppointment : appointmentList) {
-	        if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
-	            System.out.println("Appointment with the same task ID already exists.");
-	            return; // Exit the method if appointment already exists
-	        }
-	    }
-	    
-	    appointmentList.add(appointment);
-	}
+    public static Appointment inputAppointment() {
+    	String taskID = Helper.readString("Enter task ID > ");
+        String serviceName = Helper.readString("Enter service name > ");
+        String recipientName = Helper.readString("Enter recipient name > ");
+        String date = Helper.readString("Enter appointment date > ");
+        String time = Helper.readString("Enter appointment time > ");
+        String location = Helper.readString("Enter appointment location > ");
+        
+        return new Appointment(taskID, serviceName, recipientName, date, time, location);
+    }
+    
+    public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
+        // Check for missing details
+        if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
+            appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
+            System.out.println("Appointment details are missing. Appointment not added.");
+            return;
+        }
+        
+        // Checking if appointment already exists based on task ID
+        for (Appointment existingAppointment : appointmentList) {
+            if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
+                System.out.println("Appointment with the same task ID already exists.");
+                return; // Exit the method if appointment already exists
+            }
+        }
+        
+        appointmentList.add(appointment);
+    }
 
 	//================================= Option 4 View (CRUD - Read) =================================
 	
@@ -634,6 +599,7 @@ public class C206_CaseStudy {
 	    return false;
 	}
     
+    // Tracking appointments - Yongyi
     public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
         ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, loggedInUser.getRecipientName());
         
@@ -644,34 +610,18 @@ public class C206_CaseStudy {
                     "Task ID", "Service Name", "Recipient Name", "Date", "Time", "Location");
             
             for (Appointment appointment : userAppointments) {
-                // Check if the appointment date is today or in the future
-                LocalDate currentDate = LocalDate.now();
-                LocalDate appointmentDate = LocalDate.parse(appointment.getDate());
-                
-                if (appointmentDate.isAfter(currentDate) || appointmentDate.isEqual(currentDate)) {
-                    LocalTime currentTime = LocalTime.now();
-                    LocalTime appointmentTime = LocalTime.parse(appointment.getTime());
-                    
-                    // Check if the appointment time is in the future
-                    if (appointmentDate.isEqual(currentDate) && appointmentTime.isAfter(currentTime)) {
-                        output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
-                                appointment.getAssertTag(), appointment.getServiceName(),
-                                appointment.getRecipientName(), appointment.getDate(),
-                                appointment.getTime(), appointment.getLocation());
-                    }
-                }
+                output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+                        appointment.getAssertTag(), appointment.getServiceName(),
+                        appointment.getRecipientName(), appointment.getDate(),
+                        appointment.getTime(), appointment.getLocation());
             }
             
-            if (output.isEmpty()) {
-                System.out.println("No upcoming appointments found for " + loggedInUser.getRecipientName());
-            } else {
-                System.out.println(output);
-            }
+            System.out.println(output);
         } else {
             System.out.println("No appointments found for " + loggedInUser.getRecipientName());
         }
     }
-    
+
     public static ArrayList<Appointment> getUserAppointments(ArrayList<Appointment> appointmentList, String recipientName) {
         ArrayList<Appointment> userAppointments = new ArrayList<>();
         
@@ -687,28 +637,29 @@ public class C206_CaseStudy {
         
         return userAppointments;
     }
-
+	
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
     // Reply to Quote - Syaza (Add)
     public static void replyQuote(ArrayList<Quote> quoteList, String quoteID) {
-    	String reply = Helper.readString("Enter reply to this quote request > ");
+    	String reply = "";
     	
 		for (int i = 0; i < quoteList.size(); i++) {
 			Quote quoteRef = quoteList.get(i);
 			if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
+				reply = Helper.readString("Enter reply to this quote request > ");
 				quoteRef.setReply(reply);
 				String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
 						"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
 				output += String.format("%-170s\n", quoteRef.toStringReply());
 				System.out.println(output);
-			} 
+			}
 		}
     }
     
     // Reject Quote - Syaza (Delete)
     
-    // STILL NEED TO ADJUST
+    /*
     
     public static void rejectQuote(ArrayList<Quote> quoteList, String quoteID) {
 	    for (int i = 0; i < quoteList.size(); i++) {
@@ -726,6 +677,8 @@ public class C206_CaseStudy {
 	        }
 	    }
     }
+    
+    */ // redundant
     	
  
  // Managing appointments - edit

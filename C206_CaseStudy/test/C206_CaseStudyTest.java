@@ -313,14 +313,20 @@ public class C206_CaseStudyTest {
 	}
     
     @Test
-    public void testReplyQuote() { // add and delete
+    public void testReplyQuote() { // add
     	
     	// Test case 1: Boundary test - Test that the array exists (not null)
     	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
     	
     	// Test case 2: Normal test - adding reply
+    	String reply = "yes";
+    	quoteList.add(qr1);
+    	qr1.setReply(reply);
+    	assertEquals("Test if the reply is added", qr1.getReply(), reply);
     	
-    	// Test case 3: Normal test - when deleting a quote, the array size will decrease by 1
+    	// Test case 3: Error test - add reply to quote that does not exist
+    	// there is no error msg
+    	
     	
     }
 	

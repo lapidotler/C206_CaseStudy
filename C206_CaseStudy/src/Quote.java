@@ -31,6 +31,10 @@ public class Quote extends Action {
 		return description;
 	}
 	
+	public String getReply() {
+		return reply;
+	}
+	
 	// Setter
 	public void setReply(String reply) {
 		this.reply = reply;
