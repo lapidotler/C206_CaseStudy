@@ -402,6 +402,35 @@ public class C206_CaseStudyTest {
 		assertFalse(userNotExist);
 	}
 	
+	@Test
+	public void testUserDelete()
+	{
+		//User successsfully deleted
+		boolean userDeleted = C206_CaseStudy.deleteUser(userList,u1.getEmail(),u1.getPassword());
+		assertFalse("User successfully deleted", userDeleted);
+		assertNotEquals("Test normal deletion - user list size should decrease by 1", userList.size(), 1);
+		
+		//empty email
+	    boolean emptyEmailDelete = C206_CaseStudy.deleteUser(userList, "", u1.getPassword());
+	    assertFalse("Test empty email deletion - user should not be deleted", emptyEmailDelete);
+	    assertEquals("Test empty email deletion - user list size should stay the same", userList.size(), userList.size());
+		
+		//Invalid email to delete
+		boolean userInvalidEmail = C206_CaseStudy.deleteUser(userList,"nonUser@gmail.com",u1.getPassword());
+		assertFalse("Test invalid email deletion - user should not be deleted", userInvalidEmail);
+		assertEquals("Test invalid email deletion - user list size should stay the samme", userList.size(), userList.size());
+		
+		//empty password
+	    boolean emptyPasswordDelete = C206_CaseStudy.deleteUser(userList, u1.getEmail(), "");
+	    assertFalse("Test empty password deletion - user should not be deleted", emptyPasswordDelete);
+	    assertEquals("Test empty password deletion - user list size should stay the same", userList.size(), userList.size());
+		
+		//Invalid password to delete
+		boolean userInvalidPassword = C206_CaseStudy.deleteUser(userList,u1.getEmail(),"pass123");
+		assertFalse("Test invalid password deletion - user should not be deleted", userInvalidPassword);
+		assertEquals("Test invalid password deletion - user list size should stay the samme", userList.size(), userList.size());
+	}
+	
 	
 	//============================================= END HERE ===============================================
 	@After

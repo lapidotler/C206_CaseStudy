@@ -380,7 +380,44 @@ public class C206_CaseStudy {
         return false;
     }
     
-	// deleteUser method() -> if possible
+    // deleteUser - Ernest
+    public static void userDeleteForm(ArrayList<User> userList, String email, String password)
+    {
+    	String inputEmail = Helper.readString("Input Email> ");
+    	String inputPassword = Helper.readString("Input Password> ");
+    	for (User user : userList) 
+    	{
+			if (inputEmail.contains(user.getEmail()) && inputPassword.contains(user.getPassword()))
+				{
+				String inputOption = Helper.readString("Confirm deletion? (Y/N)> ");
+				for (int i = 0; i < userList.size(); i++) 
+				{
+			    	if (inputOption.equalsIgnoreCase("Y"))
+			    	{
+			    		userList.remove(i);
+			    		System.out.println("User has been deleted");
+			    	}
+			    	else if (inputOption.equalsIgnoreCase("N"))
+			    	{
+			    		System.out.println("User has not been deleted");
+			    	}
+				}
+				}
+			else
+			{
+				System.out.println("Invalid username and password");
+			}
+		}
+    }
+    public static boolean deleteUser(ArrayList<User> userList, String email, String password) {
+        for (User user : userList) {
+            if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 	// Add Submenu
 
 	
