@@ -327,7 +327,6 @@ public class C206_CaseStudyTest {
     }
 	
 	//=========================== Yongyi's Test Code ===========================
-	
     @Test
     public void testScheduleAppointment() {
         assertNotNull("Check if there is a valid appointment arraylist to add to", appointmentList);
