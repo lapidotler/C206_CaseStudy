@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -326,30 +328,41 @@ public class C206_CaseStudyTest {
 	
 	//=========================== Yongyi's Test Code ===========================
 	
-	@Test
-	public void testCreateAppointment() {
-		assertNotNull("Check if there is a valid appointment arraylist to add to", appointmentList);
-		
-		// test 1: check that list is not null, so that you can add a new appointment
-		C206_CaseStudy.createAppointment(appointmentList, ap1);
-		assertEquals("Check that appointment arraylist size is 1", 1, appointmentList.size());
-		assertSame("Check that appointment is added", ap1, appointmentList.get(0));
-	    
-		// test 2: add another appointment. Test the size of the list is 2
-	    C206_CaseStudy.createAppointment(appointmentList, ap2);
-	    assertEquals("Check that appointment arraylist size is 2", 2, appointmentList.size());
-	    assertSame("Check that appointment is added", ap2, appointmentList.get(1));
-	    
-	    // test 3: add an appointment that already exists in the list
-	    C206_CaseStudy.createAppointment(appointmentList, ap2);
-	    assertEquals("Test that the appointment arraylist size is unchanged.", 2, appointmentList.size());
-	    
-	    // test 4: add an appointment with missing details
-	    Appointment ap_missing = new Appointment("AP003", "", "Recipient Name", "2023-08-10", "3:00 PM", "Location");
-	    C206_CaseStudy.createAppointment(appointmentList, ap_missing);
-	    assertEquals("Test that the appointment arraylist size is unchanged.", 2, appointmentList.size());
-	}
-	
+    @Test
+    public void testScheduleAppointment() {
+        assertNotNull("Check if there is a valid appointment arraylist to add to", appointmentList);
+
+        // input appointment data
+        String taskID = "AP003";
+        String serviceName = "Plumbing Service";
+        String recipientName = "Alice Johnson";
+        LocalDate date = LocalDate.parse("2023-08-10");
+        LocalTime time = LocalTime.parse("11:30");
+        String location = "123 Plumbing Avenue";
+
+        // create an appointment
+        Appointment newAppointment = new Appointment(taskID, serviceName, recipientName, date.toString(), time.toString(), location);
+
+        // test 1: schedule a new appointment
+        C206_CaseStudy.createAppointment(appointmentList, newAppointment);
+        assertEquals("Check that appointment arraylist size is 1", 1, appointmentList.size());
+        assertSame("Check that appointment is added", newAppointment, appointmentList.get(0));
+
+        // test 2: schedule an appointment with missing details
+        Appointment appointmentWithMissingDetails = new Appointment("AP004", "", "Recipient Name", "2023-08-15", "4:00 PM", "Location");
+        C206_CaseStudy.createAppointment(appointmentList, appointmentWithMissingDetails);
+        assertEquals("Test that the appointment arraylist size is unchanged.", 1, appointmentList.size());
+
+        // test 3: schedule an appointment with invalid date and time format
+        Appointment appointmentWithInvalidDateTime = new Appointment("AP005", "Painting Service", "Bob Smith", "2023-08-15", "invalid-time", "Location");
+        C206_CaseStudy.createAppointment(appointmentList, appointmentWithInvalidDateTime);
+        assertEquals("Test that the appointment arraylist size is unchanged.", 1, appointmentList.size());
+
+        // test 4: schedule an appointment with existing task id
+        C206_CaseStudy.createAppointment(appointmentList, newAppointment); // Attempt to schedule again
+        assertEquals("Test that the appointment arraylist size is unchanged.", 1, appointmentList.size());
+    }
+
 	@Test
 	public void testTrackAppointments() {
 	    appointmentList.add(ap1);

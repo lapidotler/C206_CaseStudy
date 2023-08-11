@@ -208,6 +208,15 @@ public class C206_CaseStudy {
 			            	} else {
 			            		System.out.println("Invalid option");
 			            	}
+		            		
+		            		if (optionAdmin>=2&&option<=4) {
+		            			C206_CaseStudy.viewAllRenovationServices(serviceList);
+		                        C206_CaseStudy.viewQuoteRequests(quoteList);
+		                        C206_CaseStudy.viewAppointments(appointmentList);
+		            		}
+		            		
+		            		C206_CaseStudy.menuAdmin();
+		            		optionAdmin=Helper.readInt("Enter an option (or type -1 to logout) > ");
 		            	}
 		            	
 		           }
@@ -634,6 +643,7 @@ public class C206_CaseStudy {
 	    return false;
 	}
     
+    // track appointments - yongyi
     public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
         ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, loggedInUser.getRecipientName());
         
