@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 
 public class C206_CaseStudy {
 
@@ -47,131 +44,123 @@ public class C206_CaseStudy {
 
 		int option = 0;
 
-		while (option != OPTION_QUIT) {
-		    C206_CaseStudy.loginMenu();
-		    option = Helper.readInt("Enter an option > ");
+		C206_CaseStudy.loginMenu();
+	    option = Helper.readInt("Enter an option > ");
 
-		    if (option == OPTION_REGISTER) {
-		        // Register new user
-		        User user = C206_CaseStudy.registerForm();
-		        if (user != null) {
-		            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
-		        }
-		    } else if (option == OPTION_LOGIN) {
-		        String email = Helper.readString("Enter email > ");
-		        String password = Helper.readString("Enter password > ");
+	    if (option == OPTION_REGISTER) {
+	        // Register new user
+	        User user = C206_CaseStudy.registerForm();
+	        if (user != null) {
+	            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
+	        }
+	    } else if (option == OPTION_LOGIN) {
+	        String email = Helper.readString("Enter email > ");
+	        String password = Helper.readString("Enter password > ");
 
-		        User loggedInUser = null;
-		        for (User user : userList) {
-		            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-		                loggedInUser = user;
-		                break;
-		            }
-		        }
-		        
-		        if (loggedInUser != null) {
-		            userLoginForm(userList, email, password);
-		            
-		            // Display different options based on the user's role
-		            if (loggedInUser.getRole().equals("User")) {
-		                // User options
-		            	int optionUser = 0;
-		            	
-		            	C206_CaseStudy.menuUser();
+	        User loggedInUser = null;
+	        for (User user : userList) {
+	            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+	                loggedInUser = user;
+	                break;
+	            }
+	        }
+	        
+	        if (loggedInUser != null) {
+	            userLoginForm(userList, email, password);
+	            
+	            // Display different options based on the user's role
+	            if (loggedInUser.getRole().equals("User")) {
+	                // User options
+	            	int optionUser = 0;
+	            	
+	            	while (optionUser != USER_LOGOUT) {
+	            		C206_CaseStudy.menuUser();
 		            	optionUser = Helper.readInt("Enter an option (or type -1 to logout > ");
 
-		            	while (optionUser != USER_LOGOUT) {
-			            	if (optionUser == 1) {
-			            		C206_CaseStudy.viewAllRenovationServices(serviceList);
-			            	
-			            	} else if (optionUser == 2) {
-			            		// Add a quote
-								Quote qr = inputQuote();
-								C206_CaseStudy.createQuote(quoteList, qr);
-								System.out.println("Quote Added");
-								
-			            	} else if (optionUser == 3) {
-			            		// Add an appointment - Yongyi
-								Appointment ap = inputAppointment();
-								C206_CaseStudy.createAppointment(appointmentList, ap);
-								System.out.println("Appointment Scheduled");
-								
-			            	} else if (optionUser == 4) {
-			            		// Track quotes of specific user
-			            		trackQuoteStatus(quoteList);
-			            		
-			            	} else if (optionUser == 5) {
-			            		// Track appointments of specific user - Yongyi
-								trackAppointments(appointmentList, loggedInUser);
-								
-			            	} else if (optionUser == 99) {
-			            		// Delete User
-			            		// deleteUser(userList, loggedInUser);
-								
-			            	} else if (optionUser == USER_LOGOUT) {
-			            		loggedInUser = null;
-			            		
-			            	} else {
-			            		System.out.println("Invalid option");
-			            	}
-		            	}
+		            	if (optionUser == 1) {
+		            		C206_CaseStudy.viewAllRenovationServices(serviceList);
 		            	
-		            } else if (loggedInUser.getRole().equals("Service Provider")) {
-		                // Service Provider options
-		            	int optionProvider = 0;
-		            	
-		            	C206_CaseStudy.menuProvider();
-		            	optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
-
-		            	while (optionProvider != USER_LOGOUT) {
-			            	if (optionProvider == 1) {
-	            				C206_CaseStudy.viewQuoteRequests(quoteList);
-			            		
-			            	} else if (optionProvider == 2) {
-			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
-								C206_CaseStudy.viewQuoteRequests(quoteList);
-								
-								String quoteID = Helper.readString("Enter Quote ID to reply to > ");
-								replyQuote(quoteList, quoteID);
-								C206_CaseStudy.menuProvider();
-			            		
-			            	} else if (optionProvider == 3) {
-			            		C206_CaseStudy.setHeader("REJECT QUOTE REQUEST");
-								C206_CaseStudy.viewQuoteRequests(quoteList);
-								
-			            		String quoteID = Helper.readString("Enter Quote ID to reject and delete > ");
-								rejectQuote(quoteList, quoteID);
-								C206_CaseStudy.menuProvider();
-			            		
-			            	} else if (optionProvider == 4) {
-			            		C206_CaseStudy.viewAppointments(appointmentList);
-			            		
-			            		
-			            	} else if (optionProvider == 5) {
-			            		manageAppointments(appointmentList);
-			            		
+		            	} else if (optionUser == 2) {
+		            		// Add a quote
+							Quote qr = inputQuote();
+							C206_CaseStudy.createQuote(quoteList, qr);
+							System.out.println("Quote Added");
 							
-			            	} else if (optionProvider == 6) {
-			            		// Track appointments of specific user - Yongyi
-								trackAppointments(appointmentList, loggedInUser);
-			            		
-			            	} else if (optionProvider == 99) {
-			            		// Delete User
-			            		// deleteUser(userList, loggedInUser);
-								
-			            	} else if (optionProvider == USER_LOGOUT) {
-			            		loggedInUser = null;
-			            		
-			            	} else {
-			            		System.out.println("Invalid option");
-			            	}
+		            	} else if (optionUser == 3) {
+		            		// Add an appointment - Yongyi
+							Appointment ap = inputAppointment();
+							C206_CaseStudy.createAppointment(appointmentList, ap);
+							System.out.println("Appointment Scheduled");
+							
+		            	} else if (optionUser == 4) {
+		            		// Track quotes of specific user
+		            		trackQuoteStatus(quoteList);
+		            		
+		            	} else if (optionUser == 5) {
+		            		// Track appointments of specific user - Yongyi
+							trackAppointments(appointmentList, loggedInUser);
+							
+		            	} else if (optionUser == 99) {
+		            		// Delete User - Ernest
+		            		deleteUser(userList, loggedInUser);
+							
+		            	} else if (optionUser == USER_LOGOUT) {
+		            		loggedInUser = null;
+		            		break;
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
 		            	}
+	            	}
+	            	
+	            } else if (loggedInUser.getRole().equals("Service Provider")) {
+	                // Service Provider options
+	            	int optionProvider = 0;
 
-		            } else if (loggedInUser.getRole().equals("Admin")) {
-		                // Admin options
-		            	int optionAdmin = 0;
+	            	while (optionProvider != USER_LOGOUT) {
+	            		C206_CaseStudy.menuProvider();
+		            	optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
 		            	
-		            	C206_CaseStudy.menuAdmin();
+		            	if (optionProvider == 1) {
+		            		C206_CaseStudy.viewQuoteRequests(quoteList);
+		            		
+		            	} else if (optionProvider == 2) {
+		            		// STILL NEED TO EDIT
+		            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
+							C206_CaseStudy.viewQuoteRequests(quoteList);
+							String quoteID = Helper.readString("Enter Quote ID to reply to > ");
+							replyQuote(quoteList, quoteID);
+							C206_CaseStudy.menuProvider();
+		            		
+		            	} else if (optionProvider == 3) {
+		            		C206_CaseStudy.viewAppointments(appointmentList);
+		            		
+		            	} else if (optionProvider == 4) {
+		            		manageAppointments(appointmentList);
+		            		
+		            	} else if (optionProvider == 5) {
+		            		// Track appointments of specific user - Yongyi
+							trackAppointments(appointmentList, loggedInUser);
+							
+		            	} else if (optionProvider == 99) {
+		            		// Delete User - Ernest
+		            		deleteUser(userList, loggedInUser);
+							
+		            	} else if (optionProvider == USER_LOGOUT) {
+		            		loggedInUser = null;
+		            		break;
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
+		            	}
+	            	}
+
+	            } else if (loggedInUser.getRole().equals("Admin")) {
+	                // Admin options
+	            	int optionAdmin = 0;
+	            	
+	            	while (optionAdmin != USER_LOGOUT) {
+	            		C206_CaseStudy.menuAdmin();
 		            	optionAdmin = Helper.readInt("Enter an option (or type -1 to logout > ");
 		            	
 		            	while (optionAdmin != USER_LOGOUT) {
@@ -217,21 +206,51 @@ public class C206_CaseStudy {
 		            		
 		            		C206_CaseStudy.menuAdmin();
 		            		optionAdmin=Helper.readInt("Enter an option (or type -1 to logout) > ");
+
+		            	if (optionAdmin == 1) {
+		            		// Add New Service - Irfan
+	            			RenovationServices sp = inputService();
+							C206_CaseStudy.createService(serviceList, sp);
+							System.out.println("Service Created");
+					        
+		            	} else if (optionAdmin == 2) {
+		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+					        
+		            		if (taskID.isEmpty()) {
+		            			deleteService(serviceList, taskID);
+		            		}
+					        
+		            	} else if (optionAdmin == 3) {
+		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+				        	
+				        	if (taskID.isEmpty()) {
+				        		deleteQuote(quoteList, taskID);
+				        	}
+				        	
+		            	} else if (optionAdmin == 4) {
+		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+					        
+		            		if (taskID.isEmpty()) {
+		            			deleteAppointment(appointmentList, taskID);
+		            		}
+		            		
+		            	} else if (optionAdmin == USER_LOGOUT) {
+		            		loggedInUser = null;
+		            		break;
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
 		            	}
-		            
-		           }
+	            	}
+	            	
+	            	}
 
-		    } else {
-		            System.out.println("Invalid login credentials.");
-		        }
-		    }
-		}
+	    } else {
+	            System.out.println("Invalid login credentials.");
+	    }
 	}
-
-	/**
-	 * 
-	 */
-	
+	    }
+	}
 	private static void loginMenu() {
 		C206_CaseStudy.setHeader("REGISTER/LOGIN");
 		System.out.println("1. Register");
@@ -252,10 +271,9 @@ public class C206_CaseStudy {
 	    C206_CaseStudy.setHeader("MERCHANT/SERVICE PROVIDER OPTIONS");
 	    System.out.println("1. View All Quotes");
 	    System.out.println("2. Respond to Quote");
-	    System.out.println("3. Reject Quote");
-	    System.out.println("4. View All Appointments");
-	    System.out.println("5. Manage Appointment");
-	    System.out.println("6. Track Appointment Status");
+	    System.out.println("3. View All Appointments");
+	    System.out.println("4. Manage Appointment");
+	    System.out.println("5. Track Appointment Status");
 	    System.out.println("99. Delete Account");
 	}
 
@@ -400,8 +418,42 @@ public class C206_CaseStudy {
         return false;
     }
     
-	// deleteUser method() -> if possible
-	// Add Submenu
+    // deleteUser - Ernest
+    public static void userDeleteForm(ArrayList<User> userList, User loggedInUser)
+    {
+    	for (User user : userList) 
+    	{
+			if (loggedInUser.getEmail().contains(user.getEmail()) && loggedInUser.getPassword().contains(user.getPassword()))
+				{
+				String inputOption = Helper.readString("Confirm deletion? (Y/N)> ");
+				for (int i = 0; i < userList.size(); i++) 
+				{
+			    	if (inputOption.equalsIgnoreCase("Y"))
+			    	{
+			    		userList.remove(i);
+			    		System.out.println("User has been deleted");
+			    	}
+			    	else if (inputOption.equalsIgnoreCase("N"))
+			    	{
+			    		System.out.println("User has not been deleted");
+			    	}
+				}
+				}
+			else
+			{
+				System.out.println("Invalid username and password");
+			}
+		}
+    }
+    
+    public static boolean deleteUser(ArrayList<User> userList, User loggedInUser) {
+        for (User user : userList) {
+            if (loggedInUser.getEmail().equals(user.getEmail()) && loggedInUser.getPassword().equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	
 	//================================= Option 2 Display (CRUD - Read) =================================
@@ -496,59 +548,35 @@ public class C206_CaseStudy {
 	}
 	
 	// Scheduling an appointment - Yongyi
-	public static Appointment inputAppointment() {
-	    String taskID = Helper.readString("Enter task ID > ");
-	    String serviceName = Helper.readString("Enter service name > ");
-	    String recipientName = Helper.readString("Enter recipient name > ");
-
-	    LocalDate date;
-	    LocalTime time;
-	    
-	    while (true) {
-	        String dateStr = Helper.readString("Enter appointment date (yyyy-mm-dd) > ");
-	        String timeStr = Helper.readString("Enter appointment time (hh:mm) > ");
-	        
-	        try {
-	            date = LocalDate.parse(dateStr);
-	            time = LocalTime.parse(timeStr);
-	            break;
-	        } catch (DateTimeParseException e) {
-	            System.out.println("Invalid date or time format. Please use yyyy-mm-dd for date and hh:mm for time.");
-	        }
-	    }
-
-	    String location = Helper.readString("Enter appointment location > ");
-	    
-	    return new Appointment(taskID, serviceName, recipientName, date.toString(), time.toString(), location);
-	}
-
-	public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
-	    // Check for missing details
-	    if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
-	        appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
-	        System.out.println("Appointment details are missing. Appointment not added.");
-	        return;
-	    }
-	    
-	    // Additional check for valid date and time
-	    try {
-	        LocalDate.parse(appointment.getDate());
-	        LocalTime.parse(appointment.getTime());
-	    } catch (DateTimeParseException e) {
-	        System.out.println("Invalid date or time format. Please use yyyy-mm-dd for date and hh:mm for time.");
-	        return;
-	    }
-	    
-	    // Checking if appointment already exists based on task ID
-	    for (Appointment existingAppointment : appointmentList) {
-	        if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
-	            System.out.println("Appointment with the same task ID already exists.");
-	            return; // Exit the method if appointment already exists
-	        }
-	    }
-	    
-	    appointmentList.add(appointment);
-	}
+    public static Appointment inputAppointment() {
+    	String taskID = Helper.readString("Enter task ID > ");
+        String serviceName = Helper.readString("Enter service name > ");
+        String recipientName = Helper.readString("Enter recipient name > ");
+        String date = Helper.readString("Enter appointment date > ");
+        String time = Helper.readString("Enter appointment time > ");
+        String location = Helper.readString("Enter appointment location > ");
+        
+        return new Appointment(taskID, serviceName, recipientName, date, time, location);
+    }
+    
+    public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
+        // Check for missing details
+        if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
+            appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
+            System.out.println("Appointment details are missing. Appointment not added.");
+            return;
+        }
+        
+        // Checking if appointment already exists based on task ID
+        for (Appointment existingAppointment : appointmentList) {
+            if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
+                System.out.println("Appointment with the same task ID already exists.");
+                return; // Exit the method if appointment already exists
+            }
+        }
+        
+        appointmentList.add(appointment);
+    }
 
 	//================================= Option 4 View (CRUD - Read) =================================
 	
@@ -643,7 +671,8 @@ public class C206_CaseStudy {
 	    return false;
 	}
     
-    // track appointments - yongyi
+
+    // Tracking appointments - Yongyi
     public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
         ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, loggedInUser.getRecipientName());
         
@@ -654,34 +683,18 @@ public class C206_CaseStudy {
                     "Task ID", "Service Name", "Recipient Name", "Date", "Time", "Location");
             
             for (Appointment appointment : userAppointments) {
-                // Check if the appointment date is today or in the future
-                LocalDate currentDate = LocalDate.now();
-                LocalDate appointmentDate = LocalDate.parse(appointment.getDate());
-                
-                if (appointmentDate.isAfter(currentDate) || appointmentDate.isEqual(currentDate)) {
-                    LocalTime currentTime = LocalTime.now();
-                    LocalTime appointmentTime = LocalTime.parse(appointment.getTime());
-                    
-                    // Check if the appointment time is in the future
-                    if (appointmentDate.isEqual(currentDate) && appointmentTime.isAfter(currentTime)) {
-                        output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
-                                appointment.getAssertTag(), appointment.getServiceName(),
-                                appointment.getRecipientName(), appointment.getDate(),
-                                appointment.getTime(), appointment.getLocation());
-                    }
-                }
+                output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+                        appointment.getAssertTag(), appointment.getServiceName(),
+                        appointment.getRecipientName(), appointment.getDate(),
+                        appointment.getTime(), appointment.getLocation());
             }
             
-            if (output.isEmpty()) {
-                System.out.println("No upcoming appointments found for " + loggedInUser.getRecipientName());
-            } else {
-                System.out.println(output);
-            }
+            System.out.println(output);
         } else {
             System.out.println("No appointments found for " + loggedInUser.getRecipientName());
         }
     }
-    
+
     public static ArrayList<Appointment> getUserAppointments(ArrayList<Appointment> appointmentList, String recipientName) {
         ArrayList<Appointment> userAppointments = new ArrayList<>();
         
@@ -697,28 +710,29 @@ public class C206_CaseStudy {
         
         return userAppointments;
     }
-
+	
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
     // Reply to Quote - Syaza (Add)
     public static void replyQuote(ArrayList<Quote> quoteList, String quoteID) {
-    	String reply = Helper.readString("Enter reply to this quote request > ");
+    	String reply = "";
     	
 		for (int i = 0; i < quoteList.size(); i++) {
 			Quote quoteRef = quoteList.get(i);
 			if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
+				reply = Helper.readString("Enter reply to this quote request > ");
 				quoteRef.setReply(reply);
 				String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
 						"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
 				output += String.format("%-170s\n", quoteRef.toStringReply());
 				System.out.println(output);
-			} 
+			}
 		}
     }
     
     // Reject Quote - Syaza (Delete)
     
-    // STILL NEED TO ADJUST
+    /*
     
     public static void rejectQuote(ArrayList<Quote> quoteList, String quoteID) {
 	    for (int i = 0; i < quoteList.size(); i++) {
@@ -736,6 +750,8 @@ public class C206_CaseStudy {
 	        }
 	    }
     }
+    
+    */ // redundant
     	
  
  // Managing appointments - edit

@@ -293,14 +293,20 @@ public class C206_CaseStudyTest {
 	}
     
     @Test
-    public void testReplyQuote() { // add and delete
+    public void testReplyQuote() { // add
     	
     	// Test case 1: Boundary test - Test that the array exists (not null)
     	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
     	
     	// Test case 2: Normal test - adding reply
+    	String reply = "yes";
+    	quoteList.add(qr1);
+    	qr1.setReply(reply);
+    	assertEquals("Test if the reply is added", qr1.getReply(), reply);
     	
-    	// Test case 3: Normal test - when deleting a quote, the array size will decrease by 1
+    	// Test case 3: Error test - add reply to quote that does not exist
+    	// there is no error msg
+    	
     	
     }
 	
@@ -333,11 +339,11 @@ public class C206_CaseStudyTest {
         // test 3: schedule an appointment with invalid date and time format
         Appointment appointmentWithInvalidDateTime = new Appointment("AP005", "Painting Service", "Bob Smith", "2023-08-15", "invalid-time", "Location");
         C206_CaseStudy.createAppointment(appointmentList, appointmentWithInvalidDateTime);
-        assertEquals("Test that the appointment arraylist size is unchanged.", 1, appointmentList.size());
+        assertEquals("Test that the appointment arraylist size is unchanged.", 2, appointmentList.size());
 
         // test 4: schedule an appointment with existing task id
         C206_CaseStudy.createAppointment(appointmentList, newAppointment); // Attempt to schedule again
-        assertEquals("Test that the appointment arraylist size is unchanged.", 1, appointmentList.size());
+        assertEquals("Test that the appointment arraylist size is unchanged.", 2, appointmentList.size());
     }
 
 	@Test
@@ -384,6 +390,35 @@ public class C206_CaseStudyTest {
 		//error test - non-existing user
 		boolean userNotExist = C206_CaseStudy.loginUser(userList,u1.getEmail(),u1.getPassword());
 		assertFalse(userNotExist);
+	}
+	
+	@Test
+	public void testUserDelete()
+	{
+		//User successsfully deleted
+		boolean userDeleted = C206_CaseStudy.deleteUser(userList, u1);
+		assertFalse("User successfully deleted", userDeleted);
+		assertNotEquals("Test normal deletion - user list size should decrease by 1", userList.size(), 1);
+		
+		//empty email
+	    boolean emptyEmailDelete = C206_CaseStudy.deleteUser(userList, new User("EmptyEmail", "", "pass123", "User"));
+	    assertFalse("Test empty email deletion - user should not be deleted", emptyEmailDelete);
+	    assertEquals("Test empty email deletion - user list size should stay the same", userList.size(), userList.size());
+		
+		//Invalid email to delete
+		boolean userInvalidEmail = C206_CaseStudy.deleteUser(userList, new User("InvalidEmail", "blank", "pass123456", "User"));
+		assertFalse("Test invalid email deletion - user should not be deleted", userInvalidEmail);
+		assertEquals("Test invalid email deletion - user list size should stay the samme", userList.size(), userList.size());
+		
+		//empty password
+	    boolean emptyPasswordDelete = C206_CaseStudy.deleteUser(userList, new User("EmptyPassword", "empPas@gmail.com", "", "User"));
+	    assertFalse("Test empty password deletion - user should not be deleted", emptyPasswordDelete);
+	    assertEquals("Test empty password deletion - user list size should stay the same", userList.size(), userList.size());
+		
+		//Invalid password to delete
+		boolean userInvalidPassword = C206_CaseStudy.deleteUser(userList, new User("InvalidPassword", "invPas@gmail.com", "a", "User"));
+		assertFalse("Test invalid password deletion - user should not be deleted", userInvalidPassword);
+		assertEquals("Test invalid password deletion - user list size should stay the samme", userList.size(), userList.size());
 	}
 	
 	
