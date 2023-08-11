@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 public class C206_CaseStudy {
 
@@ -484,35 +487,59 @@ public class C206_CaseStudy {
 	}
 	
 	// Scheduling an appointment - Yongyi
-    public static Appointment inputAppointment() {
-    	String taskID = Helper.readString("Enter task ID > ");
-        String serviceName = Helper.readString("Enter service name > ");
-        String recipientName = Helper.readString("Enter recipient name > ");
-        String date = Helper.readString("Enter appointment date > ");
-        String time = Helper.readString("Enter appointment time > ");
-        String location = Helper.readString("Enter appointment location > ");
-        
-        return new Appointment(taskID, serviceName, recipientName, date, time, location);
-    }
-    
-    public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
-        // Check for missing details
-        if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
-            appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
-            System.out.println("Appointment details are missing. Appointment not added.");
-            return;
-        }
-        
-        // Checking if appointment already exists based on task ID
-        for (Appointment existingAppointment : appointmentList) {
-            if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
-                System.out.println("Appointment with the same task ID already exists.");
-                return; // Exit the method if appointment already exists
-            }
-        }
-        
-        appointmentList.add(appointment);
-    }
+	public static Appointment inputAppointment() {
+	    String taskID = Helper.readString("Enter task ID > ");
+	    String serviceName = Helper.readString("Enter service name > ");
+	    String recipientName = Helper.readString("Enter recipient name > ");
+
+	    LocalDate date;
+	    LocalTime time;
+	    
+	    while (true) {
+	        String dateStr = Helper.readString("Enter appointment date (yyyy-mm-dd) > ");
+	        String timeStr = Helper.readString("Enter appointment time (hh:mm) > ");
+	        
+	        try {
+	            date = LocalDate.parse(dateStr);
+	            time = LocalTime.parse(timeStr);
+	            break;
+	        } catch (DateTimeParseException e) {
+	            System.out.println("Invalid date or time format. Please use yyyy-mm-dd for date and hh:mm for time.");
+	        }
+	    }
+
+	    String location = Helper.readString("Enter appointment location > ");
+	    
+	    return new Appointment(taskID, serviceName, recipientName, date.toString(), time.toString(), location);
+	}
+
+	public static void createAppointment(ArrayList<Appointment> appointmentList, Appointment appointment) {
+	    // Check for missing details
+	    if (appointment.getServiceName().isEmpty() || appointment.getRecipientName().isEmpty() ||
+	        appointment.getDate().isEmpty() || appointment.getTime().isEmpty() || appointment.getLocation().isEmpty()) {
+	        System.out.println("Appointment details are missing. Appointment not added.");
+	        return;
+	    }
+	    
+	    // Additional check for valid date and time
+	    try {
+	        LocalDate.parse(appointment.getDate());
+	        LocalTime.parse(appointment.getTime());
+	    } catch (DateTimeParseException e) {
+	        System.out.println("Invalid date or time format. Please use yyyy-mm-dd for date and hh:mm for time.");
+	        return;
+	    }
+	    
+	    // Checking if appointment already exists based on task ID
+	    for (Appointment existingAppointment : appointmentList) {
+	        if (existingAppointment.getAssertTag().equalsIgnoreCase(appointment.getAssertTag())) {
+	            System.out.println("Appointment with the same task ID already exists.");
+	            return; // Exit the method if appointment already exists
+	        }
+	    }
+	    
+	    appointmentList.add(appointment);
+	}
 
 	//================================= Option 4 View (CRUD - Read) =================================
 	
@@ -607,7 +634,6 @@ public class C206_CaseStudy {
 	    return false;
 	}
     
-    // Tracking appointments - Yongyi
     public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
         ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, loggedInUser.getRecipientName());
         
@@ -618,18 +644,34 @@ public class C206_CaseStudy {
                     "Task ID", "Service Name", "Recipient Name", "Date", "Time", "Location");
             
             for (Appointment appointment : userAppointments) {
-                output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
-                        appointment.getAssertTag(), appointment.getServiceName(),
-                        appointment.getRecipientName(), appointment.getDate(),
-                        appointment.getTime(), appointment.getLocation());
+                // Check if the appointment date is today or in the future
+                LocalDate currentDate = LocalDate.now();
+                LocalDate appointmentDate = LocalDate.parse(appointment.getDate());
+                
+                if (appointmentDate.isAfter(currentDate) || appointmentDate.isEqual(currentDate)) {
+                    LocalTime currentTime = LocalTime.now();
+                    LocalTime appointmentTime = LocalTime.parse(appointment.getTime());
+                    
+                    // Check if the appointment time is in the future
+                    if (appointmentDate.isEqual(currentDate) && appointmentTime.isAfter(currentTime)) {
+                        output += String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+                                appointment.getAssertTag(), appointment.getServiceName(),
+                                appointment.getRecipientName(), appointment.getDate(),
+                                appointment.getTime(), appointment.getLocation());
+                    }
+                }
             }
             
-            System.out.println(output);
+            if (output.isEmpty()) {
+                System.out.println("No upcoming appointments found for " + loggedInUser.getRecipientName());
+            } else {
+                System.out.println(output);
+            }
         } else {
             System.out.println("No appointments found for " + loggedInUser.getRecipientName());
         }
     }
-
+    
     public static ArrayList<Appointment> getUserAppointments(ArrayList<Appointment> appointmentList, String recipientName) {
         ArrayList<Appointment> userAppointments = new ArrayList<>();
         
@@ -645,7 +687,7 @@ public class C206_CaseStudy {
         
         return userAppointments;
     }
-	
+
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
     // Reply to Quote - Syaza (Add)
