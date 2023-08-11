@@ -44,174 +44,168 @@ public class C206_CaseStudy {
 
 		int option = 0;
 
-		while (option != OPTION_QUIT) {
-		    C206_CaseStudy.loginMenu();
-		    option = Helper.readInt("Enter an option > ");
+		C206_CaseStudy.loginMenu();
+	    option = Helper.readInt("Enter an option > ");
 
-		    if (option == OPTION_REGISTER) {
-		        // Register new user
-		        User user = C206_CaseStudy.registerForm();
-		        if (user != null) {
-		            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
-		        }
-		    } else if (option == OPTION_LOGIN) {
-		        String email = Helper.readString("Enter email > ");
-		        String password = Helper.readString("Enter password > ");
+	    if (option == OPTION_REGISTER) {
+	        // Register new user
+	        User user = C206_CaseStudy.registerForm();
+	        if (user != null) {
+	            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
+	        }
+	    } else if (option == OPTION_LOGIN) {
+	        String email = Helper.readString("Enter email > ");
+	        String password = Helper.readString("Enter password > ");
 
-		        User loggedInUser = null;
-		        for (User user : userList) {
-		            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-		                loggedInUser = user;
-		                break;
-		            }
-		        }
-		        
-		        if (loggedInUser != null) {
-		            userLoginForm(userList, email, password);
-		            
-		            // Display different options based on the user's role
-		            if (loggedInUser.getRole().equals("User")) {
-		                // User options
-		            	int optionUser = 0;
-		            	
-		            	C206_CaseStudy.menuUser();
+	        User loggedInUser = null;
+	        for (User user : userList) {
+	            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+	                loggedInUser = user;
+	                break;
+	            }
+	        }
+	        
+	        if (loggedInUser != null) {
+	            userLoginForm(userList, email, password);
+	            
+	            // Display different options based on the user's role
+	            if (loggedInUser.getRole().equals("User")) {
+	                // User options
+	            	int optionUser = 0;
+	            	
+	            	while (optionUser != USER_LOGOUT) {
+	            		C206_CaseStudy.menuUser();
 		            	optionUser = Helper.readInt("Enter an option (or type -1 to logout > ");
 
-		            	while (optionUser != USER_LOGOUT) {
-			            	if (optionUser == 1) {
-			            		C206_CaseStudy.viewAllRenovationServices(serviceList);
-			            	
-			            	} else if (optionUser == 2) {
-			            		// Add a quote
-								Quote qr = inputQuote();
-								C206_CaseStudy.createQuote(quoteList, qr);
-								System.out.println("Quote Added");
-								
-			            	} else if (optionUser == 3) {
-			            		// Add an appointment - Yongyi
-								Appointment ap = inputAppointment();
-								C206_CaseStudy.createAppointment(appointmentList, ap);
-								System.out.println("Appointment Scheduled");
-								
-			            	} else if (optionUser == 4) {
-			            		// Track quotes of specific user
-			            		trackQuoteStatus(quoteList);
-			            		
-			            	} else if (optionUser == 5) {
-			            		// Track appointments of specific user - Yongyi
-								trackAppointments(appointmentList, loggedInUser);
-								
-			            	} else if (optionUser == 99) {
-			            		// Delete User
-			            		// deleteUser(userList, loggedInUser);
-								
-			            	} else if (optionUser == USER_LOGOUT) {
-			            		loggedInUser = null;
-			            		
-			            	} else {
-			            		System.out.println("Invalid option");
-			            	}
+		            	if (optionUser == 1) {
+		            		C206_CaseStudy.viewAllRenovationServices(serviceList);
+		            	
+		            	} else if (optionUser == 2) {
+		            		// Add a quote
+							Quote qr = inputQuote();
+							C206_CaseStudy.createQuote(quoteList, qr);
+							System.out.println("Quote Added");
+							
+		            	} else if (optionUser == 3) {
+		            		// Add an appointment - Yongyi
+							Appointment ap = inputAppointment();
+							C206_CaseStudy.createAppointment(appointmentList, ap);
+							System.out.println("Appointment Scheduled");
+							
+		            	} else if (optionUser == 4) {
+		            		// Track quotes of specific user
+		            		trackQuoteStatus(quoteList);
+		            		
+		            	} else if (optionUser == 5) {
+		            		// Track appointments of specific user - Yongyi
+							trackAppointments(appointmentList, loggedInUser);
+							
+		            	} else if (optionUser == 99) {
+		            		// Delete User - Ernest
+		            		deleteUser(userList, loggedInUser);
+							
+		            	} else if (optionUser == USER_LOGOUT) {
+		            		loggedInUser = null;
+		            		break;
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
 		            	}
-		            	
-		            } else if (loggedInUser.getRole().equals("Service Provider")) {
-		                // Service Provider options
-		            	int optionProvider = 0;
-		            	
-		            	C206_CaseStudy.menuProvider();
+	            	}
+	            	
+	            } else if (loggedInUser.getRole().equals("Service Provider")) {
+	                // Service Provider options
+	            	int optionProvider = 0;
+
+	            	while (optionProvider != USER_LOGOUT) {
+	            		C206_CaseStudy.menuProvider();
 		            	optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
-
-		            	while (optionProvider != USER_LOGOUT) {
-			            	if (optionProvider == 1) {
-			            		// THIS STILL PRINTS AN INDEFINITE LOOP
-			            		for (int i=1; i < 2; i++) {
-			            			C206_CaseStudy.viewQuoteRequests(quoteList);
-			            		}
-			            		
-			            	} else if (optionProvider == 2) {
-			            		// STILL NEED TO EDIT
-			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
-								C206_CaseStudy.viewQuoteRequests(quoteList);
-								String quoteID = Helper.readString("Enter Quote ID to reply to > ");
-								replyQuote(quoteList, quoteID);
-								C206_CaseStudy.menuProvider();
-			            		
-			            	} else if (optionProvider == 3) {
-			            		C206_CaseStudy.viewAppointments(appointmentList);
-			            		
-			            	} else if (optionProvider == 4) {
-			            		manageAppointments(appointmentList);
-			            		
-			            	} else if (optionProvider == 5) {
-			            		// Track appointments of specific user - Yongyi
-								trackAppointments(appointmentList, loggedInUser);
-								
-			            	} else if (optionProvider == 99) {
-			            		// Delete User
-			            		// deleteUser(userList, loggedInUser);
-								
-			            	} else if (optionProvider == USER_LOGOUT) {
-			            		loggedInUser = null;
-			            		
-			            	} else {
-			            		System.out.println("Invalid option");
-			            	}
-		            	}
-
-		            } else if (loggedInUser.getRole().equals("Admin")) {
-		                // Admin options
-		            	int optionAdmin = 0;
 		            	
-		            	C206_CaseStudy.menuAdmin();
+		            	if (optionProvider == 1) {
+		            		C206_CaseStudy.viewQuoteRequests(quoteList);
+		            		
+		            	} else if (optionProvider == 2) {
+		            		// STILL NEED TO EDIT
+		            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
+							C206_CaseStudy.viewQuoteRequests(quoteList);
+							String quoteID = Helper.readString("Enter Quote ID to reply to > ");
+							replyQuote(quoteList, quoteID);
+							C206_CaseStudy.menuProvider();
+		            		
+		            	} else if (optionProvider == 3) {
+		            		C206_CaseStudy.viewAppointments(appointmentList);
+		            		
+		            	} else if (optionProvider == 4) {
+		            		manageAppointments(appointmentList);
+		            		
+		            	} else if (optionProvider == 5) {
+		            		// Track appointments of specific user - Yongyi
+							trackAppointments(appointmentList, loggedInUser);
+							
+		            	} else if (optionProvider == 99) {
+		            		// Delete User - Ernest
+		            		deleteUser(userList, loggedInUser);
+							
+		            	} else if (optionProvider == USER_LOGOUT) {
+		            		loggedInUser = null;
+		            		break;
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
+		            	}
+	            	}
+
+	            } else if (loggedInUser.getRole().equals("Admin")) {
+	                // Admin options
+	            	int optionAdmin = 0;
+	            	
+	            	while (optionAdmin != USER_LOGOUT) {
+	            		C206_CaseStudy.menuAdmin();
 		            	optionAdmin = Helper.readInt("Enter an option (or type -1 to logout > ");
 		            	
-		            	while (optionAdmin != USER_LOGOUT) {
-		            		if (optionAdmin == 1) {
-			            		// Add New Service - Irfan
-		            			RenovationServices sp = inputService();
-								C206_CaseStudy.createService(serviceList, sp);
-								System.out.println("Service Created");
-						        
-			            	} else if (optionAdmin == 2) {
-			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
-						        
-			            		if (taskID.isEmpty()) {
-			            			deleteService(serviceList, taskID);
-			            		}
-						        
-			            	} else if (optionAdmin == 3) {
-			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
-					        	
-					        	if (taskID.isEmpty()) {
-					        		deleteQuote(quoteList, taskID);
-					        	}
-					        	
-			            	} else if (optionAdmin == 4) {
-			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
-						        
-			            		if (taskID.isEmpty()) {
-			            			deleteAppointment(appointmentList, taskID);
-			            		}
-			            		
-			            	} else if (optionAdmin == USER_LOGOUT) {
-			            		loggedInUser = null;
-			            		
-			            	} else {
-			            		System.out.println("Invalid option");
-			            	}
+		            	if (optionAdmin == 1) {
+		            		// Add New Service - Irfan
+	            			RenovationServices sp = inputService();
+							C206_CaseStudy.createService(serviceList, sp);
+							System.out.println("Service Created");
+					        
+		            	} else if (optionAdmin == 2) {
+		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+					        
+		            		if (taskID.isEmpty()) {
+		            			deleteService(serviceList, taskID);
+		            		}
+					        
+		            	} else if (optionAdmin == 3) {
+		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+				        	
+				        	if (taskID.isEmpty()) {
+				        		deleteQuote(quoteList, taskID);
+				        	}
+				        	
+		            	} else if (optionAdmin == 4) {
+		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+					        
+		            		if (taskID.isEmpty()) {
+		            			deleteAppointment(appointmentList, taskID);
+		            		}
+		            		
+		            	} else if (optionAdmin == USER_LOGOUT) {
+		            		loggedInUser = null;
+		            		break;
+		            		
+		            	} else {
+		            		System.out.println("Invalid option");
 		            	}
-		            	
-		           }
+	            	}
+	            	
+	           }
 
-		    } else {
-		            System.out.println("Invalid login credentials.");
-		        }
-		    }
-		}
+	    } else {
+	            System.out.println("Invalid login credentials.");
+	        }
+	    }
 	}
-
-	/**
-	 * 
-	 */
 	
 	private static void loginMenu() {
 		C206_CaseStudy.setHeader("REGISTER/LOGIN");
@@ -409,16 +403,15 @@ public class C206_CaseStudy {
 			}
 		}
     }
-    public static boolean deleteUser(ArrayList<User> userList, String email, String password) {
+    
+    public static boolean deleteUser(ArrayList<User> userList, User loggedInUser) {
         for (User user : userList) {
-            if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+            if (loggedInUser.getEmail().equals(user.getEmail()) && loggedInUser.getPassword().equals(user.getPassword())) {
                 return true;
             }
         }
         return false;
     }
-
-	// Add Submenu
 
 	
 	//================================= Option 2 Display (CRUD - Read) =================================
