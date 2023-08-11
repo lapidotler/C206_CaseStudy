@@ -375,13 +375,11 @@ public class C206_CaseStudy {
     }
     
     // deleteUser - Ernest
-    public static void userDeleteForm(ArrayList<User> userList, String email, String password)
+    public static void userDeleteForm(ArrayList<User> userList, User loggedInUser)
     {
-    	String inputEmail = Helper.readString("Input Email> ");
-    	String inputPassword = Helper.readString("Input Password> ");
     	for (User user : userList) 
     	{
-			if (inputEmail.contains(user.getEmail()) && inputPassword.contains(user.getPassword()))
+			if (loggedInUser.getEmail().contains(user.getEmail()) && loggedInUser.getPassword().contains(user.getPassword()))
 				{
 				String inputOption = Helper.readString("Confirm deletion? (Y/N)> ");
 				for (int i = 0; i < userList.size(); i++) 
