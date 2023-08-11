@@ -52,8 +52,7 @@ public class C206_CaseStudyTest {
 		
 		// Admin*
 		admin = new User("Admin User", "1985-03-25", "admin@gmail.com", "admin123", "Admin");
-		
-		
+	
 		rs1 = new RenovationServices("RS001", "Kitchen Remodeling Service", "Full kitchen remodeling and renovations", "Mon-Fri: 9am-5pm", true);
 	    rs2 = new RenovationServices("RS002", "Bathroom Renovation Service", "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", true);
 		
@@ -88,22 +87,16 @@ public class C206_CaseStudyTest {
 		assertEquals("Check that Quote arraylist size is 1", 1, quoteList.size());
 		assertSame("Check that Quote is added", qr1, quoteList.get(0));
 		// Given an empty list, after adding 1 item, the size of the list is 1
-		
-		
-		
+				
 		// Test case 2: Add another quote. Test the size of the list is 2
 		C206_CaseStudy.createQuote(quoteList, qr2);
 		assertEquals("Check that Quote arraylist size is 2", 2, quoteList.size());
 		assertSame("Check that Quote is added", qr2, quoteList.get(1));
-
-	    
-		
+	
 	    // Test case 3: Add an item that already exists in the list
 	    C206_CaseStudy.createQuote(quoteList, qr2);
 	    assertEquals("Test that the Quote ArrayList size is unchanged.", 2, quoteList.size());
-	    
-	    
-	    
+	    	    
 	    // Test case 4: Add an item that has missing detail
 	    Quote qr_missing = new Quote("QR0015", "", "Jane Doe", 98765432, "Bathroom Renovation Inquiry");
 	    C206_CaseStudy.createQuote(quoteList, qr_missing);
@@ -118,15 +111,11 @@ public class C206_CaseStudyTest {
 	    ArrayList<Quote> johnDoeQuotes = C206_CaseStudy.getUserQuote(quoteList, "John Doe");
 	    assertNotNull("Test that the list of quotes for user 'John Doe' is not null", johnDoeQuotes);
 	    assertEquals("Test that the list of quotes for user 'John Doe' has the expected number of quotes", 1, johnDoeQuotes.size());
-
-	    
 	    
 	    // Test case 2: Retrieve existing quotes for an existing user with multiple quotes (recipientName: "Jane Smith")
 	    ArrayList<Quote> janeSmithQuotes = C206_CaseStudy.getUserQuote(quoteList, "Jane Smith");
 	    assertNotNull("Test that the list of quotes for user 'Jane Smith' is not null", janeSmithQuotes);
 	    assertEquals("Test that the list of quotes for user 'Jane Smith' has the expected number of quotes", 1, janeSmithQuotes.size());
-
-	    
 	    
 	    // Test case 3: Retrieve existing quotes for an existing user with no quotes (recipientName: "Emily Brown")
 	    ArrayList<Quote> emilyBrownQuotes = C206_CaseStudy.getUserQuote(quoteList, "Emily Brown");
@@ -142,15 +131,11 @@ public class C206_CaseStudyTest {
 	    boolean deleted = C206_CaseStudy.deleteQuote(quoteList, "QR001");
 	    assertTrue("Test normal deletion - quote should be deleted", deleted);
 	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 1);
-	
-	
-	
+		
 	    // Test case 2: Boundary Test - Delete with empty assertTag
 	    boolean emptyDeleted = C206_CaseStudy.deleteQuote(quoteList, "");
 	    assertFalse("Test empty assertTag deletion - quote should not be deleted", emptyDeleted);
 	    assertEquals("Test empty assertTag deletion - quote list size should remain unchanged", quoteList.size(), quoteList.size());
-	
-	
 	
 	    // Test case 3: Error Test - Delete with invalid assertTag
 	    boolean invalidDeleted = C206_CaseStudy.deleteQuote(quoteList, "InvalidTag");
@@ -188,7 +173,6 @@ public class C206_CaseStudyTest {
 	    String allRenovationServices = C206_CaseStudy.retrieveAllRenovationServices(serviceList);
 	    String testOutput = "";
 	    assertEquals("Test that nothing is displayed", testOutput, allRenovationServices);
-
 	    
 	    // Test Case 2: Two renovation services in the list
 	    serviceList.add(rs1);
@@ -202,7 +186,6 @@ public class C206_CaseStudyTest {
 	            "Bathroom renovation and upgrades", "Mon-Sat: 8am-6pm", "Available");
 	    assertEquals("Test that the display is correct.", testOutput, allRenovationServices);
 
-	    
 	    // Test Case 3: Add a renovation service with isAvailable = false
 	    RenovationServices rs3 = new RenovationServices("RS003", "Hotel Accommodation Service",
 	            "Hotel room renovation and upgrade", "24/7", false);
@@ -225,14 +208,10 @@ public class C206_CaseStudyTest {
 	    assertTrue("Test normal deletion - service should be deleted", deleted);
 	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 0);
 	
-	
-	
 	    // Test case 2: Boundary Test - Delete with empty assertTag
 	    boolean emptyDeleted = C206_CaseStudy.deleteService(serviceList, "");
 	    assertFalse("Test empty assertTag deletion - quote should not be deleted", emptyDeleted);
 	    assertEquals("Test empty assertTag deletion - quote list size should remain unchanged", serviceList.size(), serviceList.size());
-	
-	
 	
 	    // Test case 3: Error Test - Delete with invalid assertTag
 	    boolean invalidDeleted = C206_CaseStudy.deleteService(serviceList, "InvalidTag");
@@ -256,8 +235,7 @@ public class C206_CaseStudyTest {
 		
 		thank you - syaza
 		*/
-		
-		
+			
 		// Test case 1: Normal test - valid user
 	    boolean validUserRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "john.doe@gmail.com", "password123");
 	    assertTrue("User should be registered successfully", validUserRegistered);

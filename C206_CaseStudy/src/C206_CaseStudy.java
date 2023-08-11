@@ -218,7 +218,7 @@ public class C206_CaseStudy {
 		            		C206_CaseStudy.menuAdmin();
 		            		optionAdmin=Helper.readInt("Enter an option (or type -1 to logout) > ");
 		            	}
-		            	
+		            
 		           }
 
 		    } else {
