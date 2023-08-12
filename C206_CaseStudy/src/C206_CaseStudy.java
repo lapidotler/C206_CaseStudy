@@ -90,7 +90,7 @@ public class C206_CaseStudy {
 							
 		            	} else if (optionUser == 3) {
 		            		// Add an appointment - Yongyi
-							Appointment ap = inputAppointment();
+							Appointment ap = scheduleAppointment();
 							C206_CaseStudy.createAppointment(appointmentList, ap);
 							System.out.println("Appointment Scheduled");
 							
@@ -515,7 +515,7 @@ public class C206_CaseStudy {
 	}
 	
 	// Scheduling an appointment - Yongyi
-    public static Appointment inputAppointment() {
+    public static Appointment scheduleAppointment() {
     	String taskID = Helper.readString("Enter task ID > ");
         String serviceName = Helper.readString("Enter service name > ");
         String recipientName = Helper.readString("Enter recipient name > ");
@@ -642,7 +642,8 @@ public class C206_CaseStudy {
 
     // Tracking appointments - Yongyi
     public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
-        ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, loggedInUser.getRecipientName());
+        String userName = loggedInUser.getRecipientName();
+		ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, userName);
         
         if (userAppointments != null && !userAppointments.isEmpty()) {
             setHeader("Your Appointments:");
@@ -659,7 +660,7 @@ public class C206_CaseStudy {
             
             System.out.println(output);
         } else {
-            System.out.println("No appointments found for " + loggedInUser.getRecipientName());
+            System.out.println("No appointments found for " + userName);
         }
     }
 
@@ -727,7 +728,7 @@ public class C206_CaseStudy {
 	    }
     }
 	
-    // Manage Appointment Delete
+    // Manage Appointment - delete
     public static void deleteAppointment(ArrayList<Appointment> appointmentList, String delTag) {
 	    for (int a = 0; a < appointmentList.size(); a++) {
 		    Appointment appt = appointmentList.get(a);
