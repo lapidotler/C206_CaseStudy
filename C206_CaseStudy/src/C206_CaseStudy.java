@@ -28,7 +28,7 @@ public class C206_CaseStudy {
 		// Service Providers
 		userList.add(new User("Kitchen Remodeling Service", "krs@hotmail.com", "krs123", "Service Provider"));
 		userList.add(new User("Bathroom Renovation Service", "brs@gmail.com", "brs456", "Service Provider"));
-		
+	 	
 		// Admin*
 		userList.add(new User("Admin User", "1985-03-25", "admin@gmail.com", "admin123", "Admin"));
 		
@@ -125,12 +125,14 @@ public class C206_CaseStudy {
 		            		C206_CaseStudy.viewQuoteRequests(quoteList);
 		            		
 		            	} else if (optionProvider == 2) {
-		            		// STILL NEED TO EDIT
 		            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
 							C206_CaseStudy.viewQuoteRequests(quoteList);
+							
 							String quoteID = Helper.readString("Enter Quote ID to reply to > ");
-							replyQuote(quoteList, quoteID);
-							C206_CaseStudy.menuProvider();
+							
+							if (!quoteID.isEmpty()) {
+								replyQuote(quoteList, quoteID);
+							}
 		            		
 		            	} else if (optionProvider == 3) {
 		            		C206_CaseStudy.viewAppointments(appointmentList);
@@ -178,10 +180,13 @@ public class C206_CaseStudy {
 			            		}
 						        
 			            	} else if (optionAdmin == 3) {
-			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
+								C206_CaseStudy.viewQuoteRequests(quoteList);
+								
+								String quoteID = Helper.readString("Enter Quote ID to be deleted > ");
 					        	
-					        	if (taskID.isEmpty()) {
-					        		deleteQuote(quoteList, taskID);
+					        	if (!quoteID.isEmpty()) {
+					        		deleteQuote(quoteList, quoteID);
 					        	}
 					        	
 			            	} else if (optionAdmin == 4) {
@@ -656,18 +661,19 @@ public class C206_CaseStudy {
         
         return userQuotes;
     }
-	
-    public static boolean deleteQuote(ArrayList<Quote> quoteList, String idToDelete) {
+    
+    // Delete quote - Syaza
+    public static boolean deleteQuote(ArrayList<Quote> quoteList, String quoteID) {
 	    for (int i = 0; i < quoteList.size(); i++) {
 	        Quote quote = quoteList.get(i);
-	        if (quote.getAssertTag().equalsIgnoreCase(idToDelete)) {
+	        if (quote.getAssertTag().equalsIgnoreCase(quoteID)) {
 	            quoteList.remove(i);
-	            System.out.println("Quote with Task ID " + idToDelete + " has been deleted.");
+	            System.out.println("Quote with ID " + quoteID + " has been deleted.");
 	            return true;
 	        }
 	    }
 	
-	    System.out.println("Quote with Task ID " + idToDelete + " not found.");
+	    System.out.println("Quote with ID " + quoteID + " was not found.");
 	    return false;
 	}
     
@@ -729,29 +735,6 @@ public class C206_CaseStudy {
 			}
 		}
     }
-    
-    // Reject Quote - Syaza (Delete)
-    
-    /*
-    
-    public static void rejectQuote(ArrayList<Quote> quoteList, String quoteID) {
-	    for (int i = 0; i < quoteList.size(); i++) {
-	        Quote quoteRef = quoteList.get(i);
-	        if (quoteRef.getAssertTag().equalsIgnoreCase(quoteID)) {
-	        	String confirm = Helper.readString("Are you sure you want to reject and delete this quote? (Y/N) >");
-	        	
-	        	if (confirm == "Y") {
-	        		quoteList.remove(i);
-		            System.out.println("Quote with ID " + quoteID + " has been deleted.");
-		            C206_CaseStudy.viewQuoteRequests(quoteList);
-	        	} else if (confirm == "N") {
-	        		System.out.println("Quote with ID " + quoteID + " was not deleted.");
-	        	}
-	        }
-	    }
-    }
-    
-    */ // redundant
     	
  
  // Managing appointments - edit

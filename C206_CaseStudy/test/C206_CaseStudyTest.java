@@ -123,27 +123,6 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
-	public void testDeleteQuote() {
-	    // Test case 1: Normal Test - Delete existing quote
-	    quoteList.add(qr1);
-	    quoteList.add(qr2);
-	    
-	    boolean deleted = C206_CaseStudy.deleteQuote(quoteList, "QR001");
-	    assertTrue("Test normal deletion - quote should be deleted", deleted);
-	    assertEquals("Test normal deletion - quote list size should decrease by 1", quoteList.size(), 1);
-		
-	    // Test case 2: Boundary Test - Delete with empty assertTag
-	    boolean emptyDeleted = C206_CaseStudy.deleteQuote(quoteList, "");
-	    assertFalse("Test empty assertTag deletion - quote should not be deleted", emptyDeleted);
-	    assertEquals("Test empty assertTag deletion - quote list size should remain unchanged", quoteList.size(), quoteList.size());
-	
-	    // Test case 3: Error Test - Delete with invalid assertTag
-	    boolean invalidDeleted = C206_CaseStudy.deleteQuote(quoteList, "InvalidTag");
-	    assertFalse("Test invalid assertTag deletion - quote should not be deleted", invalidDeleted);
-	    assertEquals("Test invalid assertTag deletion - quote list size should remain unchanged", quoteList.size(), quoteList.size());
-	}
-	
-	@Test
     public void testCreateService() {
 		assertNotNull("Check if there is a valid service arraylist to add to", serviceList);
 		
@@ -293,7 +272,7 @@ public class C206_CaseStudyTest {
 	}
     
     @Test
-    public void testReplyQuote() { // add
+    public void testReplyQuote() { // add reply
     	
     	// Test case 1: Boundary test - Test that the array exists (not null)
     	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
@@ -309,6 +288,28 @@ public class C206_CaseStudyTest {
     	
     	
     }
+    
+	@Test
+	public void testDeleteQuote() { // deleteQuote
+	    quoteList.add(qr1);
+	    quoteList.add(qr2);
+	    
+	    // Test case 1: Normal Test - Delete existing quote
+	    boolean deletedQuote = C206_CaseStudy.deleteQuote(quoteList, "QR001");
+	    assertTrue("Test that quote is deleted", deletedQuote);
+	    assertEquals("Quote list size should decrease by 1", quoteList.size(), 1);
+		
+	    // Test case 2: Boundary Test - Delete quote with empty assertTag
+    boolean emptyQuoteDelete = C206_CaseStudy.deleteQuote(quoteList, "");
+	    assertFalse("Quote should not be deleted", emptyQuoteDelete);
+	    assertEquals("Quote list size should remain unchanged", quoteList.size(), quoteList.size());
+	
+	    // Test case 3: Error Test - Delete with invalid assertTag
+	    boolean invalidQuoteDelete = C206_CaseStudy.deleteQuote(quoteList, "InvalidTag");
+	    assertFalse("Quote should not be deleted", invalidQuoteDelete);
+	    assertEquals("Quote list size should remain unchanged", quoteList.size(), quoteList.size());
+	}
+	
 	
 	//=========================== Yongyi's Test Code ===========================
     @Test
