@@ -3,8 +3,6 @@ import java.util.ArrayList;
 public class C206_CaseStudy {
 
 	private static final int USER_LOGOUT = -1;
-
-	private static final int OPTION_QUIT = 99;
 	
 	private static final int OPTION_REGISTER = 1;
 	private static final int OPTION_LOGIN = 2;
@@ -79,6 +77,9 @@ public class C206_CaseStudy {
 
 		            	if (optionUser == 1) {
 		            		C206_CaseStudy.viewAllRenovationServices(serviceList);
+		            		
+		            		// Ernest - Search Service via Name/Description
+		            		// will be done later w/ help of Irfan
 		            	
 		            	} else if (optionUser == 2) {
 		            		// Add a quote
@@ -163,54 +164,7 @@ public class C206_CaseStudy {
 	            	
 	            	while (optionAdmin != USER_LOGOUT) {
 	            		C206_CaseStudy.menuAdmin();
-		            	optionAdmin = Helper.readInt("Enter an option (or type -1 to logout > ");
-		            	
-		            	while (optionAdmin != USER_LOGOUT) {
-		            		if (optionAdmin == 1) {
-			            		// Add New Service - Irfan
-		            			RenovationServices sp = inputService();
-								C206_CaseStudy.createService(serviceList, sp);
-								System.out.println("Service Created");
-						        
-			            	} else if (optionAdmin == 2) {
-			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
-						        
-			            		if (taskID.isEmpty()) {
-			            			deleteService(serviceList, taskID);
-			            		}
-						        
-			            	} else if (optionAdmin == 3) {
-			            		C206_CaseStudy.setHeader("RESPOND TO QUOTE REQUEST");
-								C206_CaseStudy.viewQuoteRequests(quoteList);
-								
-								String quoteID = Helper.readString("Enter Quote ID to be deleted > ");
-					        	
-					        	if (!quoteID.isEmpty()) {
-					        		deleteQuote(quoteList, quoteID);
-					        	}
-					        	
-			            	} else if (optionAdmin == 4) {
-			            		String taskID = "Enter the Task ID of the item you want to delete? > ";
-						        
-			            		if (taskID.isEmpty()) {
-			            			deleteAppointment(appointmentList, taskID);
-			            		}
-			            		
-			            	} else if (optionAdmin == USER_LOGOUT) {
-			            		loggedInUser = null;
-			            		
-			            	} else {
-			            		System.out.println("Invalid option");
-			            	}
-		            		
-		            		if (optionAdmin>=2&&option<=4) {
-		            			C206_CaseStudy.viewAllRenovationServices(serviceList);
-		                        C206_CaseStudy.viewQuoteRequests(quoteList);
-		                        C206_CaseStudy.viewAppointments(appointmentList);
-		            		}
-		            		
-		            		C206_CaseStudy.menuAdmin();
-		            		optionAdmin=Helper.readInt("Enter an option (or type -1 to logout) > ");
+	            		optionAdmin = Helper.readInt("Enter an option (or type -1 to logout) > ");
 
 		            	if (optionAdmin == 1) {
 		            		// Add New Service - Irfan
@@ -219,21 +173,24 @@ public class C206_CaseStudy {
 							System.out.println("Service Created");
 					        
 		            	} else if (optionAdmin == 2) {
-		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+		            		C206_CaseStudy.viewAllRenovationServices(serviceList);
+		            		String taskID = Helper.readString("Enter the Task ID of the item you want to delete? > ");
 					        
 		            		if (taskID.isEmpty()) {
 		            			deleteService(serviceList, taskID);
 		            		}
 					        
 		            	} else if (optionAdmin == 3) {
-		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+		            		C206_CaseStudy.viewQuoteRequests(quoteList);
+		            		String taskID = Helper.readString("Enter the Task ID of the item you want to delete? > ");
 				        	
 				        	if (taskID.isEmpty()) {
 				        		deleteQuote(quoteList, taskID);
 				        	}
 				        	
 		            	} else if (optionAdmin == 4) {
-		            		String taskID = "Enter the Task ID of the item you want to delete? > ";
+		            		C206_CaseStudy.viewAppointments(appointmentList);
+		            		String taskID = Helper.readString("Enter the Task ID of the item you want to delete? > ");
 					        
 		            		if (taskID.isEmpty()) {
 		            			deleteAppointment(appointmentList, taskID);
@@ -246,16 +203,19 @@ public class C206_CaseStudy {
 		            	} else {
 		            		System.out.println("Invalid option");
 		            	}
-	            	}
-	            	
+		            	
 	            	}
 
+	            } else {
+	            	System.out.println("Invalid login credentials.");
+	    		}
+        	}
+	        
 	    } else {
-	            System.out.println("Invalid login credentials.");
+	    	System.out.println("Invalid option.");
 	    }
 	}
-	    }
-	}
+	
 	private static void loginMenu() {
 		C206_CaseStudy.setHeader("REGISTER/LOGIN");
 		System.out.println("1. Register");
@@ -608,14 +568,14 @@ public class C206_CaseStudy {
 	public static void viewAppointments(ArrayList<Appointment> appointmentList) {
 		 //Title
 		 Helper.line(75, "-");
-		 System.out.println(String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
+		 System.out.println(String.format("%-15s %-30s %-20s %-15s %-10s %-20s",
 		 "ID", "Service Name", "Recipient Name", "Date", "Time", "Location"));
 		 Helper.line(75, "-");
 	
 		 
 		 //Show details
 		 for (int b = 0; b< appointmentList.size();b++) {
-		 System.out.println(String.format("\"%-15s %-30s %-20s %-15s %-10s %-20s\n",
+		 System.out.println(String.format("%-15s %-30s %-20s %-15s %-10s %-20s\n",
 			 appointmentList.get(b).getAssertTag(),appointmentList.get(b).getServiceName(),
 			 appointmentList.get(b).getRecipientName(),appointmentList.get(b).getDate(),
 			 appointmentList.get(b).getTime(),appointmentList.get(b).getLocation()));
