@@ -42,39 +42,40 @@ public class C206_CaseStudy {
 
 		int option = 0;
 
-		C206_CaseStudy.loginMenu();
-	    option = Helper.readInt("Enter an option > ");
-
-	    if (option == OPTION_REGISTER) {
-	        // Register new user
-	        User user = C206_CaseStudy.registerForm();
-	        if (user != null) {
-	            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
-	        }
-	    } else if (option == OPTION_LOGIN) {
-	        String email = Helper.readString("Enter email > ");
-	        String password = Helper.readString("Enter password > ");
-
+		while (option != USER_LOGOUT) {
+			C206_CaseStudy.loginMenu();
+		    option = Helper.readInt("Enter an option > ");
+		    
 	        User loggedInUser = null;
-	        for (User user : userList) {
-	            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-	                loggedInUser = user;
-	                break;
-	            }
-	        }
 	        
-	        if (loggedInUser != null) {
-	            userLoginForm(userList, email, password);
-	            
-	            // Display different options based on the user's role
-	            if (loggedInUser.getRole().equals("User")) {
-	                // User options
-	            	int optionUser = 0;
-	            	
-	            	while (optionUser != USER_LOGOUT) {
+		    if (option == OPTION_REGISTER) {
+		        // Register new user
+		        User user = C206_CaseStudy.registerForm();
+		        if (user != null) {
+		            C206_CaseStudy.registerUser(userList, user.getRecipientName(), user.getEmail(), user.getPassword());
+		        }
+		    } else if (option == OPTION_LOGIN) {
+		        String email = Helper.readString("Enter email > ");
+		        String password = Helper.readString("Enter password > ");
+	
+		        for (User user : userList) {
+		            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+		                loggedInUser = user;
+		                break;
+		            }
+		        }
+		        
+		        if (loggedInUser != null) {
+		            userLoginForm(userList, email, password);
+		            
+		            // Display different options based on the user's role
+		            if (loggedInUser.getRole().equals("User")) {
+		                // User options
+		            	int optionUser = 0;
+		            	
 	            		C206_CaseStudy.menuUser();
-		            	optionUser = Helper.readInt("Enter an option (or type -1 to logout > ");
-
+	            		optionUser = Helper.readInt("Enter an option (or type -1 to logout > ");
+	
 		            	if (optionUser == 1) {
 		            		C206_CaseStudy.viewAllRenovationServices(serviceList);
 		            		
@@ -105,22 +106,20 @@ public class C206_CaseStudy {
 		            		// Delete User - Ernest
 		            		deleteUser(userList, loggedInUser);
 							
-		            	} else if (optionUser == USER_LOGOUT) {
-		            		loggedInUser = null;
-		            		break;
-		            		
+		            	} else if (optionUser == -1) {
+		            		System.out.println("Logged Out Successfully\n");
+							
 		            	} else {
 		            		System.out.println("Invalid option");
-		            	}
-	            	}
-	            	
-	            } else if (loggedInUser.getRole().equals("Service Provider")) {
-	                // Service Provider options
-	            	int optionProvider = 0;
-
-	            	while (optionProvider != USER_LOGOUT) {
+		            		
+		            	}	
+		            	
+		            } else if (loggedInUser.getRole().equals("Service Provider")) {
+		                // Service Provider options
+		            	int optionProvider = 0;
+	
 	            		C206_CaseStudy.menuProvider();
-		            	optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
+	            		optionProvider = Helper.readInt("Enter an option (or type -1 to logout > ");
 		            	
 		            	if (optionProvider == 1) {
 		            		C206_CaseStudy.viewQuoteRequests(quoteList);
@@ -149,23 +148,21 @@ public class C206_CaseStudy {
 		            		// Delete User - Ernest
 		            		deleteUser(userList, loggedInUser);
 							
-		            	} else if (optionProvider == USER_LOGOUT) {
-		            		loggedInUser = null;
-		            		break;
-		            		
+		            	} else if (optionProvider == -1) {
+		            		System.out.println("Logged Out Successfully\n");
+							
 		            	} else {
 		            		System.out.println("Invalid option");
+		            		
 		            	}
-	            	}
-
-	            } else if (loggedInUser.getRole().equals("Admin")) {
-	                // Admin options
-	            	int optionAdmin = 0;
-	            	
-	            	while (optionAdmin != USER_LOGOUT) {
+	
+		            } else if (loggedInUser.getRole().equals("Admin")) {
+		                // Admin options
+		            	int optionAdmin = 0;
+		            	
 	            		C206_CaseStudy.menuAdmin();
 	            		optionAdmin = Helper.readInt("Enter an option (or type -1 to logout) > ");
-
+	
 		            	if (optionAdmin == 1) {
 		            		// Add New Service - Irfan
 	            			RenovationServices sp = inputService();
@@ -196,24 +193,29 @@ public class C206_CaseStudy {
 		            			deleteAppointment(appointmentList, taskID);
 		            		}
 		            		
-		            	} else if (optionAdmin == USER_LOGOUT) {
-		            		loggedInUser = null;
-		            		break;
-		            		
+		            	} else if (optionAdmin == -1) {
+		            		System.out.println("Logged Out Successfully\n");
+							
 		            	} else {
 		            		System.out.println("Invalid option");
+		            		
 		            	}
-		            	
-	            	}
-
-	            } else {
-	            	System.out.println("Invalid login credentials.");
-	    		}
-        	}
+			            	
+	           		} else {
+	           			System.out.println("Invalid login credentials.");
+	    			}
+		        
+		    	} 
 	        
-	    } else {
-	    	System.out.println("Invalid option.");
+		    } else if (option == USER_LOGOUT) {
+        		loggedInUser = null;
+        		
+        	} else {
+	    		System.out.println("Invalid option.");
+    		}
+	    
 	    }
+	    
 	}
 	
 	private static void loginMenu() {
