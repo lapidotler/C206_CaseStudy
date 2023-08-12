@@ -64,7 +64,16 @@ public class User {
  		String output = "";
  		
 		// Write your codes here
- 		output = String.format("%-15s %-20s %-30s %-20s %-20s", recipientName, dateOfBirth, email, password, role);
+ 		if (role.equals("Service provider"))
+ 		{
+ 			output = String.format("%-45s %-30s %-20s %-20s\n",
+		             "Name", "Email", "Password", "Status");
+ 		}
+ 		else
+ 		{
+ 			output = String.format("%-15s %-20s %-30s %-20s %-20s\n",
+		             "Name", "Date of Birth", "Email", "Password", "Status");
+ 		}
  		return output;
  	}
 }

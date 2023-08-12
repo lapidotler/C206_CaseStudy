@@ -356,16 +356,25 @@ public class C206_CaseStudy {
     {
     	boolean loggedIn = false;
 		
-		String output = String.format("%-15s %-20s %-30s %-20s %-20s\n",
-	             "Name", "Date of Birth", "Email", "Password", "Status");
+    	String output = "";
 		
 		for (User user : userList) {
+			if (user.getRole() == ("Service Provider"))
+			{
+				output = String.format("%-45s %-30s %-20s %-20s\n",
+			             "Name", "Email", "Password", "Status");
+			}
+			else
+			{
+				output = String.format("%-15s %-20s %-30s %-20s %-20s\n",
+			             "Name", "Date of Birth", "Email", "Password", "Status");
+			}
 			if (email.contains(user.getEmail()) && password.contains(user.getPassword()))
-				{
-				output += String.format("%-109s\n", user.toString());
-				loggedIn = true;
-		        break;
-				}
+			{
+			output += String.format("%-119s\n", user.toString());
+			loggedIn = true;
+		    break;
+			}
 		}
 		
 		if (loggedIn) {
