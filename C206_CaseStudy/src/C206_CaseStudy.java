@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class C206_CaseStudy {
 
+	private static final int EXIT_PROGRAM = -1;
+
 	private static final int USER_LOGOUT = -1;
 	
 	private static final int OPTION_REGISTER = 1;
@@ -42,9 +44,9 @@ public class C206_CaseStudy {
 
 		int option = 0;
 		
-		while (option != -1) {
+		while (option != EXIT_PROGRAM) {
 			C206_CaseStudy.loginMenu();
-		    option = Helper.readInt("Enter an option > ");
+		    option = Helper.readInt("Enter an option (or type -1 to exit program) > ");
 		    
 	        User loggedInUser = null;
 	        
@@ -76,7 +78,7 @@ public class C206_CaseStudy {
 			            if (loggedInUser.getRole().equals("User")) {
 			                // User options
 			            	C206_CaseStudy.menuUser();
-			            	optionLogin = Helper.readInt("Enter an option (or type -1 to logout > ");
+			            	optionLogin = Helper.readInt("Enter an option (or type -1 to logout) > ");
 		
 			            	if (optionLogin == 1) {
 			            		C206_CaseStudy.viewAllRenovationServices(serviceList);
@@ -105,8 +107,8 @@ public class C206_CaseStudy {
 			            		// Delete User - Ernest
 			            		deleteUser(userList, loggedInUser);
 								
-			            	} else if (optionLogin == -1) {
-			            		System.out.println("Logged Out Successfully/n");
+			            	} else if (optionLogin == USER_LOGOUT) {
+			            		System.out.println("Logged Out Successfully\n");
 								
 			            	} else {
 			            		System.out.println("Invalid option");
@@ -117,7 +119,7 @@ public class C206_CaseStudy {
 			            } else if (loggedInUser.getRole().equals("Service Provider")) {
 			                // Service Provider options
 			            	C206_CaseStudy.menuProvider();
-			            	optionLogin = Helper.readInt("Enter an option (or type -1 to logout > ");
+			            	optionLogin = Helper.readInt("Enter an option (or type -1 to logout) > ");
 			            	
 			            	if (optionLogin == 1) {
 			            		C206_CaseStudy.viewQuoteRequests(quoteList);
@@ -146,8 +148,8 @@ public class C206_CaseStudy {
 			            		// Delete User - Ernest
 			            		deleteUser(userList, loggedInUser);
 								
-			            	} else if (optionLogin == -1) {
-			            		System.out.println("Logged Out Successfully/n");
+			            	} else if (optionLogin == USER_LOGOUT) {
+			            		System.out.println("Logged Out Successfully\n");
 								
 			            	} else {
 			            		System.out.println("Invalid option");
@@ -194,8 +196,8 @@ public class C206_CaseStudy {
 			            			C206_CaseStudy.viewAppointments(appointmentList);
 			            		}
 			            		
-			            	} else if (optionLogin == -1) {
-			            		System.out.println("Logged Out Successfully/n");
+			            	} else if (optionLogin == USER_LOGOUT) {
+			            		System.out.println("Logged Out Successfully\n");
 								
 			            	} else {
 			            		System.out.println("Invalid option");
@@ -210,7 +212,7 @@ public class C206_CaseStudy {
 	        
 			    }
 	    
-		    } else if (option == -1) {
+		    } else if (option == EXIT_PROGRAM) {
     			System.out.println("Exiting program now. Goodbye!");
     			
 			} else {
