@@ -604,7 +604,9 @@ public class C206_CaseStudy {
 	
 	// Tracking appointments - Irfan
 	public static void trackQuoteStatus(ArrayList<Quote> quoteList, User loggedInUser) {
-	    ArrayList<Quote> userQuotes = getUserQuote(quoteList, loggedInUser);
+		String name = loggedInUser.getRecipientName();
+		
+	    ArrayList<Quote> userQuotes = getUserQuote(quoteList, name);
 	    if (userQuotes != null && !userQuotes.isEmpty()) {
 	    	setHeader("Quotes for " + loggedInUser + ":");
 	        
@@ -623,12 +625,10 @@ public class C206_CaseStudy {
 	    }
 	}
 
-    public static ArrayList<Quote> getUserQuote(ArrayList<Quote> quoteList, User loggedInUser) {
+    public static ArrayList<Quote> getUserQuote(ArrayList<Quote> quoteList, String recipientName) {
     	ArrayList<Quote> userQuotes = new ArrayList<>();
-        for (Quote quote : quoteList) {
-        	String name = loggedInUser.getRecipientName();
-        	
-            if (quote.getRecipientName().equalsIgnoreCase(name)) {
+        for (Quote quote : quoteList) {	
+            if (quote.getRecipientName().equalsIgnoreCase(recipientName)) {
                 userQuotes.add(quote);
             }
         }
