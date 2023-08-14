@@ -371,7 +371,46 @@ public class C206_CaseStudyTest {
 
 
 	//=========================== Jovan's Test Code ===========================
-
+//	@Test
+//	public void testDeleteAppointment() { // deleteAppointment
+//	    appointmentList.add(ap1);
+//	    appointmentList.add(ap2);
+//	    
+//	    // Test case 1: Normal Test - Delete existing appointment
+//	    boolean deletedappt= C206_CaseStudy.deleteAppointment(appointmentList, "QR001");
+//	    assertTrue("Test that Appointment is deleted", deletedappt);
+//	    assertEquals("Appointment list size should decrease by 1", appointmentList.size(), 1);
+//	    
+//	    // Test case 2: Boundary Test - Delete appointment with no ID
+//    boolean emptyapptdel = C206_CaseStudy.deleteAppointment(appointmentList, "");
+//	    assertFalse("Appointment must not be deleted", emptyapptdel);
+//	    assertEquals("Appointment list size should remain unchanged", appointmentList.size(), appointmentList.size());
+//	
+//	    // Test case 3: Error Test - Delete with invalid ID
+//	    boolean invalappt = C206_CaseStudy.deleteAppointment(appointmentList, "InvalidID");
+//	    assertFalse("Appointment must not be deleted", invalappt);
+//	    assertEquals("Appointment list size should remain unchanged", appointmentList.size(), appointmentList.size());
+//	}
+	
+	@Test
+	public void testAddAppointment() { // addAppointment
+	    appointmentList.add(ap1);
+	    appointmentList.add(ap2);
+	    
+		// Test case 1: Check that list is not null, so that we are able to add a new appointment
+		C206_CaseStudy.createAppointment(appointmentList, ap1);
+		assertEquals("Check that appointmentList size is equals to 1", 1, appointmentList.size());
+		assertSame("Check that the appointment has been added", ap1, appointmentList.get(0));
+		
+	    // Test case 2: Add an appointment that has missing detail
+	    Appointment apptmiss = new Appointment("AP0078", "", "Jane Doe", "","", "258 Oak Street");
+	    C206_CaseStudy.createAppointment(appointmentList, apptmiss);
+	    assertEquals("Test that the Appointment ArrayList size does not change.", 2, appointmentList.size());
+	    
+	    // Test case 3: Add an item that already exists in the list
+	    C206_CaseStudy.createAppointment(appointmentList, ap2);
+	    assertEquals("Test that the AppointmentList size remains unchanged.", 2, appointmentList.size());
+	}
 	//=========================== Ernest's Test Code ===========================
 	@Test
 	public void testUserLogin()
