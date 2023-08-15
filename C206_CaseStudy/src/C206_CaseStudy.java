@@ -129,9 +129,10 @@ public class C206_CaseStudy {
 								C206_CaseStudy.viewQuoteRequests(quoteList);
 								
 								String quoteID = Helper.readString("Enter Quote ID to reply to > ");
+								String reply = Helper.readString("Enter reply > ");
 								
 								if (!quoteID.isEmpty()) {
-									replyQuote(quoteList, quoteID);
+									replyQuote(quoteList, quoteID, reply);
 								}
 			            		
 			            	} else if (optionLogin == 3) {
@@ -565,23 +566,25 @@ public class C206_CaseStudy {
 
 	//================================= Option 4 View (CRUD - Read) =================================
 	
-	// View All Quotes - Syaza
-	public static String retrieveAllQuoteRequests(ArrayList<Quote> quoteList) {
-		String output = "";
+    // View All Quotes - Syaza
+    public static String retrieveAllQuoteRequests(ArrayList<Quote> quoteList) {
+        String output = "";
 
-		for (int i = 0; i < quoteList.size(); i++) {
-			output += String.format("%-170s\n", quoteList.get(i).toStringDisplay());
-		}
-		return output;     // Fixed Spacing of List: Irfan
-	}
-	
-	public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
-		C206_CaseStudy.setHeader("QUOTE REQUESTS");
-		String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "QUOTE ID", "SERVICE NAME",
-				"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
-		 output += retrieveAllQuoteRequests(quoteList);	
-		System.out.println(output);
-	}
+ 
+
+        for (int i = 0; i < quoteList.size(); i++) {
+            output += String.format("%-160s\n", quoteList.get(i).toStringDisplay());
+        }
+        return output;     // Fixed Spacing of List: Irfan
+    }
+    
+    public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
+        C206_CaseStudy.setHeader("QUOTE REQUESTS");
+        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "QUOTE ID", "SERVICE NAME",
+                "RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
+         output += retrieveAllQuoteRequests(quoteList);    
+        System.out.println(output);
+    }
 	
 	
 	//View All Appointments - Jovan
@@ -701,20 +704,21 @@ public class C206_CaseStudy {
 	//================================= Option 6 Manage (CRUD - Update) =================================
     
     // Reply to Quote - Syaza (Add)
-    public static void replyQuote(ArrayList<Quote> quoteList, String quoteID) {
-    	String reply = "";
-    	
-		for (int i = 0; i < quoteList.size(); i++) {
-			Quote quoteRef = quoteList.get(i);
-			if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
-				reply = Helper.readString("Enter reply to this quote request > ");
-				quoteRef.setReply(reply);
-				String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
-						"RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
-				output += String.format("%-170s\n", quoteRef.toStringReply());
-				System.out.println(output);
-			}
-		}
+    public static boolean replyQuote(ArrayList<Quote> quoteList, String quoteID, String reply) {
+        for (int i = 0; i < quoteList.size(); i++) {
+            Quote quoteRef = quoteList.get(i);
+            if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
+                quoteRef.setReply(reply);
+                String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
+                        "RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
+                output += String.format("%-170s\n", quoteRef.toStringReply());
+                System.out.println(output);
+                return true;
+            }
+        }
+       
+        System.out.println("Quote with ID " + quoteID + " was not found.");
+        return false;
     }
     	
  

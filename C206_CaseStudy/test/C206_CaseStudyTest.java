@@ -201,113 +201,109 @@ public class C206_CaseStudyTest {
 	//=========================== Syaza's Test Code ===========================
 	
 	@Test
-	public void testRegisterUser() {
-		assertNotNull("Test that there is valid user list to add to", userList);
-		
-		/* Irfan's Note:
-		 
-		 for userList.registerUser():
-		 
-		 brackets shld be ..registerUser(userList, u1.getEmail(),u1.getPassword())
-		 
-		 CHANGE the registerUser() JAVA method to have (userList, email, password) instead of (userList, user)
-		
-		thank you - syaza
-		*/
-			
-		// Test case 1: Normal test - valid user
-	    boolean validUserRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "john.doe@gmail.com", "password123");
-	    assertTrue("User should be registered successfully", validUserRegistered);
+    public void testRegisterUser() {
+        assertNotNull("Test that there is valid user list to add to", userList);
+            
+        // Test case 1: Normal test - valid user
+        boolean validUserRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "john.doe@gmail.com", "password123");
+        assertTrue("User should be registered successfully", validUserRegistered);
 
-	    
-	    // Test case 2: Error test - invalid email
-	    boolean invalidEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "invalidemail", "password123");
-	    assertFalse("User with invalid email should not be registered", invalidEmailRegistered);
-	    
-	    
-	    // Test case 3: Error test - weak password
-	    boolean weakPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "weakpw");
-	    assertFalse("User with weak password should not be registered", weakPasswordRegistered);
-	    
-	    
-	    // Test case 4: Error test - missing details
-	    boolean missingNameRegistered = C206_CaseStudy.registerUser(userList, "", "johndoe@example.com", "password123");
-	    assertFalse("User with missing name should not be registered", missingNameRegistered);
-
-	    boolean missingEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "", "password123");
-	    assertFalse("User with missing email should not be registered", missingEmailRegistered);
-
-	    boolean missingPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "");
-	    assertFalse("User with missing password should not be registered", missingPasswordRegistered);
-
-	    
-	    // Test case 5: Error test - user already exists - check by email
-	    userList.add(u2);
-
-	    User newUser = new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User");
-	    boolean userAlreadyExists = C206_CaseStudy.registerUser(userList, newUser.getRecipientName(), newUser.getEmail(), newUser.getPassword());
-	    assertFalse("User with duplicate email should not be registered", userAlreadyExists);
         
-	}
-	
+        // Test case 2: Error test - invalid email
+        boolean invalidEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "invalidemail", "password123");
+        assertFalse("User with invalid email should not be registered", invalidEmailRegistered);
+        
+        
+        // Test case 3: Error test - weak password
+        boolean weakPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "weakpw");
+        assertFalse("User with weak password should not be registered", weakPasswordRegistered);
+        
+        
+        // Test case 4: Error test - missing details
+        boolean missingNameRegistered = C206_CaseStudy.registerUser(userList, "", "johndoe@example.com", "password123");
+        assertFalse("User with missing name should not be registered", missingNameRegistered);
+
+
+        boolean missingEmailRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "", "password123");
+        assertFalse("User with missing email should not be registered", missingEmailRegistered);
+
+        
+        boolean missingPasswordRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "johndoe@example.com", "");
+        assertFalse("User with missing password should not be registered", missingPasswordRegistered);
+
+        
+        // Test case 5: Error test - user already exists - check by email
+        userList.add(u2);
+
+ 
+        User newUser = new User("Jane Smith", "1985-05-15", "jane.smith@gmail.com", "securepass", "User");
+        boolean userAlreadyExists = C206_CaseStudy.registerUser(userList, newUser.getRecipientName(), newUser.getEmail(), newUser.getPassword());
+        assertFalse("User with duplicate email should not be registered", userAlreadyExists);
+        
+    }
+    
     @Test
     public void testViewQuoteRequests() { // and retrieve
-    	
-    	// Test case 1: Boundary test - Test that the array exists (not null)
-    	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
-    	
-    	// Test case 2: Boundary test - Test that the list of Quotes retrieved from the CaseStudy is empty
-		String allQuotes = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
-		String testOutput = "";
-		assertEquals("Test that the retrieved quoteList is empty", testOutput, allQuotes);
-		
-		/*
-		// Test case 3: Normal test - test the expected output string
-		 * the string formatting is not consistent so i am unable to check it
-		quoteList.add(qr1);
-    	String allQuotes2 = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
-    	testOutput = String.format("%-15s %-35s %-20s %-15s %-20d %-50s", "QR001", "Kitchen Remodeling Service", "John Doe", "Pending", 91827364, "Kitchen Renovation Price Query");
-		assertEquals("Test that the display is correct", testOutput, allQuotes2);
-	   */
-	}
+        
+        // Test case 1: Boundary test - Test that the array exists (not null)
+        assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
+        
+        // Test case 2: Boundary test - Test that the list of Quotes retrieved from the CaseStudy is empty
+        String allQuotes = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
+        String testOutput = "";
+        assertEquals("Test that the retrieved quoteList is empty", testOutput, allQuotes);
+        
+        // Test case 3: Normal test - test the expected output string
+        quoteList.add(qr1);
+        String allQuotes2 = C206_CaseStudy.retrieveAllQuoteRequests(quoteList);
+        testOutput = String.format("%-15s %-35s %-20s %-15s %-20d %-50s\n", "QR001", "Kitchen Remodeling Service", "John Doe", "Pending", 91827364, "Kitchen Renovation Price Query");
+        assertEquals("Test that the display is correct", testOutput, allQuotes2);
+    }
     
     @Test
     public void testReplyQuote() { // add reply
-    	
-    	// Test case 1: Boundary test - Test that the array exists (not null)
-    	assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
-    	
-    	// Test case 2: Normal test - adding reply
-    	String reply = "yes";
-    	quoteList.add(qr1);
-    	qr1.setReply(reply);
-    	assertEquals("Test if the reply is added", qr1.getReply(), reply);
-    	
-    	// Test case 3: Error test - add reply to quote that does not exist
-    	// there is no error msg
-    	
-    	
+        
+        // Test case 1: Boundary test - Test that the array exists (not null)
+        assertNotNull("Test if there is valid quote req arraylist to retrieve from", quoteList);
+        
+        // Test case 2: Normal test - adding reply
+        quoteList.add(qr1);
+        boolean qr1reply = C206_CaseStudy.replyQuote(quoteList, "QR001", "yes");
+        assertEquals("Test if the reply is added", qr1.getReply(), "yes");
+        assertNotNull("Test if reply is added", qr1.getReply());
+        assertTrue(qr1reply);
+        
+        // Test case 3: Error test - add reply to quote that does not exist
+        boolean qrNullreply = C206_CaseStudy.replyQuote(quoteList, "QR003", "yes");
+        assertFalse(qrNullreply);
+        
+        // Test case 4: Boundary test - add empty reply
+        quoteList.add(qr2);
+        boolean qr2reply = C206_CaseStudy.replyQuote(quoteList, "QR002", "");
+        assertEquals("Test if the reply is added", qr2.getReply(), "");
+        assertNotNull("Test if reply is added", qr2.getReply());
+        assertTrue(qr2reply);
     }
     
-	@Test
-	public void testDeleteQuote() { // deleteQuote
-	    quoteList.add(qr1);
-	    quoteList.add(qr2);
-	    
-	    // Test case 1: Normal Test - Delete existing quote
-	    boolean deletedQuote = C206_CaseStudy.deleteQuote(quoteList, "QR001");
-	    assertTrue("Test that quote is deleted", deletedQuote);
-	    assertEquals("Quote list size should decrease by 1", quoteList.size(), 1);
-		
-	    // Test case 2: Boundary Test - Delete quote with empty assertTag
+    @Test
+    public void testDeleteQuote() { // deleteQuote
+        quoteList.add(qr1);
+        quoteList.add(qr2);
+        
+        // Test case 1: Normal Test - Delete existing quote
+        boolean deletedQuote = C206_CaseStudy.deleteQuote(quoteList, "QR001");
+        assertTrue("Test that quote is deleted", deletedQuote);
+        assertEquals("Quote list size should decrease by 1", quoteList.size(), 1);
+        
+        // Test case 2: Boundary Test - Delete quote with empty assertTag
     boolean emptyQuoteDelete = C206_CaseStudy.deleteQuote(quoteList, "");
-	    assertFalse("Quote should not be deleted", emptyQuoteDelete);
-	    assertEquals("Quote list size should remain unchanged", quoteList.size(), quoteList.size());
-	
-	    // Test case 3: Error Test - Delete with invalid assertTag
-	    boolean invalidQuoteDelete = C206_CaseStudy.deleteQuote(quoteList, "InvalidTag");
-	    assertFalse("Quote should not be deleted", invalidQuoteDelete);
-	    assertEquals("Quote list size should remain unchanged", quoteList.size(), quoteList.size());
+        assertFalse("Quote should not be deleted", emptyQuoteDelete);
+        assertEquals("Quote list size should remain unchanged", quoteList.size(), quoteList.size());
+    
+        // Test case 3: Error Test - Delete with invalid assertTag
+        boolean invalidQuoteDelete = C206_CaseStudy.deleteQuote(quoteList, "InvalidTag");
+        assertFalse("Quote should not be deleted", invalidQuoteDelete);
+        assertEquals("Quote list size should remain unchanged", quoteList.size(), quoteList.size());
 	}
 	
 	
