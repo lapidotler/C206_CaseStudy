@@ -1,4 +1,18 @@
+/*
+ * I declare that this code was written by me. 
+ * I do not copy or allow others to copy my code. 
+ * I understand that copying code is considered as plagiarism.
+ * 
+ * Student Name: Irfan Iskandar Bin Abdul Rahim
+ * Student ID: 22024044
+ * Class: W65C
+ * Date/Time created: Saturday 20-07-2023 20:00
+ */
 
+/**
+ * @author 22024044
+ *
+ */
 public class RenovationServices {
 	private String assertTag;
     private String serviceName;
