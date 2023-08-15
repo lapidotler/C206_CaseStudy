@@ -356,6 +356,9 @@ public class C206_CaseStudy {
 	    return true;    // Registration Successful
 	}			                        
 	
+	
+	//================================= Option 2 System (CRUD - Retrieve) =================================
+	
 	// User Login - Ernest
 	// CHECKED and MODIFIED BY: Irfan -> Removed inputs of email and password, shifted them to menu
     public static void userLoginForm(ArrayList<User> userList, String email, String password)
@@ -394,6 +397,8 @@ public class C206_CaseStudy {
 	        System.out.println("User login failed, Invalid user.\n");
 	    }
     }
+    
+    //================================= Option 99 System (CRUD - Delete) =================================
     
     public static boolean loginUser(ArrayList<User> userList, String email, String password) {
         for (User user : userList) {
@@ -442,8 +447,8 @@ public class C206_CaseStudy {
     }
 
 	
-	//================================= Option 2 Display (CRUD - Read) =================================
-	
+	//================================= Service (User + Admin) (CRUD - Create) =================================
+    
     // View All Services (+ delete function for Admin) - Irfan
     public static String retrieveAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 	    String output = "";
@@ -455,15 +460,43 @@ public class C206_CaseStudy {
 	    
 	    return output;
 	}
-
-	public static void viewAllRenovationServices(ArrayList<RenovationServices> serviceList) {
+    
+    public static void viewAllRenovationServices(ArrayList<RenovationServices> serviceList) {
 		C206_CaseStudy.setHeader("RENOVATION SERVICES LIST");
 	    String output = String.format("%-15s %-30s %-50s %-25s %-30s\n", "Task ID", "Service Name",
 	            "Service Description", "Contact Hours", "Status");
 	    output += retrieveAllRenovationServices(serviceList);
 	    System.out.println(output);
 	}
-	
+    
+    
+    
+    // Adding new Service (Admin) - Irfan
+ 	public static RenovationServices inputService() {
+ 	    String taskID = Helper.readString("Enter task ID > ");
+ 	    String serviceName = Helper.readString("Enter service name > ");
+ 	    String serviceDescription = Helper.readString("Enter service description > ");
+ 	    String contactHours = Helper.readString("Enter contact hours > ");
+ 	    boolean isAvailable = Helper.readBoolean("Is the service available? (true/false) > ");
+
+ 	    RenovationServices service = new RenovationServices(taskID, serviceName, serviceDescription, contactHours, isAvailable);
+ 	    return service;
+ 	}
+
+ 	public static void createService(ArrayList<RenovationServices> serviceList, RenovationServices service) {
+ 	    RenovationServices existingService;
+ 	    for (int i = 0; i < serviceList.size(); i++) {
+ 	        existingService = serviceList.get(i);
+ 	        if (existingService.getAssertTag().equalsIgnoreCase(service.getAssertTag())) {
+ 	            return;
+ 	        }
+ 	    }
+ 	    if ((service.getAssertTag().isEmpty()) || (service.getServiceName().isEmpty())) {
+ 	        return;
+ 	    }
+ 	    serviceList.add(service);
+ 	}
+ 	
 	public static boolean deleteService(ArrayList<RenovationServices> serviceList, String idToDelete) {
 	    for (int i = 0; i < serviceList.size(); i++) {
 	        RenovationServices service = serviceList.get(i);
@@ -478,33 +511,7 @@ public class C206_CaseStudy {
 	    return false;
 	}
 	
-	//================================= Option 3 Add (CRUD - Create) =================================
-	
-	// Adding new Service (Admin) - Irfan
-	public static RenovationServices inputService() {
-	    String taskID = Helper.readString("Enter task ID > ");
-	    String serviceName = Helper.readString("Enter service name > ");
-	    String serviceDescription = Helper.readString("Enter service description > ");
-	    String contactHours = Helper.readString("Enter contact hours > ");
-	    boolean isAvailable = Helper.readBoolean("Is the service available? (true/false) > ");
-
-	    RenovationServices service = new RenovationServices(taskID, serviceName, serviceDescription, contactHours, isAvailable);
-	    return service;
-	}
-
-	public static void createService(ArrayList<RenovationServices> serviceList, RenovationServices service) {
-	    RenovationServices existingService;
-	    for (int i = 0; i < serviceList.size(); i++) {
-	        existingService = serviceList.get(i);
-	        if (existingService.getAssertTag().equalsIgnoreCase(service.getAssertTag())) {
-	            return;
-	        }
-	    }
-	    if ((service.getAssertTag().isEmpty()) || (service.getServiceName().isEmpty())) {
-	        return;
-	    }
-	    serviceList.add(service);
-	}
+	//======================== Quotes (User & SP) (CRUD - Create, Retrieve, Delete) ========================
 	
 	// Requesting a Quote - Irfan
 	public static Quote inputQuote() {
@@ -533,6 +540,109 @@ public class C206_CaseStudy {
 		quoteList.add(qr);
 	}
 	
+	
+	
+	// View All Quotes - Syaza
+    public static String retrieveAllQuoteRequests(ArrayList<Quote> quoteList) {
+        String output = "";
+
+ 
+
+        for (int i = 0; i < quoteList.size(); i++) {
+            output += String.format("%-160s\n", quoteList.get(i).toStringDisplay());
+        }
+        return output;     // Fixed Spacing of List: Irfan
+    }
+    
+    public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
+        C206_CaseStudy.setHeader("QUOTE REQUESTS");
+        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "QUOTE ID", "SERVICE NAME",
+                "RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
+         output += retrieveAllQuoteRequests(quoteList);    
+        System.out.println(output);
+    }
+	
+    
+    
+    // Tracking quotes - Irfan
+ 	public static void trackQuoteStatus(ArrayList<Quote> quoteList, User loggedInUser) {
+ 		String name = loggedInUser.getRecipientName();
+ 		
+ 	    ArrayList<Quote> userQuotes = getUserQuote(quoteList, name);
+ 	    if (userQuotes != null && !userQuotes.isEmpty()) {
+ 	    	setHeader("Quotes for " + loggedInUser + ":");
+ 	        
+ 	        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n",
+ 	            "Task ID", "Service Name", "Recipient Name", "Status", "Contact Number", "Description");
+ 	        
+ 	        for (Quote quote : userQuotes) {
+ 	        	
+ 	            output += String.format("%-170s\n", quote.toStringDisplay());
+ 	            
+ 	        }
+ 	        
+ 	        System.out.println(output);
+ 	    } else {
+ 	        System.out.println("No quotes found for " + loggedInUser);
+ 	    }
+ 	}
+
+    public static ArrayList<Quote> getUserQuote(ArrayList<Quote> quoteList, String recipientName) {
+    	ArrayList<Quote> userQuotes = new ArrayList<>();
+        for (Quote quote : quoteList) {	
+            if (quote.getRecipientName().equalsIgnoreCase(recipientName)) {
+                userQuotes.add(quote);
+            }
+        }
+        
+        if (userQuotes.isEmpty()) {
+            return null; // Return null if no quotes are found
+        }
+        
+        return userQuotes;
+    }
+     
+    
+    
+    // Delete quote - Syaza
+    public static boolean deleteQuote(ArrayList<Quote> quoteList, String quoteID) {
+ 	    for (int i = 0; i < quoteList.size(); i++) {
+ 	        Quote quote = quoteList.get(i);
+ 	        if (quote.getAssertTag().equalsIgnoreCase(quoteID)) {
+ 	            quoteList.remove(i);
+ 	            System.out.println("Quote with ID " + quoteID + " has been deleted.");
+ 	            return true;
+ 	        }
+ 	    }
+ 	
+ 	    System.out.println("Quote with ID " + quoteID + " was not found.");
+ 	    return false;
+ 	}
+    
+    
+    
+    // Reply to Quote - Syaza (Add)
+    public static boolean replyQuote(ArrayList<Quote> quoteList, String quoteID, String reply) {
+        for (int i = 0; i < quoteList.size(); i++) {
+            Quote quoteRef = quoteList.get(i);
+            if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
+                quoteRef.setReply(reply);
+                String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
+                        "RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
+                output += String.format("%-170s\n", quoteRef.toStringReply());
+                System.out.println(output);
+                return true;
+            }
+        }
+       
+        System.out.println("Quote with ID " + quoteID + " was not found.");
+        return false;
+    }
+    
+    
+    
+  //===================== Appointments (User & SP) (CRUD - Create, Retrieve, Update, Delete) =====================
+    
 	// Scheduling an appointment - Yongyi
     public static Appointment scheduleAppointment() {
     	String taskID = Helper.readString("Enter task ID > ");
@@ -564,30 +674,9 @@ public class C206_CaseStudy {
         appointmentList.add(appointment);
     }
 
-	//================================= Option 4 View (CRUD - Read) =================================
 	
-    // View All Quotes - Syaza
-    public static String retrieveAllQuoteRequests(ArrayList<Quote> quoteList) {
-        String output = "";
-
- 
-
-        for (int i = 0; i < quoteList.size(); i++) {
-            output += String.format("%-160s\n", quoteList.get(i).toStringDisplay());
-        }
-        return output;     // Fixed Spacing of List: Irfan
-    }
     
-    public static void viewQuoteRequests(ArrayList<Quote> quoteList) {
-        C206_CaseStudy.setHeader("QUOTE REQUESTS");
-        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n", "QUOTE ID", "SERVICE NAME",
-                "RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION");
-         output += retrieveAllQuoteRequests(quoteList);    
-        System.out.println(output);
-    }
-	
-	
-	//View All Appointments - Jovan
+    //View All Appointments - Jovan
 	public static void viewAppointments(ArrayList<Appointment> appointmentList) {
 		 //Title
 		 Helper.line(75, "-");
@@ -603,65 +692,11 @@ public class C206_CaseStudy {
 			 appointmentList.get(b).getRecipientName(),appointmentList.get(b).getDate(),
 			 appointmentList.get(b).getTime(),appointmentList.get(b).getLocation()));
 		 }
-	 }
-	
-	//================================= Option 5 Track (CRUD - Read) =================================
-	
-	// Tracking appointments - Irfan
-	public static void trackQuoteStatus(ArrayList<Quote> quoteList, User loggedInUser) {
-		String name = loggedInUser.getRecipientName();
-		
-	    ArrayList<Quote> userQuotes = getUserQuote(quoteList, name);
-	    if (userQuotes != null && !userQuotes.isEmpty()) {
-	    	setHeader("Quotes for " + loggedInUser + ":");
-	        
-	        String output = String.format("%-15s %-35s %-20s %-15s %-20s %-50s\n",
-	            "Task ID", "Service Name", "Recipient Name", "Status", "Contact Number", "Description");
-	        
-	        for (Quote quote : userQuotes) {
-	        	
-	            output += String.format("%-170s\n", quote.toStringDisplay());
-	            
-	        }
-	        
-	        System.out.println(output);
-	    } else {
-	        System.out.println("No quotes found for " + loggedInUser);
-	    }
 	}
-
-    public static ArrayList<Quote> getUserQuote(ArrayList<Quote> quoteList, String recipientName) {
-    	ArrayList<Quote> userQuotes = new ArrayList<>();
-        for (Quote quote : quoteList) {	
-            if (quote.getRecipientName().equalsIgnoreCase(recipientName)) {
-                userQuotes.add(quote);
-            }
-        }
-        
-        if (userQuotes.isEmpty()) {
-            return null; // Return null if no quotes are found
-        }
-        
-        return userQuotes;
-    }
-    
-    // Delete quote - Syaza
-    public static boolean deleteQuote(ArrayList<Quote> quoteList, String quoteID) {
-	    for (int i = 0; i < quoteList.size(); i++) {
-	        Quote quote = quoteList.get(i);
-	        if (quote.getAssertTag().equalsIgnoreCase(quoteID)) {
-	            quoteList.remove(i);
-	            System.out.println("Quote with ID " + quoteID + " has been deleted.");
-	            return true;
-	        }
-	    }
 	
-	    System.out.println("Quote with ID " + quoteID + " was not found.");
-	    return false;
-	}
-    
-
-    // Tracking appointments - Yongyi
+	
+	
+	// Tracking appointments - Yongyi
     public static void trackAppointments(ArrayList<Appointment> appointmentList, User loggedInUser) {
         String userName = loggedInUser.getRecipientName();
 		ArrayList<Appointment> userAppointments = getUserAppointments(appointmentList, userName);
@@ -701,29 +736,9 @@ public class C206_CaseStudy {
         return userAppointments;
     }
 	
-	//================================= Option 6 Manage (CRUD - Update) =================================
     
-    // Reply to Quote - Syaza (Add)
-    public static boolean replyQuote(ArrayList<Quote> quoteList, String quoteID, String reply) {
-        for (int i = 0; i < quoteList.size(); i++) {
-            Quote quoteRef = quoteList.get(i);
-            if (quoteID.equalsIgnoreCase(quoteRef.getAssertTag())) {
-                quoteRef.setReply(reply);
-                String output = String.format("\n%-15s %-35s %-20s %-15s %-20s %-50s %-5s\n", "QUOTE ID", "SERVICE NAME",
-                        "RECIPIENT NAME", "STATUS", "CONTACT NUMBER","DESCRIPTION", "REPLY");
-                output += String.format("%-170s\n", quoteRef.toStringReply());
-                System.out.println(output);
-                return true;
-            }
-        }
-       
-        System.out.println("Quote with ID " + quoteID + " was not found.");
-        return false;
-    }
-    	
- 
- // Managing appointments - edit
-
+    
+    // Managing appointments - edit
     public static void manageAppointments(ArrayList<Appointment> appointmentList) {
 		// Manage Appointment Editing
     	String editTag=Helper.readString("Enter the Appointment's Task ID to edit > ");
