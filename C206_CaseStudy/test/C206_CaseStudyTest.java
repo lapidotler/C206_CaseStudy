@@ -207,6 +207,7 @@ public class C206_CaseStudyTest {
         // Test case 1: Normal test - valid user
         boolean validUserRegistered = C206_CaseStudy.registerUser(userList, "John Doe", "john.doe@gmail.com", "password123");
         assertTrue("User should be registered successfully", validUserRegistered);
+        assertEquals("Test if User is added", 1, userList.size());
 
         
         // Test case 2: Error test - invalid email
