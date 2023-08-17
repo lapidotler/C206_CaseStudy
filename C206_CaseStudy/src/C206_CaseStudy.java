@@ -73,7 +73,7 @@ public class C206_CaseStudy {
 		        if (loggedInUser != null) {
 		            int optionLogin = 0;
 		            
-		            while (optionLogin != USER_LOGOUT || optionLogin == 99) {
+		            while (optionLogin != USER_LOGOUT && optionLogin != 99) {
 			            // Display different options based on the user's role
 			            if (loggedInUser.getRole().equals("User")) {
 			                // User options
@@ -442,6 +442,7 @@ public class C206_CaseStudy {
     public static boolean deleteUser(ArrayList<User> userList, User loggedInUser) {
         for (User user : userList) {
             if (loggedInUser.getEmail().equals(user.getEmail()) && loggedInUser.getPassword().equals(user.getPassword())) {
+            	userList.remove(loggedInUser);
                 return true;
             }
         }
