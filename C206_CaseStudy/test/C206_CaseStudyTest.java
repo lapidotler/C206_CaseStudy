@@ -412,9 +412,11 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testUserLogin()
 	{
+		userList.add(u1);
+		
 		//normal test
 		boolean userExist = C206_CaseStudy.loginUser(userList,u1.getEmail(),u1.getPassword());
-		assertFalse("User should be able to log in", userExist);
+		assertTrue("User should be able to log in", userExist);
 		
 		//error test - invalid email
 		boolean userInvalidEmail = C206_CaseStudy.loginUser(userList,"nonUser@gmail.com",u1.getPassword());
@@ -425,7 +427,7 @@ public class C206_CaseStudyTest {
 		assertFalse(userInvalidPW);
 		
 		//error test - non-existing user
-		boolean userNotExist = C206_CaseStudy.loginUser(userList,u1.getEmail(),u1.getPassword());
+		boolean userNotExist = C206_CaseStudy.loginUser(userList,u3.getEmail(),u3.getPassword());
 		assertFalse(userNotExist);
 	}
 	
