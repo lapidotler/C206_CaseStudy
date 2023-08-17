@@ -73,7 +73,7 @@ public class C206_CaseStudy {
 		        if (loggedInUser != null) {
 		            int optionLogin = 0;
 		            
-		            while (optionLogin != USER_LOGOUT) {
+		            while (optionLogin != USER_LOGOUT || optionLogin == 99) {
 			            // Display different options based on the user's role
 			            if (loggedInUser.getRole().equals("User")) {
 			                // User options
@@ -106,6 +106,7 @@ public class C206_CaseStudy {
 			            	} else if (optionLogin == 99) {
 			            		// Delete User - Ernest
 			            		deleteUser(userList, loggedInUser);
+			            		System.out.println("User Deleted, Returning to System\n");
 								
 			            	} else if (optionLogin == USER_LOGOUT) {
 			            		System.out.println("Logged Out Successfully\n");
@@ -148,6 +149,7 @@ public class C206_CaseStudy {
 			            	} else if (optionLogin == 99) {
 			            		// Delete User - Ernest
 			            		deleteUser(userList, loggedInUser);
+			            		System.out.println("User Deleted, Returning to System\n");
 								
 			            	} else if (optionLogin == USER_LOGOUT) {
 			            		System.out.println("Logged Out Successfully\n");
